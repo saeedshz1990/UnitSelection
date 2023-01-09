@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\UnitSelection.Persistence.EF\UnitSelection.Persistence.EF.csproj" />
+  </ItemGroup>
+
 </Project>

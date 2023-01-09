@@ -20,4 +20,10 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\UnitSelection.Entities\UnitSelection.Entities.csproj" />
+    <ProjectReference Include="..\UnitSelection.Persistence.EF\UnitSelection.Persistence.EF.csproj" />
+    <ProjectReference Include="..\UnitSelection.Services\UnitSelection.Services.csproj" />
+  </ItemGroup>
+
 </Project>
