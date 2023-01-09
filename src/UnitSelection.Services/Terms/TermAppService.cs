@@ -23,10 +23,7 @@ public class TermAppService : TermService
     {
         var title = _repository.IsNameExist(dto.Name);
 
-        if (title)
-        {
-            throw new TheTermsNameIsExistException();
-        }
+        StopIfNameIsExist(title);
 
         var term = new Term
         {
@@ -35,5 +32,44 @@ public class TermAppService : TermService
 
         _repository.Add(term);
         await _unitOfWork.Complete();
+    }
+    
+    public async Task Update(int id, UpdateTermDto dto)
+    {
+        var term = _repository.FindById(id);
+        StopIfTermNotFound(term);
+
+        var termName = _repository.IsNameExist(dto.Name);
+
+        StopIfNameIsDuplicated(termName);
+
+        term.Name = dto.Name;
+
+        _repository.Update(term);
+        await _unitOfWork.Complete();
+    }
+
+    private static void StopIfNameIsDuplicated(bool termName)
+    {
+        if (termName)
+        {
+            throw new TheNameTermsCanNotRepeatedException();
+        }
+    }
+
+    private static void StopIfNameIsExist(bool title)
+    {
+        if (title)
+        {
+            throw new TheTermsNameIsExistException();
+        }
+    }
+    
+    private static void StopIfTermNotFound(Term term)
+    {
+        if (term == null)
+        {
+            throw new TermsNotFoundException();
+        }
     }
 }

@@ -23,7 +23,7 @@ public class Start
         services.AddSwaggerGen(c =>
         {
             c.SwaggerDoc("v1", 
-                new OpenApiInfo { Title = "UnitSelection.WebAPI", Version = "v1" });
+                new OpenApiInfo { Title = "UnitSelection.RestApi", Version = "v1" });
         });
     }
 
@@ -55,7 +55,9 @@ public class Start
         {
             app.UseDeveloperExceptionPage();
             app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "UnitSelection.WebAPI v1"));
+            app.UseSwaggerUI(c => 
+                c.SwaggerEndpoint("/swagger/v1/swagger.json",
+                    "UnitSelection.RestApi v1"));
         }
 
         app.UseHttpsRedirection();

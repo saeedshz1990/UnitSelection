@@ -8,7 +8,6 @@ namespace UnitSelection.RestApi.Controllers.Terms;
 
 [ApiController]
 [Route("api/terms")]
-// [Authorize]
 public class TermControllers : ControllerBase
 {
     private readonly TermService _service;
@@ -22,5 +21,11 @@ public class TermControllers : ControllerBase
     public void Add(AddTermDto dto)
     {
         _service.Add(dto);
+    }
+
+    [HttpPut("{id}")]
+    public async Task Update(int id, UpdateTermDto dto)
+    {
+        _service.Update(id, dto);
     }
 }
