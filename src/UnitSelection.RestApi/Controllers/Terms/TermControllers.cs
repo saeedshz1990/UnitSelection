@@ -28,4 +28,16 @@ public class TermControllers : ControllerBase
     {
         _service.Update(id, dto);
     }
+
+    [HttpGet]
+    public IList<GetTermsDto> GetAll()
+    {
+        return _service.GetAll();
+    }
+
+    [HttpGet("{id}")]
+    public Term GetById(int id)
+    {
+        return _service.GetById(id);
+    }
 }

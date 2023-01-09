@@ -33,7 +33,7 @@ public class TermAppService : TermService
         _repository.Add(term);
         await _unitOfWork.Complete();
     }
-    
+
     public async Task Update(int id, UpdateTermDto dto)
     {
         var term = _repository.FindById(id);
@@ -47,6 +47,16 @@ public class TermAppService : TermService
 
         _repository.Update(term);
         await _unitOfWork.Complete();
+    }
+
+    public IList<GetTermsDto> GetAll()
+    {
+        return _repository.GetAll();
+    }
+
+    public Term GetById(int id)
+    {
+        return _repository.GetById(id);
     }
 
     private static void StopIfNameIsDuplicated(bool termName)
@@ -64,7 +74,7 @@ public class TermAppService : TermService
             throw new TheTermsNameIsExistException();
         }
     }
-    
+
     private static void StopIfTermNotFound(Term term)
     {
         if (term == null)
