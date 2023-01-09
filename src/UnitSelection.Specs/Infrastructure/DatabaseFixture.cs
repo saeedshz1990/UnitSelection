@@ -15,6 +15,6 @@ public class DatabaseFixture : IDisposable
     
     public void Dispose()
     {
-        throw new NotImplementedException();
+        _transactionScope?.Dispose();
     }
 }
