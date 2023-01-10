@@ -10,4 +10,5 @@ public interface TermService : Service
     Task Update(int id, UpdateTermDto dto);
     IList<GetTermsDto> GetAll();
     Term GetById(int id);
+    Task Delete(int id);
 }

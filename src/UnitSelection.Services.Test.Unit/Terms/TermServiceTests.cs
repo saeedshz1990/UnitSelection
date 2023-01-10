@@ -95,7 +95,7 @@ public class TermServiceTests
         var secondTerm = TermServiceFactoryDto.GenerateTerms("secondDummy");
         _context.Manipulate(_ => _.Terms.Add(secondTerm));
 
-         _sut.GetAll();
+        _sut.GetAll();
 
         var actualResult = await _context.Terms.ToListAsync();
         actualResult.Should().HaveCount(2);
@@ -104,7 +104,7 @@ public class TermServiceTests
     [Fact]
     public async Task Get_get_all_when_Not_any_added_properly()
     {
-         _sut.GetAll();
+        _sut.GetAll();
 
         var actualResult = await _context.Terms.ToListAsync();
         actualResult.Should().HaveCount(0);
@@ -118,10 +118,31 @@ public class TermServiceTests
         var secondTerm = TermServiceFactoryDto.GenerateTerms("secondDummy");
         _context.Manipulate(_ => _.Terms.Add(secondTerm));
 
-         _sut.GetById(firstTerm.Id);
+        _sut.GetById(firstTerm.Id);
 
         var actualResult = await _context.Terms
             .FirstOrDefaultAsync();
         actualResult!.Name.Should().Be(firstTerm.Name);
+    }
+
+    [Fact]
+    public async Task Delete_delete_term_properly()
+    {
+        var firstTerm = TermServiceFactoryDto.GenerateTerms("firstDummy");
+        _context.Manipulate(_ => _.Terms.Add(firstTerm));
+
+        _sut.Delete(firstTerm.Id);
+
+        var actualResult = await _context.Terms.ToListAsync();
+        actualResult.Should().HaveCount(0);
+    }
+
+    [Theory]
+    [InlineData(-1)]
+    public async Task Delete_throw_exception_when_term_not_found_properly(int invalidId)
+    {
+        var actualResult = () => _sut.Delete(invalidId);
+
+        actualResult.Should().ThrowExactlyAsync<TermsNotFoundException>();
     }
 }

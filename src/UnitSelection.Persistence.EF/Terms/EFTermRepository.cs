@@ -43,6 +43,11 @@ public class EFTermRepository : TermRepository
         }).ToList();
     }
 
+    public void Delete(Term term)
+    {
+        _context.Remove(term);
+    }
+
     public bool IsNameExist(string name)
     {
         return _context.Terms.Any(_ => _.Name == name);

@@ -59,6 +59,18 @@ public class TermAppService : TermService
         return _repository.GetById(id);
     }
 
+    public async Task Delete(int id)
+    {
+        var term = _repository.FindById(id);
+        if (term==null)
+        {
+            throw new TermsNotFoundException();
+        }
+
+        _repository.Delete(term);
+        await _unitOfWork.Complete();
+    }
+
     private static void StopIfNameIsDuplicated(bool termName)
     {
         if (termName)

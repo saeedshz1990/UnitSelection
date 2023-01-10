@@ -10,6 +10,7 @@ public interface TermRepository :Repository
     void Update(Term term);
     Term GetById(int id);
     IList<GetTermsDto> GetAll();
+    void Delete(Term term);
     bool IsNameExist(string name);
     Term FindById(int id);
 }
