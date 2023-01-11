@@ -25,9 +25,16 @@ public class TermAppService : TermService
 
         StopIfNameIsExist(title);
 
+        if (dto.EndDate <= dto.StartDate)
+        {
+            throw new TheEndDateTermsCanNotLowerThanOrEqualStartDateException();
+        }
+
         var term = new Term
         {
-            Name = dto.Name
+            Name = dto.Name,
+            StartDate = dto.StartDate,
+            EndDate = dto.EndDate
         };
 
         _repository.Add(term);
@@ -43,7 +50,14 @@ public class TermAppService : TermService
 
         StopIfNameIsDuplicated(termName);
 
+        if (dto.EndDate <= dto.StartDate)
+        {
+            throw new TheEndDateTermsCanNotLowerThanOrEqualStartDateException();
+        }
+
         term.Name = dto.Name;
+        term.StartDate = dto.StartDate;
+        term.EndDate = dto.EndDate;
 
         _repository.Update(term);
         await _unitOfWork.Complete();
@@ -62,7 +76,7 @@ public class TermAppService : TermService
     public async Task Delete(int id)
     {
         var term = _repository.FindById(id);
-        if (term==null)
+        if (term == null)
         {
             throw new TermsNotFoundException();
         }

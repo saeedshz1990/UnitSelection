@@ -13,4 +13,5 @@ public interface TermRepository :Repository
     void Delete(Term term);
     bool IsNameExist(string name);
     Term FindById(int id);
+    Task<bool> CheckEndDate(DateTime endDate);
 }

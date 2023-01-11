@@ -26,16 +26,24 @@ public class UpdateTerm : EFDataContextDatabaseFixture
     [BDDHelper.Given("ترمی با عنوان ترم ‘مهرماه’ وجود دارد.")]
     public void Given()
     {
-        _term = TermServiceFactoryDto.GenerateTerms("مهرماه");
+        _term = new TermBuilder()
+            .WithName("مهرماه 1401")
+            .WithStartDate(DateTime.UtcNow.AddMonths(3))
+            .WithEndDate(DateTime.UtcNow.AddMonths(6))
+            .Build();
         _context.Manipulate(_ => _.Terms.Add(_term));
     }
 
     [BDDHelper.When("ترم ‘مهرماه’ را به ‘ بهمن ماه’ ویرایش می کنم")]
     public async Task When()
     {
-        _dto = UpdateTermServiceFactoryDto.GenerateUpdateDto("بهمن ماه");
+        _dto = new UpdateTermDtoBuilder()
+            .WithName("بهمن ماه 1401")
+            .WithStartDate(DateTime.UtcNow.Date)
+            .WithEndDate(DateTime.UtcNow.AddMonths(3))
+            .Build();
 
-        _sut.Update(_term.Id, _dto);
+       await _sut.Update(_term.Id, _dto);
     }
 
     [BDDHelper.Then("تنها یک ترم با عنوان ‘بهمن ماه’" +

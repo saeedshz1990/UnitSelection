@@ -14,6 +14,8 @@ public class _202301090853_AddedTermsAndClassesTable:Migration
         Create.Table("Classes")
             .WithColumn("Id").AsInt32().Identity().NotNullable().PrimaryKey()
             .WithColumn("Name").AsString(10)
+            .WithColumn("StartDate").AsDateTime2().NotNullable()
+            .WithColumn("EndDate").AsDateTime2().NotNullable()
             .WithColumn("TermId").AsInt32().NotNullable()
             .ForeignKey("FK_Classes_Terms",
                 "Terms",
@@ -22,7 +24,7 @@ public class _202301090853_AddedTermsAndClassesTable:Migration
 
     public override void Down()
     {
-        Delete.Table("Terms");
         Delete.Table("Classes");
+        Delete.Table("Terms");
     }
 }

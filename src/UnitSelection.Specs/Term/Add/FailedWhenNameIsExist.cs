@@ -26,7 +26,11 @@ public class FailedWhenNameIsExist : EFDataContextDatabaseFixture
     [BDDHelper.Given("ترمی با عنوان ترم ‘مهرماه’ وجود دارد.")]
     public void Given()
     {
-        var term = TermServiceFactoryDto.GenerateTerms();
+        var term = new TermBuilder()
+            .WithName("مهرماه 1401")
+            .WithStartDate(DateTime.UtcNow)
+            .WithEndDate(DateTime.UtcNow.AddMonths(3))
+            .Build();
         _context.Manipulate(_ => _.Terms.Add(term));
     }
 
@@ -34,7 +38,11 @@ public class FailedWhenNameIsExist : EFDataContextDatabaseFixture
                     "‘مهرماه’ در سیستم ثبت می کنم.")]
     public async Task When()
     {
-        _dto = AddTermServiceFactory.GenerateAddTerm("مهرماه 1401");
+        _dto = new AddTermDtoBuilder()
+            .WithName("مهرماه 1401")
+            .WithStartDate(DateTime.UtcNow.Date)
+            .WithEndDate(DateTime.UtcNow.AddMonths(3))
+            .Build();
 
         _actualResult = () => _sut.Add(_dto);
     }

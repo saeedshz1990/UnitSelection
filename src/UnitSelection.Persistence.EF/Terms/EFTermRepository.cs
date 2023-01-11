@@ -31,7 +31,9 @@ public class EFTermRepository : TermRepository
             .Select(_ => new Term
             {
                 Id = _.Id,
-                Name = _.Name
+                Name = _.Name,
+                StartDate = _.StartDate,
+                EndDate = _.EndDate
             }).FirstOrDefault(_ => _.Id == id)!;
     }
 
@@ -39,7 +41,9 @@ public class EFTermRepository : TermRepository
     {
         return _context.Terms.Select(_ => new GetTermsDto
         {
-            Name = _.Name
+            Name = _.Name,
+            StartDate = _.StartDate,
+            EndDate = _.EndDate
         }).ToList();
     }
 
@@ -57,5 +61,12 @@ public class EFTermRepository : TermRepository
     {
         return _context.Terms
             .FirstOrDefault(_ => _.Id == id)!;
+    }
+
+    public async Task<bool> CheckEndDate(DateTime startDate)
+    {
+        var result = await _context.Terms
+            .AnyAsync(_ => _.EndDate <= startDate);
+        return result;
     }
 }

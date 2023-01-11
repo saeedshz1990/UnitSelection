@@ -31,7 +31,11 @@ public class AddTerm : EFDataContextDatabaseFixture
     [BDDHelper.When("یک ترم با عنوان ترم ‘مهرماه’ به سیستم اضافه می کنم.")]
     public async Task When()
     {
-        _dto = AddTermServiceFactory.GenerateAddTerm("مهرماه 1401");
+        _dto =  new AddTermDtoBuilder()
+            .WithName("مهرماه 1401")
+            .WithStartDate(DateTime.UtcNow.Date)
+            .WithEndDate(DateTime.UtcNow.AddMonths(3))
+            .Build();
 
         await _sut.Add(_dto);
     }
@@ -41,6 +45,8 @@ public class AddTerm : EFDataContextDatabaseFixture
     {
         var actualResult = await _context.Terms.FirstOrDefaultAsync();
         actualResult!.Name.Should().Be(_dto.Name);
+        actualResult.StartDate.Should().Be(_dto.StartDate);
+        actualResult.EndDate.Should().Be(_dto.EndDate);
     }
 
     [Fact]

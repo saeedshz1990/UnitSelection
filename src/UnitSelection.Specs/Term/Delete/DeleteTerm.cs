@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
 using UnitSelection.Infrastructure.Test;
 using UnitSelection.Persistence.EF;
 using UnitSelection.Services.Terms.Contract;
@@ -23,21 +24,25 @@ public class DeleteTerm : EFDataContextDatabaseFixture
     [BDDHelper.Given("ترمی با عنوان ترم ‘مهرماه’ وجود دارد.")]
     public void Given()
     {
-        _term = TermServiceFactoryDto.GenerateTerms("مهرماه");
+        _term = new TermBuilder()
+            .WithName("مهرماه 1401")
+            .WithStartDate(DateTime.UtcNow.AddMonths(3))
+            .WithEndDate(DateTime.UtcNow.AddMonths(6))
+            .Build();
         _context.Manipulate(_ => _.Terms.Add(_term));
     }
 
     [BDDHelper.When("ترمی با عنوان ‘مهرماه’ را حذف می کنم.")]
     public async Task When()
     {
-        _sut.Delete(_term.Id);
+       await _sut.Delete(_term.Id);
     }
 
     [BDDHelper.Then("هیچ ترمی با عنوان ‘مهرماه’ " +
                     "نباید در سیستم وجود داشته باشد.")]
     public async Task Then()
     {
-        var actualResult = _context.Terms.ToList();
+        var actualResult =await _context.Terms.ToListAsync();
         actualResult.Should().HaveCount(0);
     }
 
