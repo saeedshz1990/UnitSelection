@@ -1,5 +1,6 @@
 ﻿using UnitSelection.Persistence.EF;
 using UnitSelection.Persistence.EF.Classes;
+using UnitSelection.Persistence.EF.Terms;
 using UnitSelection.Services.Classes;
 using UnitSelection.Services.Classes.Contract;
 
@@ -11,6 +12,7 @@ public static class ClassServiceFactory
     {
         var unitOfWork = new EFUnitOfWork(context);
         var repository = new EFClassRepository(context);
-        return new ClassAppService(repository, unitOfWork);
+        var termRepository = new EFTermRepository(context);
+        return new ClassAppService(repository, unitOfWork, termRepository);
     }
 }

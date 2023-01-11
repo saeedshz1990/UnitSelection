@@ -3,7 +3,8 @@ using UnitSelection.Services.Classes.Contract.Dto;
 
 namespace UnitSelection.Services.Classes.Contract;
 
-public interface ClassService:Service
+public interface ClassService : Service
 {
     Task Add(AddClassDto dto);
+    Task Update(UpdateClassDto dto, int id);
 }

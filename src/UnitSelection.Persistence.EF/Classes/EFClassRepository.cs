@@ -18,9 +18,20 @@ public class EFClassRepository : ClassRepository
         _context.Add(newClass);
     }
 
+    public void Update(Class newClass)
+    {
+        _context.Update(newClass);
+    }
+
     public bool IsNameExist(string name)
     {
         return _context.Classes
             .Any(_ => _.Name == name);
+    }
+
+    public Class FindById(int id)
+    {
+        return _context.Classes
+            .FirstOrDefault(_ => _.Id == id);
     }
 }

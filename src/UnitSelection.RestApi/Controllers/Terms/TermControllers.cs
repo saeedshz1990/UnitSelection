@@ -26,7 +26,7 @@ public class TermControllers : ControllerBase
     [HttpPut("{id}")]
     public async Task Update(int id, UpdateTermDto dto)
     {
-        _service.Update(id, dto);
+       await _service.Update(id, dto);
     }
 
     [HttpGet]
