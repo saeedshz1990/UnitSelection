@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using UnitSelection.Entities.Terms;
-using UnitSelection.Services.Terms;
+using UnitSelection.Entities.Terms; 
 using UnitSelection.Services.Terms.Contract;
 using UnitSelection.Services.Terms.Contract.Dto;
 

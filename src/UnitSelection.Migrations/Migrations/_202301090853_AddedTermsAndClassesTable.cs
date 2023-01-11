@@ -9,13 +9,13 @@ public class _202301090853_AddedTermsAndClassesTable:Migration
     {
         Create.Table("Terms")
             .WithColumn("Id").AsInt32().NotNullable().PrimaryKey().Identity()
+            .WithColumn("StartDate").AsDateTime2().NotNullable()
+            .WithColumn("EndDate").AsDateTime2().NotNullable()
             .WithColumn("Name").AsString(20);
 
         Create.Table("Classes")
             .WithColumn("Id").AsInt32().Identity().NotNullable().PrimaryKey()
             .WithColumn("Name").AsString(10)
-            .WithColumn("StartDate").AsDateTime2().NotNullable()
-            .WithColumn("EndDate").AsDateTime2().NotNullable()
             .WithColumn("TermId").AsInt32().NotNullable()
             .ForeignKey("FK_Classes_Terms",
                 "Terms",
