@@ -10,4 +10,5 @@ public interface ClassService : Service
     IList<GetClassDto> GetAll();
     GetClassByIdDto GetById(int id);
     GetClassByTermIdDto? GetByTermId(int termId);
+    Task Delete(int id);
 }

@@ -56,6 +56,11 @@ public class EFClassRepository : ClassRepository
             }).FirstOrDefault();
     }
 
+    public void Delete(Class newClass)
+    {
+        _context.Remove(newClass);
+    }
+
     public bool IsNameExist(string name, int termId)
     {
         return _context.Classes

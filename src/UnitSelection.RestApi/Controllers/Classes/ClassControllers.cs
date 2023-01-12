@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using UnitSelection.Entities.Classes;
 using UnitSelection.Services.Classes.Contract;
 using UnitSelection.Services.Classes.Contract.Dto;
 
@@ -44,5 +43,11 @@ public class ClassControllers : ControllerBase
     public GetClassByTermIdDto? GetByTermId(int termId)
     {
         return _service.GetByTermId(termId);
+    }
+
+    [HttpDelete("{id}")]
+    public void Delete(int id)
+    {
+        _service.Delete(id);
     }
 }

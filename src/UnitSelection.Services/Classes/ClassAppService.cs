@@ -83,4 +83,16 @@ public class ClassAppService : ClassService
     {
         return _repository.GetByTermId(termId);
     }
+
+    public async Task Delete(int id)
+    {
+        var newClass = _repository.FindById(id);
+        if (newClass==null)
+        {
+            throw new ClassNotFoundException();
+        }
+
+        _repository.Delete(newClass);
+        await _unitOfWork.Complete();
+    }
 }

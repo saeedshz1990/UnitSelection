@@ -185,7 +185,7 @@ public class ClassServiceTests
         _context.Manipulate(_ => _.Add(secondClass));
 
         _sut.GetByTermId(term.Id);
-        var actualResult =await _context.Classes.Where(_ => _.TermId == term.Id).ToListAsync();
+        var actualResult = await _context.Classes.Where(_ => _.TermId == term.Id).ToListAsync();
         actualResult.Should().HaveCount(2);
     }
 
@@ -205,5 +205,29 @@ public class ClassServiceTests
 
         var actualResult = _context.Classes.Where(_ => _.TermId == secondTerm.Id).ToList();
         actualResult!.Should().HaveCount(0);
+    }
+
+    [Fact]
+    public async Task Delete_delete_class_properly()
+    {
+        var term = new TermBuilder().Build();
+        _context.Manipulate(_ => _.Add(term));
+        var firstClass = ClassFactory.GenerateClass("101", term.Id);
+        _context.Manipulate(_ => _.Add(firstClass));
+
+        await _sut.Delete(firstClass.Id);
+
+        var actualResult = await _context.Classes.ToListAsync();
+        actualResult.Should().HaveCount(0);
+    }
+
+    [Theory]
+    [InlineData(-1)]
+    public async Task Delete_throw_exception_when_class_not_found_properly(int invalidId)
+    {
+        var actualResult = async () => await _sut.Delete(invalidId);
+        
+        await actualResult.Should()
+            .ThrowExactlyAsync<ClassNotFoundException>();
     }
 }
