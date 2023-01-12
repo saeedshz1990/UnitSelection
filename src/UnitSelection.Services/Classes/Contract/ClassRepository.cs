@@ -11,6 +11,6 @@ public interface ClassRepository : Repository
     IList<GetClassDto> GetAll();
     GetClassByIdDto GetById(int id);
     GetClassByTermIdDto? GetByTermId(int termId);
-    bool IsNameExist(string name);
+    bool IsNameExist(string name, int termId);
     Class FindById(int id);
 }

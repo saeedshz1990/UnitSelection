@@ -56,10 +56,10 @@ public class EFClassRepository : ClassRepository
             }).FirstOrDefault();
     }
 
-    public bool IsNameExist(string name)
+    public bool IsNameExist(string name, int termId)
     {
         return _context.Classes
-            .Any(_ => _.Name == name);
+            .Any(_ => _.Name == name && _.TermId == termId);
     }
 
     public Class FindById(int id)

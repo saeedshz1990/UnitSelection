@@ -26,7 +26,7 @@ public class ClassAppService : ClassService
 
     public async Task Add(AddClassDto dto)
     {
-        var nameClass = _repository.IsNameExist(dto.Name);
+        var nameClass = _repository.IsNameExist(dto.Name, dto.TermId);
 
         if (nameClass)
         {
@@ -51,7 +51,7 @@ public class ClassAppService : ClassService
             throw new ClassNotFoundException();
         }
 
-        if (_repository.IsNameExist(dto.Name))
+        if (_repository.IsNameExist(dto.Name, dto.TermId))
         {
             throw new ClassNameIsDuplicatedException();
         }
