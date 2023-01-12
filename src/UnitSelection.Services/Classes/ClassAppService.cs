@@ -68,4 +68,19 @@ public class ClassAppService : ClassService
         _repository.Update(newClass);
         await _unitOfWork.Complete();
     }
+
+    public IList<GetClassDto> GetAll()
+    {
+        return _repository.GetAll();
+    }
+
+    public GetClassByIdDto GetById(int id)
+    {
+        return _repository.GetById(id);
+    }
+
+    public GetClassByTermIdDto? GetByTermId(int termId)
+    {
+        return _repository.GetByTermId(termId);
+    }
 }

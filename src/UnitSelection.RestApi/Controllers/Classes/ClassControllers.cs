@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using UnitSelection.Entities.Classes;
 using UnitSelection.Services.Classes.Contract;
 using UnitSelection.Services.Classes.Contract.Dto;
 
@@ -25,5 +26,23 @@ public class ClassControllers : ControllerBase
     public async Task Update(int id, UpdateClassDto dto)
     {
         await _service.Update(dto, id);
+    }
+
+    [HttpGet]
+    public IList<GetClassDto> GetAll()
+    {
+        return _service.GetAll();
+    }
+
+    [HttpGet("{id}")]
+    public GetClassByIdDto GetById(int id)
+    {
+        return _service.GetById(id);
+    }
+
+    [HttpGet("{termId}/get-by-term")]
+    public GetClassByTermIdDto? GetByTermId(int termId)
+    {
+        return _service.GetByTermId(termId);
     }
 }

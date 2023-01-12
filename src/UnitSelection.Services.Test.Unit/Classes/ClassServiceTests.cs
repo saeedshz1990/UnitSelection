@@ -131,4 +131,79 @@ public class ClassServiceTests
         await actualResult.Should()
             .ThrowExactlyAsync<TermsNotFoundException>();
     }
+
+    [Fact]
+    public async Task Get_get_all_classes_properly()
+    {
+        var term = new TermBuilder().Build();
+        _context.Manipulate(_ => _.Add(term));
+        var firstClass = ClassFactory.GenerateClass("firstDummy", term.Id);
+        _context.Manipulate(_ => _.Add(firstClass));
+        var secondClass = ClassFactory.GenerateClass("secondDummy", term.Id);
+        _context.Manipulate(_ => _.Add(secondClass));
+
+        _sut.GetAll();
+
+        var actualResult = await _context.Classes.ToListAsync();
+        actualResult.Should().HaveCount(2);
+    }
+
+    [Fact]
+    public async Task Get_all_class_when_not_added_any_classes_properly()
+    {
+        _sut.GetAll();
+
+        var actualResult = await _context.Classes.ToListAsync();
+        actualResult.Should().HaveCount(0);
+    }
+
+    [Fact]
+    public async Task Get_get_by_id_class_properly()
+    {
+        var term = new TermBuilder().Build();
+        _context.Manipulate(_ => _.Add(term));
+        var firstClass = ClassFactory.GenerateClass("firstDummy", term.Id);
+        _context.Manipulate(_ => _.Add(firstClass));
+        var secondClass = ClassFactory.GenerateClass("secondDummy", term.Id);
+        _context.Manipulate(_ => _.Add(secondClass));
+
+        _sut.GetById(firstClass.Id);
+
+        var actualResult = _context.Classes.FirstOrDefault(_ => _.Id == firstClass.Id);
+        actualResult!.Name.Should().Be(firstClass.Name);
+        actualResult.TermId.Should().Be(firstClass.TermId);
+    }
+
+    [Fact]
+    public async Task Get_get_class_by_term_id_properly()
+    {
+        var term = new TermBuilder().Build();
+        _context.Manipulate(_ => _.Add(term));
+        var firstClass = ClassFactory.GenerateClass("firstDummy", term.Id);
+        _context.Manipulate(_ => _.Add(firstClass));
+        var secondClass = ClassFactory.GenerateClass("secondDummy", term.Id);
+        _context.Manipulate(_ => _.Add(secondClass));
+
+        _sut.GetByTermId(term.Id);
+        var actualResult =await _context.Classes.Where(_ => _.TermId == term.Id).ToListAsync();
+        actualResult.Should().HaveCount(2);
+    }
+
+    [Fact]
+    public async Task Get_get_class_by_term_id_when_not_any_classes_in_term_properly()
+    {
+        var firstTerm = new TermBuilder().Build();
+        _context.Manipulate(_ => _.Add(firstTerm));
+        var firstClass = ClassFactory.GenerateClass("firstDummy", firstTerm.Id);
+        _context.Manipulate(_ => _.Add(firstClass));
+        var secondClass = ClassFactory.GenerateClass("secondDummy", firstTerm.Id);
+        _context.Manipulate(_ => _.Add(secondClass));
+        var secondTerm = new TermBuilder().Build();
+        _context.Manipulate(_ => _.Add(secondTerm));
+
+        _sut.GetByTermId(secondTerm.Id);
+
+        var actualResult = _context.Classes.Where(_ => _.TermId == secondTerm.Id).ToList();
+        actualResult!.Should().HaveCount(0);
+    }
 }

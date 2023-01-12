@@ -40,6 +40,7 @@ public class EFTermRepository : TermRepository
     {
         return _context.Terms.Select(_ => new GetTermsDto
         {
+            Id = _.Id,
             Name = _.Name,
             StartDate = _.StartDate,
             EndDate = _.EndDate
