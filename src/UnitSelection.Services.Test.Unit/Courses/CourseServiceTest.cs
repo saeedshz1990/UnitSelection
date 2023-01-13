@@ -83,4 +83,29 @@ public class CourseServiceTest
         await actualResult.Should()
             .ThrowExactlyAsync<TheCourseNameWithSameTeacherException>();
     }
+
+    [Theory]
+    [InlineData(-1)]
+    public async Task 
+        Add_throw_exception_when_course_unit_count_equal_or_lower_than_zero_properly(int invalidCount)
+    {
+        var term = new TermBuilder().Build();
+        _context.Manipulate(_ => _context.Add(term));
+        var newClass = ClassFactory.GenerateClass("101", term.Id);
+        _context.Manipulate(_ => _.Add(newClass));
+
+        var dto = new AddCourseDtoBuilder()
+            .WithName("ریاضی مهندسی")
+            .WithDayOfWeek("یکشنبه")
+            .WithUnitCount(invalidCount)
+            .WithStartHour("10:00")
+            .WithEndHour("13:00")
+            .WithClassId(newClass.Id)
+            .Build();
+
+        var actualResult = async () => await _sut.Add(dto);
+
+        await actualResult.Should()
+            .ThrowExactlyAsync<CourseUnitCountCanNotBeZeroException>();
+    }
 }

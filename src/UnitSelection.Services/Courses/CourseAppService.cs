@@ -21,11 +21,9 @@ public class CourseAppService : CourseService
 
     public async Task Add(AddCourseDto dto)
     {
-        var name = _repository.IsCourseNameExist(dto.Name);
-        if (name)
-        {
-            throw new TheCourseNameWithSameTeacherException();
-        }
+        StopIfCourseNameIsDuplicated(dto);
+
+        StopIfCourseUnitCountequalOrLowerThanZero(dto);
 
         var course = new Course
         {
@@ -39,5 +37,21 @@ public class CourseAppService : CourseService
 
         _repository.Add(course);
        await _unitOfWork.Complete();
+    }
+
+    private static void StopIfCourseUnitCountequalOrLowerThanZero(AddCourseDto dto)
+    {
+        if (dto.UnitCount <= 0)
+        {
+            throw new CourseUnitCountCanNotBeZeroException();
+        }
+    }
+
+    private void StopIfCourseNameIsDuplicated(AddCourseDto dto)
+    {
+        if (_repository.IsCourseNameExist(dto.Name))
+        {
+            throw new TheCourseNameWithSameTeacherException();
+        }
     }
 }
