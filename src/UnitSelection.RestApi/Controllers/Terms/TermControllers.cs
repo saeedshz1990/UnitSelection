@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using UnitSelection.Entities.Terms;
 using UnitSelection.Services.Terms.Contract;
 using UnitSelection.Services.Terms.Contract.Dto;

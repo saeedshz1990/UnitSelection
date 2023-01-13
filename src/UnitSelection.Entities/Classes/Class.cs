@@ -1,4 +1,5 @@
-﻿using UnitSelection.Entities.Terms;
+﻿using UnitSelection.Entities.Courses;
+using UnitSelection.Entities.Terms;
 
 namespace UnitSelection.Entities.Classes
 {
@@ -9,5 +10,8 @@ namespace UnitSelection.Entities.Classes
 
         public int TermId { get; set; }
         public Term Term { get; set; }
+
+        public int CourseId { get; set; }
+        public HashSet<Course> Courses { get; set; }
     }
 }

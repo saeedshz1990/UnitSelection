@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using UnitSelection.Entities.Classes;
+using UnitSelection.Entities.Courses;
 using UnitSelection.Entities.Terms;
 using UnitSelection.Persistence.EF.Terms;
 
@@ -19,6 +20,7 @@ public class EFDataContext : DbContext
 
     public DbSet<Term> Terms { get; set; }
     public DbSet<Class> Classes { get; set; }
+    public DbSet<Course> Courses { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
