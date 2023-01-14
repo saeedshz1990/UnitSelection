@@ -175,4 +175,36 @@ public class TeacherServiceTest
         actualResult.Study.Should().Be(teacher.Study);
         actualResult.DateOfBirth.Should().Be(teacher.DateOfBirth);
     }
+
+    [Fact]
+    public async Task Delete_delete_teacher_properly()
+    {
+        var term = new TermBuilder().Build();
+        _context.Manipulate(_ => _context.Add(term));
+        var newClass = ClassFactory.GenerateClass("101", term.Id);
+        _context.Manipulate(_ => _.Add(newClass));
+        var course = new CourseDtoBuilder().Build();
+        _context.Manipulate(_ => _.Add(course));
+        var teacher = new TeacherBuilder()
+            .WithFirstName("آرش")
+            .WithLastName("چناری")
+            .WithNationalCode("2294321905")
+            .Build();
+        _context.Manipulate(_ => _.Add(teacher));
+
+        await _sut.Delete(teacher.Id);
+
+        var actualResult = _context.Teachers.ToList();
+        actualResult.Should().HaveCount(0);
+    }
+
+    [Theory]
+    [InlineData(-1)]
+    public async Task Delete_throw_exception_when_teacher_not_found_properly(int invalidId)
+    {
+        var actualResult = async () => await _sut.Delete(invalidId);
+
+        await actualResult.Should()
+            .ThrowExactlyAsync<TeacherNotFoundException>();
+    }
 }

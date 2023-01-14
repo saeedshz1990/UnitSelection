@@ -78,6 +78,16 @@ public class EFTeacherRepository : TeacherRepository
             }).FirstOrDefault()!;
     }
 
+    public void Delete(Teacher teacher)
+    {
+        _context.Remove(teacher);
+    }
+
+    public Teacher? FindById(int id)
+    {
+        return _context.Teachers.FirstOrDefault(_ => _.Id == id);
+    }
+
     public bool IsExistNationalCode(string nationalCode)
     {
         return _context.Teachers.Any(_ => _.NationalCode == nationalCode);

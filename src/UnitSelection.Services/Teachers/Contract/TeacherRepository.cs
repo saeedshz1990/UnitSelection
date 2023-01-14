@@ -10,5 +10,7 @@ public interface TeacherRepository : Repository
     IList<GetTeacherDto> GetAll();
     GetTeacherByIdDto GetById(int id);
     GetTeacherByCourseIdDto GetTeacherByCourseId(int courseId);
+    void Delete(Teacher teacher);
+    Teacher? FindById(int id);
     bool IsExistNationalCode(string nationalCode);
 }

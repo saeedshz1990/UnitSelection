@@ -9,4 +9,5 @@ public interface TeacherService : Service
     IList<GetTeacherDto> GetAll();
     GetTeacherByIdDto GetById(int id);
     GetTeacherByCourseIdDto GetByCourseId(int courseId);
+    Task Delete(int id);
 }

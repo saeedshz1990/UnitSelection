@@ -61,4 +61,17 @@ public class TeacherAppService : TeacherService
     {
         return _repository.GetTeacherByCourseId(courseId);
     }
+
+    public async Task Delete(int id)
+    {
+        var teacher = _repository.FindById(id);
+        if (teacher==null)
+        {
+            throw new TeacherNotFoundException();
+        }
+
+        _repository.Delete(teacher);
+        await _unitOfWork.Complete();
+
+    }
 }

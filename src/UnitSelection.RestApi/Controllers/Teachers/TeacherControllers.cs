@@ -38,4 +38,10 @@ public class TeacherControllers : ControllerBase
     {
         return _service.GetByCourseId(courseId);
     }
+
+    [HttpDelete("{id}")]
+    public void Delete(int id)
+    {
+        _service.Delete(id);
+    }
 }
