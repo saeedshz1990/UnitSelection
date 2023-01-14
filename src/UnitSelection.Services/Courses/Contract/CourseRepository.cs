@@ -8,6 +8,9 @@ public interface CourseRepository :Repository
 {
     void Add(Course course);
     void Update(Course dto);
+    IList<GetCourseDto> GetAll();
+    GetCourseByIdDto GetById(int id);
+    GetCourseByClassIdDto GetByClassId(int classId);
     bool IsCourseNameExist(string name);
     Course FindById(int id);
 }

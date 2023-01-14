@@ -24,6 +24,50 @@ public class EFCourseRepository : CourseRepository
         _context.Update(dto);
     }
 
+    public IList<GetCourseDto> GetAll()
+    {
+        return _context.Courses
+            .Select(_ => new GetCourseDto
+            {
+                Id = _.Id,
+                Name = _.Name,
+                UnitCount = _.UnitCount,
+                DayOfWeek = _.DayOfWeek,
+                StartHour = _.StartHour,
+                EndHour = _.EndHour,
+                ClassId = _.ClassId
+            }).ToList();
+    }
+
+    public GetCourseByIdDto GetById(int id)
+    {
+        return _context.Courses
+            .Where(_ => _.Id == id)
+            .Select(_ => new GetCourseByIdDto
+            {
+                Name = _.Name,
+                DayOfWeek = _.DayOfWeek,
+                UnitCount = _.UnitCount,
+                StartHour = _.StartHour,
+                EndHour = _.EndHour,
+                ClassId = _.ClassId
+            }).FirstOrDefault()!;
+    }
+
+    public GetCourseByClassIdDto GetByClassId(int classId)
+    {
+        return _context.Courses
+            .Where(_ => _.ClassId == classId)
+            .Select(_ => new GetCourseByClassIdDto
+            {
+                Name = _.Name,
+                DayOfWeek = _.DayOfWeek,
+                StartHour = _.StartHour,
+                EndHour = _.EndHour,
+                UnitCount = _.UnitCount
+            }).FirstOrDefault()!;
+    }
+
     public bool IsCourseNameExist(string name)
     {
         return _context.Courses.Any(_ => _.Name == name);

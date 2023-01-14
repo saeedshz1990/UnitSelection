@@ -24,6 +24,24 @@ public class CourseControllers : ControllerBase
     [HttpPut("{id}")]
     public async Task Update(int id, UpdateCourseDto dto)
     {
-        _service.Update(dto, id);
+        await _service.Update(dto, id);
+    }
+
+    [HttpGet]
+    public IList<GetCourseDto> GetAll()
+    {
+        return _service.GetAll();
+    }
+
+    [HttpGet("{id}")]
+    public GetCourseByIdDto GetById(int id)
+    {
+        return _service.GetById(id);
+    }
+
+    [HttpGet("{classId}/get-course")]
+    public GetCourseByClassIdDto GetByClassId(int classId)
+    {
+        return _service.GetByClassId(classId);
     }
 }

@@ -139,11 +139,11 @@ public class CourseServiceTest
 
         var actualResult = await _context.Courses.FirstOrDefaultAsync();
         actualResult!.Name.Should().Be(dto.Name);
-        actualResult!.StartHour.Should().Be(dto.StartHour);
-        actualResult!.EndHour.Should().Be(dto.EndHour);
-        actualResult!.UnitCount.Should().Be(dto.UnitCount);
-        actualResult!.DayOfWeek.Should().Be(dto.DayOfWeek);
-        actualResult!.ClassId.Should().Be(dto.ClassId);
+        actualResult.StartHour.Should().Be(dto.StartHour);
+        actualResult.EndHour.Should().Be(dto.EndHour);
+        actualResult.UnitCount.Should().Be(dto.UnitCount);
+        actualResult.DayOfWeek.Should().Be(dto.DayOfWeek);
+        actualResult.ClassId.Should().Be(dto.ClassId);
     }
 
     [Theory]
@@ -195,7 +195,7 @@ public class CourseServiceTest
             .WithEndHour("13:00")
             .WithClassId(newClass.Id)
             .Build();
-        
+
         var actualResult = async () => await _sut.Update(dto, firstCourse.Id);
 
         await actualResult.Should()
@@ -232,5 +232,121 @@ public class CourseServiceTest
 
         await actualResult.Should()
             .ThrowExactlyAsync<CourseUnitCountCanNotBeZeroException>();
+    }
+
+    [Fact]
+    public async Task Get_get_all_course_properly()
+    {
+        var term = new TermBuilder().Build();
+        _context.Manipulate(_ => _context.Add(term));
+        var newClass = ClassFactory.GenerateClass("101", term.Id);
+        _context.Manipulate(_ => _.Add(newClass));
+        var firstDummy = new CourseDtoBuilder()
+            .WithName("ریاضی مهندسی")
+            .WithDayOfWeek("یکشنبه")
+            .WithUnitCount(3)
+            .WithStartHour("10:00")
+            .WithEndHour("13:00")
+            .WithClassId(newClass.Id)
+            .Build();
+        _context.Manipulate(_ => _.Add(firstDummy));
+        var secondDummy = new CourseDtoBuilder()
+            .WithName("مهندسی نرم افزار")
+            .WithDayOfWeek("یکشنبه")
+            .WithUnitCount(3)
+            .WithStartHour("10:00")
+            .WithEndHour("13:00")
+            .WithClassId(newClass.Id)
+            .Build();
+        _context.Manipulate(_ => _.Add(secondDummy));
+
+        _sut.GetAll();
+
+        var actualResult = await _context.Courses.ToListAsync();
+        actualResult.Should().HaveCount(2);
+    }
+
+    [Fact]
+    public async Task Get_get_all_when_not_any_courses_added_properly()
+    {
+        _sut.GetAll();
+
+        var actualResult = await _context.Courses.ToListAsync();
+        actualResult.Should().HaveCount(0);
+    }
+
+    [Fact]
+    public async Task Get_get_by_id_course_properly()
+    {
+        var term = new TermBuilder().Build();
+        _context.Manipulate(_ => _context.Add(term));
+        var newClass = ClassFactory.GenerateClass("101", term.Id);
+        _context.Manipulate(_ => _.Add(newClass));
+        var firstDummy = new CourseDtoBuilder()
+            .WithName("ریاضی مهندسی")
+            .WithDayOfWeek("یکشنبه")
+            .WithUnitCount(3)
+            .WithStartHour("10:00")
+            .WithEndHour("13:00")
+            .WithClassId(newClass.Id)
+            .Build();
+        _context.Manipulate(_ => _.Add(firstDummy));
+        var secondDummy = new CourseDtoBuilder()
+            .WithName("مهندسی نرم افزار")
+            .WithDayOfWeek("یکشنبه")
+            .WithUnitCount(3)
+            .WithStartHour("10:00")
+            .WithEndHour("13:00")
+            .WithClassId(newClass.Id)
+            .Build();
+        _context.Manipulate(_ => _.Add(secondDummy));
+
+        _sut.GetById(secondDummy.Id);
+
+        var actualResult = await _context.Courses.FirstOrDefaultAsync(_ => _.Id == secondDummy.Id);
+        actualResult!.Name.Should().Be(secondDummy.Name);
+        actualResult!.DayOfWeek.Should().Be(secondDummy.DayOfWeek);
+        actualResult!.UnitCount.Should().Be(secondDummy.UnitCount);
+        actualResult!.StartHour.Should().Be(secondDummy.StartHour);
+        actualResult!.EndHour.Should().Be(secondDummy.EndHour);
+        actualResult!.ClassId.Should().Be(secondDummy.ClassId);
+    }
+
+    [Fact]
+    public async Task Get_get_by_class_id_properly()
+    {
+        var term = new TermBuilder().Build();
+        _context.Manipulate(_ => _context.Add(term));
+        var newClass = ClassFactory.GenerateClass("101", term.Id);
+        _context.Manipulate(_ => _.Add(newClass));
+        var secondClass = ClassFactory.GenerateClass("102", term.Id);
+        _context.Manipulate(_ => _.Add(secondClass));
+        var firstDummy = new CourseDtoBuilder()
+            .WithName("ریاضی مهندسی")
+            .WithDayOfWeek("یکشنبه")
+            .WithUnitCount(3)
+            .WithStartHour("10:00")
+            .WithEndHour("13:00")
+            .WithClassId(newClass.Id)
+            .Build();
+        _context.Manipulate(_ => _.Add(firstDummy));
+        var secondDummy = new CourseDtoBuilder()
+            .WithName("مهندسی نرم افزار")
+            .WithDayOfWeek("یکشنبه")
+            .WithUnitCount(3)
+            .WithStartHour("10:00")
+            .WithEndHour("13:00")
+            .WithClassId(secondClass.Id)
+            .Build();
+        _context.Manipulate(_ => _.Add(secondDummy));
+
+        _sut.GetByClassId(secondClass.Id);
+
+        var actualResult = await _context.Courses.FirstOrDefaultAsync(_=>_.ClassId==secondClass.Id);
+        actualResult!.Name.Should().Be(secondDummy.Name);
+        actualResult.DayOfWeek.Should().Be(secondDummy.DayOfWeek);
+        actualResult.UnitCount.Should().Be(secondDummy.UnitCount);
+        actualResult.StartHour.Should().Be(secondDummy.StartHour);
+        actualResult.EndHour.Should().Be(secondDummy.EndHour);
     }
 }

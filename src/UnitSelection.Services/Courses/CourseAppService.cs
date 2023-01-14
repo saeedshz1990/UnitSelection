@@ -59,6 +59,21 @@ public class CourseAppService : CourseService
         await _unitOfWork.Complete();
     }
 
+    public IList<GetCourseDto> GetAll()
+    {
+        return _repository.GetAll();
+    }
+
+    public GetCourseByIdDto GetById(int id)
+    {
+        return _repository.GetById(id);
+    }
+
+    public GetCourseByClassIdDto GetByClassId(int classId)
+    {
+        return _repository.GetByClassId(classId);
+    }
+
     private static void StopIfCourseUnitCountEqualByZero(int unitCount)
     {
         if (unitCount <= 0)
