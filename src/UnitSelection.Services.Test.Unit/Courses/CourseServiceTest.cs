@@ -342,11 +342,44 @@ public class CourseServiceTest
 
         _sut.GetByClassId(secondClass.Id);
 
-        var actualResult = await _context.Courses.FirstOrDefaultAsync(_=>_.ClassId==secondClass.Id);
+        var actualResult = await _context.Courses.FirstOrDefaultAsync(_ => _.ClassId == secondClass.Id);
         actualResult!.Name.Should().Be(secondDummy.Name);
         actualResult.DayOfWeek.Should().Be(secondDummy.DayOfWeek);
         actualResult.UnitCount.Should().Be(secondDummy.UnitCount);
         actualResult.StartHour.Should().Be(secondDummy.StartHour);
         actualResult.EndHour.Should().Be(secondDummy.EndHour);
+    }
+
+    [Fact]
+    public async Task Delete_delete_course_properly()
+    {
+        var term = new TermBuilder().Build();
+        _context.Manipulate(_ => _context.Add(term));
+        var newClass = ClassFactory.GenerateClass("101", term.Id);
+        _context.Manipulate(_ => _.Add(newClass));
+        var course = new CourseDtoBuilder()
+            .WithName("ریاضی مهندسی")
+            .WithDayOfWeek("یکشنبه")
+            .WithUnitCount(3)
+            .WithStartHour("10:00")
+            .WithEndHour("13:00")
+            .WithClassId(newClass.Id)
+            .Build();
+        _context.Manipulate(_ => _.Add(course));
+
+        await _sut.Delete(course.Id);
+
+        var actualResult = await _context.Courses.ToListAsync();
+        actualResult.Should().HaveCount(0);
+    }
+
+    [Theory]
+    [InlineData(-1)]
+    public async Task Delete_throw_exception_when_course_notFound(int invalidId)
+    {
+        var actualResult = async () => await _sut.Delete(invalidId);
+        
+        await actualResult.Should()
+            .ThrowExactlyAsync<TheCourseNameWithSameTeacherException>();
     }
 }

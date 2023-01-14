@@ -10,4 +10,5 @@ public interface CourseService : Service
     IList<GetCourseDto> GetAll();
     GetCourseByIdDto GetById(int id);
     GetCourseByClassIdDto GetByClassId(int classId);
+    Task Delete(int id);
 }

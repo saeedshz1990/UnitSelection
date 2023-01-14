@@ -74,6 +74,18 @@ public class CourseAppService : CourseService
         return _repository.GetByClassId(classId);
     }
 
+    public async Task Delete(int id)
+    {
+        var course = _repository.FindById(id);
+        if (course==null)
+        {
+            throw new CourseNotFoundException();
+        }
+
+        _repository.Delete(course);
+       await _unitOfWork.Complete();
+    }
+
     private static void StopIfCourseUnitCountEqualByZero(int unitCount)
     {
         if (unitCount <= 0)

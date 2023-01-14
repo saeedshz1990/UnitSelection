@@ -4,7 +4,7 @@ using UnitSelection.Services.Courses.Contract.Dto;
 
 namespace UnitSelection.Services.Courses.Contract;
 
-public interface CourseRepository :Repository
+public interface CourseRepository : Repository
 {
     void Add(Course course);
     void Update(Course dto);
@@ -13,4 +13,5 @@ public interface CourseRepository :Repository
     GetCourseByClassIdDto GetByClassId(int classId);
     bool IsCourseNameExist(string name);
     Course FindById(int id);
+    void Delete(Course course);
 }

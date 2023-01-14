@@ -77,4 +77,9 @@ public class EFCourseRepository : CourseRepository
     {
         return _context.Courses.FirstOrDefault(_ => _.Id == id)!;
     }
+
+    public void Delete(Course course)
+    {
+        _context.Remove(course);
+    }
 }
