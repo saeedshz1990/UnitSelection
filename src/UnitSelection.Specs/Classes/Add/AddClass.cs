@@ -33,8 +33,10 @@ public class AddClass : EFDataContextDatabaseFixture
     {
         var term = new TermBuilder().Build();
         _context.Manipulate(_ => _context.Add(term));
-        _dto = AddClassDtoFactory
-            .GenerateAddClassDto("101", term.Id);
+        _dto = new AddClassDtoBuilder()
+            .WithName("101")
+            .WithTermId(term.Id)
+            .Build();
 
         await _sut.Add(_dto);
     }

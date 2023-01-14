@@ -38,10 +38,6 @@ public class UpdateCourse : EFDataContextDatabaseFixture
         _context.Manipulate(_ => _.Add(_class));
         _course = new CourseDtoBuilder()
             .WithName("ریاضی مهندسی")
-            .WithDayOfWeek("یکشنبه")
-            .WithUnitCount(3)
-            .WithStartHour("10:00")
-            .WithEndHour("13:00")
             .WithClassId(_class.Id)
             .Build();
         _context.Manipulate(_ => _.Add(_course));

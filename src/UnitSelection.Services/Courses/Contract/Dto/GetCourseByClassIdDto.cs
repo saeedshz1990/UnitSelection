@@ -7,4 +7,6 @@ public class GetCourseByClassIdDto
     public string StartHour { get; set; } = string.Empty;
     public string EndHour { get; set; } = string.Empty;
     public string DayOfWeek { get; set; } = string.Empty;
+    public string GroupOfCourse { get; set; } = string.Empty;
+
 }

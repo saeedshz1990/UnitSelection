@@ -5,11 +5,11 @@ namespace UnitSelection.TestTools.TeacherTestTools;
 
 public class TeacherBuilder
 {
-    private Teacher _dto;
+    private Teacher _teacher;
 
     public TeacherBuilder()
     {
-        _dto = new Teacher
+        _teacher = new Teacher
         {
             FatherName = "dummyFather",
             LastName = "dummyLast",
@@ -27,72 +27,72 @@ public class TeacherBuilder
 
     public TeacherBuilder WithFirstName(string firstName)
     {
-        _dto.FirstName = firstName;
+        _teacher.FirstName = firstName;
         return this;
     }
 
     public TeacherBuilder WithLastName(string lastName)
     {
-        _dto.LastName = lastName;
+        _teacher.LastName = lastName;
         return this;
     }
 
     public TeacherBuilder WithFatherName(string fatherName)
     {
-        _dto.FatherName = fatherName;
+        _teacher.FatherName = fatherName;
         return this;
     }
 
     public TeacherBuilder WithNationalCode(string code)
     {
-        _dto.NationalCode = code;
+        _teacher.NationalCode = code;
         return this;
     }
 
     public TeacherBuilder WithDateOfBirth(string birth)
     {
-        _dto.DateOfBirth = birth;
+        _teacher.DateOfBirth = birth;
         return this;
     }
 
     public TeacherBuilder WithGroupOfCourse(string groupCourse)
     {
-        _dto.GroupOfCourse = groupCourse;
+        _teacher.GroupOfCourse = groupCourse;
         return this;
     }
 
     public TeacherBuilder WithAddress(string address)
     {
-        _dto.Address = address;
+        _teacher.Address = address;
         return this;
     }
 
     public TeacherBuilder WithMobileNumber(string mobile, string code)
     {
-        _dto.Mobile = new Mobile(code, mobile);
+        _teacher.Mobile = new Mobile(code, mobile);
         return this;
     }
 
     public TeacherBuilder WithCourseId(int courseId)
     {
-        _dto.CourseId = courseId;
+        _teacher.CourseId = courseId;
         return this;
     }
 
     public TeacherBuilder WithDiploma(string diploma)
     {
-        _dto.Diploma = diploma;
+        _teacher.Diploma = diploma;
         return this;
     }
 
     public TeacherBuilder WithStudy(string study)
     {
-        _dto.Study = study;
+        _teacher.Study = study;
         return this;
     }
 
     public Teacher Build()
     {
-        return _dto;
+        return _teacher;
     }
 }

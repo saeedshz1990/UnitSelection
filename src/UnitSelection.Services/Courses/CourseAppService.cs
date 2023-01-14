@@ -32,7 +32,8 @@ public class CourseAppService : CourseService
             UnitCount = dto.UnitCount,
             StartHour = dto.StartHour,
             EndHour = dto.EndHour,
-            ClassId = dto.ClassId
+            ClassId = dto.ClassId,
+            GroupOfCourse = dto.GroupOfCourse
         };
 
         _repository.Add(course);
@@ -54,6 +55,7 @@ public class CourseAppService : CourseService
         course.StartHour = dto.StartHour;
         course.EndHour = dto.EndHour;
         course.ClassId = dto.ClassId;
+        course.GroupOfCourse = dto.GroupOfCourse;
 
         _repository.Update(course);
         await _unitOfWork.Complete();
@@ -77,13 +79,13 @@ public class CourseAppService : CourseService
     public async Task Delete(int id)
     {
         var course = _repository.FindById(id);
-        if (course==null)
+        if (course == null)
         {
             throw new CourseNotFoundException();
         }
 
         _repository.Delete(course);
-       await _unitOfWork.Complete();
+        await _unitOfWork.Complete();
     }
 
     private static void StopIfCourseUnitCountEqualByZero(int unitCount)

@@ -35,7 +35,8 @@ public class EFCourseRepository : CourseRepository
                 DayOfWeek = _.DayOfWeek,
                 StartHour = _.StartHour,
                 EndHour = _.EndHour,
-                ClassId = _.ClassId
+                ClassId = _.ClassId,
+                GroupOfCourse = _.GroupOfCourse
             }).ToList();
     }
 
@@ -50,7 +51,8 @@ public class EFCourseRepository : CourseRepository
                 UnitCount = _.UnitCount,
                 StartHour = _.StartHour,
                 EndHour = _.EndHour,
-                ClassId = _.ClassId
+                ClassId = _.ClassId,
+                GroupOfCourse = _.GroupOfCourse
             }).FirstOrDefault()!;
     }
 
@@ -64,7 +66,8 @@ public class EFCourseRepository : CourseRepository
                 DayOfWeek = _.DayOfWeek,
                 StartHour = _.StartHour,
                 EndHour = _.EndHour,
-                UnitCount = _.UnitCount
+                UnitCount = _.UnitCount,
+                GroupOfCourse = _.GroupOfCourse
             }).FirstOrDefault()!;
     }
 

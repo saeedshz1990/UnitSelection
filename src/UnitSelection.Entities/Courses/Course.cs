@@ -16,6 +16,7 @@ public class Course
     public string StartHour { get; set; }= string.Empty;
     public string EndHour { get; set; }= string.Empty;
     public string DayOfWeek { get; set; } = string.Empty;
+    public string GroupOfCourse { get; set; } = string.Empty;
     public int ClassId { get; set; }
     public Class Class { get; set; }
 

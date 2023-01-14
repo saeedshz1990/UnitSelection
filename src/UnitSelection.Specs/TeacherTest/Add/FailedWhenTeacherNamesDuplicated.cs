@@ -1,4 +1,6 @@
 ﻿using FluentAssertions;
+using UnitSelection.Entities.Classes;
+using UnitSelection.Entities.Courses;
 using UnitSelection.Entities.Teachers;
 using UnitSelection.Infrastructure.Test;
 using UnitSelection.Persistence.EF;
@@ -6,7 +8,10 @@ using UnitSelection.Services.Teachers.Contract;
 using UnitSelection.Services.Teachers.Contract.Dto;
 using UnitSelection.Services.Teachers.Exceptions;
 using UnitSelection.Specs.Infrastructure;
+using UnitSelection.TestTools.ClassTestTools;
+using UnitSelection.TestTools.CourseTestTools;
 using UnitSelection.TestTools.TeacherTestTools;
+using UnitSelection.TestTools.TermTestTools;
 using Xunit;
 
 namespace UnitSelection.Specs.TeacherTest.Add;
@@ -17,6 +22,9 @@ public class FailedWhenTeacherNamesDuplicated : EFDataContextDatabaseFixture
     private readonly TeacherService _sut;
     private AddTeacherDto _dto;
     private Teacher _tetacher;
+    private Class _newClass;
+    private Course _course;
+    private Entities.Terms.Term _term;
     private Func<Task> _actualResult;
 
     public FailedWhenTeacherNamesDuplicated(ConfigurationFixture configuration) : base(configuration)
@@ -31,12 +39,19 @@ public class FailedWhenTeacherNamesDuplicated : EFDataContextDatabaseFixture
                      " ملی ‘2294321905’ در سیستم وجود دارد.")]
     private void Given()
     {
+        _term = new TermBuilder().Build();
+        _context.Manipulate(_ => _context.Add(_term));
+        _newClass = ClassFactory.GenerateClass("101", _term.Id);
+        _context.Manipulate(_ => _context.Add(_newClass));
+        _course = new CourseDtoBuilder().WithClassId(_newClass.Id).Build();
+        _context.Manipulate(_ => _context.Add(_course));
         _tetacher = new TeacherBuilder()
             .WithFirstName("آرش")
             .WithLastName("چناری")
             .WithNationalCode("2294321905")
             .WithDiploma("کارشناسی ارشد")
             .WithStudy("مهندسی نرم افزار")
+            .WithCourseId(_course.Id)
             .Build();
         _context.Manipulate(_ => _.Add(_tetacher));
     }
@@ -52,6 +67,7 @@ public class FailedWhenTeacherNamesDuplicated : EFDataContextDatabaseFixture
             .WithNationalCode("2294321905")
             .WithDiploma("کارشناسی ارشد")
             .WithStudy("مهندسی نرم افزار")
+            .WithCourseid(_course.Id)
             .Build();
 
         _actualResult = async () => await _sut.Add(_dto);

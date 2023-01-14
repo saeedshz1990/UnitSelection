@@ -8,4 +8,6 @@ public class AddCourseDto
     public string EndHour { get; set; } = string.Empty;
     public string DayOfWeek { get; set; } = string.Empty;
     public int ClassId { get; set; }
+    public string GroupOfCourse { get; set; } = string.Empty;
+
 }

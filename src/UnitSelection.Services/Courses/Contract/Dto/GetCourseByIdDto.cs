@@ -8,4 +8,6 @@ public class GetCourseByIdDto
     public string EndHour { get; set; } = String.Empty;
     public string DayOfWeek { get; set; } = string.Empty;
     public int ClassId { get; set; }
+    public string GroupOfCourse { get; set; } = string.Empty;
+
 }

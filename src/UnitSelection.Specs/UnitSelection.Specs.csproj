@@ -40,9 +40,12 @@
     <ProjectReference Include="..\UnitSelection.Services\UnitSelection.Services.csproj" />
     <ProjectReference Include="..\UnitSelection.TestTools\UnitSelection.TestTools.csproj" />
   </ItemGroup>
+  
 
   <ItemGroup>
-    <None Remove="appSettings.json" />
+    <None Include="appSettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

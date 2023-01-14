@@ -29,7 +29,9 @@ public class DeleteClass: EFDataContextDatabaseFixture
     {
         _term = new TermBuilder().Build();
         _context.Manipulate(_ => _.Add(_term));
-        _firstClass = ClassFactory.GenerateClass("101", _term.Id);
+        _firstClass = new ClassBuilder()
+            .WithTermId(_term.Id)
+            .Build();
         _context.Manipulate(_ => _.Add(_firstClass));
     }
 

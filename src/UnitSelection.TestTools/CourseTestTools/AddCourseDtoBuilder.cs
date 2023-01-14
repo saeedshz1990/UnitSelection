@@ -16,7 +16,8 @@ public class AddCourseDtoBuilder
             UnitCount = 3,
             StartHour = "10:00",
             EndHour = "13:00",
-            ClassId = 1
+            ClassId = 1,
+            GroupOfCourse = "dummyGroup"
         };
     }
     
@@ -47,6 +48,12 @@ public class AddCourseDtoBuilder
     public AddCourseDtoBuilder WithEndHour(string endHour)
     {
         _dto.EndHour = endHour;
+        return this;
+    }
+    
+    public AddCourseDtoBuilder WithGroupOFCourse(string course)
+    {
+        _dto.GroupOfCourse = course;
         return this;
     }
     

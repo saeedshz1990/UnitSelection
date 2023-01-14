@@ -1,10 +1,16 @@
 ﻿using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
+using UnitSelection.Entities.Classes;
+using UnitSelection.Entities.Courses;
+using UnitSelection.Infrastructure.Test;
 using UnitSelection.Persistence.EF;
 using UnitSelection.Services.Teachers.Contract;
 using UnitSelection.Services.Teachers.Contract.Dto;
 using UnitSelection.Specs.Infrastructure;
+using UnitSelection.TestTools.ClassTestTools;
+using UnitSelection.TestTools.CourseTestTools;
 using UnitSelection.TestTools.TeacherTestTools;
+using UnitSelection.TestTools.TermTestTools;
 using Xunit;
 
 namespace UnitSelection.Specs.TeacherTest.Add;
@@ -13,6 +19,9 @@ public class AddTeacher : EFDataContextDatabaseFixture
 {
     private readonly EFDataContext _context;
     private readonly TeacherService _sut;
+    private Class _newClass;
+    private Entities.Terms.Term _term;
+    private Course _course;
     private AddTeacherDto _dto;
 
     public AddTeacher(ConfigurationFixture configuration) : base(configuration)
@@ -24,6 +33,19 @@ public class AddTeacher : EFDataContextDatabaseFixture
     [BDDHelper.Given("هیچ استادی در سیستم ثبت نشده است")]
     private void Given()
     {
+         _term = new TermBuilder().Build();
+        _context.Manipulate(_ => _context.Add(_term));
+        _newClass = ClassFactory.GenerateClass("101", _term.Id);
+        _context.Manipulate(_ => _context.Add(_newClass));
+        _course = new CourseDtoBuilder()
+            .WithName("ریاضی مهندسی")
+            .WithDayOfWeek("یکشنبه")
+            .WithUnitCount(3)
+            .WithStartHour("10:00")
+            .WithEndHour("13:00")
+            .WithClassId(_newClass.Id)
+            .Build();
+        _context.Manipulate(_ => _.Add(_course));
     }
 
     [BDDHelper.When("یک استاد با نام ‘آرش چناری’با" +
@@ -38,6 +60,7 @@ public class AddTeacher : EFDataContextDatabaseFixture
             .WithNationalCode("2294321905")
             .WithDiploma("کارشناسی ارشد")
             .WithStudy("مهندسی نرم افزار")
+            .WithCourseid(_course.Id)
             .Build();
 
         await _sut.Add(_dto);

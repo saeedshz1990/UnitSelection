@@ -17,6 +17,7 @@ public class FailedWhenClassNameIsDuplicated : EFDataContextDatabaseFixture
     private readonly EFDataContext _context;
     private readonly ClassService _sut;
     private AddClassDto _dto;
+    private Entities.Terms.Term _term;
     private Func<Task> _actualResult;
 
     public FailedWhenClassNameIsDuplicated(
@@ -30,19 +31,18 @@ public class FailedWhenClassNameIsDuplicated : EFDataContextDatabaseFixture
     [BDDHelper.Given("کلاسی با عنوان ‘101’ وجود دارد.")]
     private void Given()
     {
-        var term = new TermBuilder().Build();
-        _context.Manipulate(_ => _context.Add(term));
-        var newClass = ClassFactory.GenerateClass("101", term.Id);
+        _term = new TermBuilder().Build();
+        _context.Manipulate(_ => _context.Add(_term));
+        var newClass = ClassFactory.GenerateClass("101", _term.Id);
         _context.Manipulate(_ => _.Add(newClass));
     }
 
     [BDDHelper.When("یک کلاس با عنوان ‘101’ ثبت می کنم.")]
     private async Task When()
     {
-        var term = new TermBuilder().Build();
-        _context.Manipulate(_ => _context.Add(term));
+
         _dto = AddClassDtoFactory
-            .GenerateAddClassDto("101", term.Id);
+            .GenerateAddClassDto("101", _term.Id);
 
         _actualResult = async () => await _sut.Add(_dto);
     }

@@ -16,7 +16,7 @@ public class ConfigurationFixture
     {
         var settings = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appSettingsTest.json", optional: true, reloadOnChange: false)
+            .AddJsonFile("appSettings.json", optional: true, reloadOnChange: false)
             .AddEnvironmentVariables()
             .AddCommandLine(Environment.GetCommandLineArgs())
             .Build();
