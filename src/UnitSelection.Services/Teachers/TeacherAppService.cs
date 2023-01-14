@@ -65,12 +65,43 @@ public class TeacherAppService : TeacherService
     public async Task Delete(int id)
     {
         var teacher = _repository.FindById(id);
-        if (teacher==null)
+        if (teacher == null)
         {
             throw new TeacherNotFoundException();
         }
 
         _repository.Delete(teacher);
+        await _unitOfWork.Complete();
+    }
+
+    public async Task Update(UpdateTeacherDto dto, int id)
+    {
+        var teacher = _repository.FindById(id);
+        if (teacher == null)
+        {
+            throw new TeacherNotFoundException();
+        }
+
+        var name = _repository.IsExistNationalCode(dto.NationalCode);
+        if (name)
+        {
+            throw new TeacherIsExistException();
+        }
+
+        teacher.FirstName = dto.FirstName;
+        teacher.LastName = dto.LastName;
+        teacher.FatherName = dto.FatherName;
+        teacher.NationalCode = dto.NationalCode;
+        teacher.Address = dto.Address;
+        teacher.CourseId = dto.CourseId;
+        teacher.Study = dto.Study;
+        teacher.Diploma = dto.Diploma;
+        teacher.DateOfBirth = dto.DateOfBirth;
+        teacher.GroupOfCourse = dto.GroupOfCourse;
+        teacher.Mobile.MobileNumber = dto.Mobile.MobileNumber;
+        teacher.Mobile.CountryCallingCode = dto.Mobile.CountryCallingCode;
+
+        _repository.Update(teacher);
         await _unitOfWork.Complete();
 
     }

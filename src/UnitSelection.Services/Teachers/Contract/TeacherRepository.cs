@@ -11,6 +11,7 @@ public interface TeacherRepository : Repository
     GetTeacherByIdDto GetById(int id);
     GetTeacherByCourseIdDto GetTeacherByCourseId(int courseId);
     void Delete(Teacher teacher);
+    void Update(Teacher teacher);
     Teacher? FindById(int id);
     bool IsExistNationalCode(string nationalCode);
 }

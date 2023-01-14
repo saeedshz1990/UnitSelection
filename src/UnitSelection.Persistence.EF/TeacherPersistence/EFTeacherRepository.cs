@@ -83,6 +83,11 @@ public class EFTeacherRepository : TeacherRepository
         _context.Remove(teacher);
     }
 
+    public void Update(Teacher teacher)
+    {
+        _context.Update(teacher);
+    }
+
     public Teacher? FindById(int id)
     {
         return _context.Teachers.FirstOrDefault(_ => _.Id == id);

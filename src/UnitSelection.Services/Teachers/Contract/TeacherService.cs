@@ -10,4 +10,5 @@ public interface TeacherService : Service
     GetTeacherByIdDto GetById(int id);
     GetTeacherByCourseIdDto GetByCourseId(int courseId);
     Task Delete(int id);
+    Task Update(UpdateTeacherDto dto, int id);
 }

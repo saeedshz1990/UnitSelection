@@ -207,4 +207,52 @@ public class TeacherServiceTest
         await actualResult.Should()
             .ThrowExactlyAsync<TeacherNotFoundException>();
     }
+
+    [Fact]
+    public async Task Update_update_Teacher_properly()
+    {
+    }
+
+    [Theory]
+    [InlineData(-1)]
+    public async Task Update_throw_exception_when_teacher_not_found_properly(int invalidId)
+    {
+        var dto = new UpdateTeacherDtoBuilder()
+            .Build();
+        var actualResult = async () => await _sut.Update(dto, invalidId);
+
+        await actualResult.Should()
+            .ThrowExactlyAsync<TeacherNotFoundException>();
+    }
+
+    [Fact]
+    public async Task Update_throw_exception_teacher_is_exist_properly()
+    {
+        var term = new TermBuilder().Build();
+        _context.Manipulate(_ => _context.Add(term));
+        var newClass = ClassFactory.GenerateClass("101", term.Id);
+        _context.Manipulate(_ => _.Add(newClass));
+        var course = new CourseDtoBuilder().Build();
+        _context.Manipulate(_ => _.Add(course));
+        var teacher = new TeacherBuilder()
+            .Build();
+        _context.Manipulate(_ => _.Add(teacher));
+        var secondTeacher = new TeacherBuilder()
+            .WithFirstName("secondDummy")
+            .WithLastName("secondLastDummy")
+            .WithNationalCode("222222")
+            .Build();
+        _context.Manipulate(_ => _.Add(secondTeacher));
+        
+        var dto= new UpdateTeacherDtoBuilder()
+            .WithFirstName("secondDummy")
+            .WithLastName("secondLastDummy")
+            .WithNationalCode("222222")
+            .Build();
+
+        var actualResult = async () => await _sut.Update(dto,teacher.Id);
+        
+        await actualResult.Should()
+            .ThrowExactlyAsync<TeacherIsExistException>();
+    }
 }

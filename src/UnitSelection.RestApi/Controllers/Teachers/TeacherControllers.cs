@@ -44,4 +44,10 @@ public class TeacherControllers : ControllerBase
     {
         _service.Delete(id);
     }
+
+    [HttpPut("{id}")]
+    public async Task Update(UpdateTeacherDto dto, int id)
+    {
+       await _service.Update(dto, id);
+    }
 }
