@@ -1,6 +1,6 @@
 ﻿namespace UnitSelection.Services.Courses.Contract.Dto;
 
-public class AddCourseDto
+public class UpdateCourseDto
 {
     public string Name { get; set; } = String.Empty;
     public int UnitCount { get; set; }

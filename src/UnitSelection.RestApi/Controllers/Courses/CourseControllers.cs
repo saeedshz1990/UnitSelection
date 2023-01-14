@@ -20,4 +20,10 @@ public class CourseControllers : ControllerBase
     {
         _service.Add(dto);
     }
+
+    [HttpPut("{id}")]
+    public async Task Update(int id, UpdateCourseDto dto)
+    {
+        _service.Update(dto, id);
+    }
 }

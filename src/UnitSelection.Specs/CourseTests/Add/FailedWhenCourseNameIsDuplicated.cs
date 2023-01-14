@@ -12,7 +12,7 @@ using UnitSelection.TestTools.CourseTestTools;
 using UnitSelection.TestTools.TermTestTools;
 using Xunit;
 
-namespace UnitSelection.Specs.Courses.Add;
+namespace UnitSelection.Specs.CourseTests.Add;
 
 public class FailedWhenCourseNameIsDuplicated : EFDataContextDatabaseFixture
 {

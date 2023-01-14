@@ -21,9 +21,9 @@ public class CourseAppService : CourseService
 
     public async Task Add(AddCourseDto dto)
     {
-        StopIfCourseNameIsDuplicated(dto);
+        StopIfCourseNameIsDuplicated(dto.Name);
 
-        StopIfCourseUnitCountequalOrLowerThanZero(dto);
+        StopIfCourseUnitCountEqualByZero(dto.UnitCount);
 
         var course = new Course
         {
@@ -36,22 +36,50 @@ public class CourseAppService : CourseService
         };
 
         _repository.Add(course);
-       await _unitOfWork.Complete();
+        await _unitOfWork.Complete();
     }
 
-    private static void StopIfCourseUnitCountequalOrLowerThanZero(AddCourseDto dto)
+    public async Task Update(UpdateCourseDto dto, int id)
     {
-        if (dto.UnitCount <= 0)
+        var course = _repository.FindById(id);
+        StopIfCourseNotFound(course);
+
+        StopIfCourseNameIsDuplicated(dto.Name);
+
+        StopIfCourseUnitCountEqualByZero(dto.UnitCount);
+
+        course.Name = dto.Name;
+        course.DayOfWeek = dto.DayOfWeek;
+        course.UnitCount = dto.UnitCount;
+        course.StartHour = dto.StartHour;
+        course.EndHour = dto.EndHour;
+        course.ClassId = dto.ClassId;
+
+        _repository.Update(course);
+        await _unitOfWork.Complete();
+    }
+
+    private static void StopIfCourseUnitCountEqualByZero(int unitCount)
+    {
+        if (unitCount <= 0)
         {
             throw new CourseUnitCountCanNotBeZeroException();
         }
     }
 
-    private void StopIfCourseNameIsDuplicated(AddCourseDto dto)
+    private void StopIfCourseNameIsDuplicated(string name)
     {
-        if (_repository.IsCourseNameExist(dto.Name))
+        if (_repository.IsCourseNameExist(name))
         {
             throw new TheCourseNameWithSameTeacherException();
+        }
+    }
+
+    private static void StopIfCourseNotFound(Course course)
+    {
+        if (course == null)
+        {
+            throw new CourseNotFoundException();
         }
     }
 }

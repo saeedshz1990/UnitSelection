@@ -3,7 +3,8 @@ using UnitSelection.Services.Courses.Contract.Dto;
 
 namespace UnitSelection.Services.Courses.Contract;
 
-public interface CourseService :Service
+public interface CourseService : Service
 {
     Task Add(AddCourseDto dto);
+    Task Update(UpdateCourseDto dto, int id);
 }
