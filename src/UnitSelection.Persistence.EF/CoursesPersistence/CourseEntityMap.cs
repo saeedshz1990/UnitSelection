@@ -23,5 +23,9 @@ public class CourseEntityMap:IEntityTypeConfiguration<Course>
         builder.HasOne(_ => _.Class)
             .WithMany(_ => _.Courses)
             .HasForeignKey(_ => _.ClassId);
+
+        builder.HasMany(_ => _.Teachers)
+            .WithOne(_ => _.Course)
+            .HasForeignKey(_ => _.CourseId);
     }
 }

@@ -43,7 +43,6 @@
 
   <ItemGroup>
     <None Remove="appSettings.json" />
-    <Content Include="appsettings.json" />
   </ItemGroup>
 
 </Project>

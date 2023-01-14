@@ -375,11 +375,11 @@ public class CourseServiceTest
 
     [Theory]
     [InlineData(-1)]
-    public async Task Delete_throw_exception_when_course_notFound(int invalidId)
+    public async Task Delete_throw_exception_when_course_notFound_properly(int invalidId)
     {
         var actualResult = async () => await _sut.Delete(invalidId);
         
         await actualResult.Should()
-            .ThrowExactlyAsync<TheCourseNameWithSameTeacherException>();
+            .ThrowExactlyAsync<CourseNotFoundException>();
     }
 }
