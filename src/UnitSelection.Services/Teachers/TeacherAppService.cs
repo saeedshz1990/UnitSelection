@@ -46,4 +46,19 @@ public class TeacherAppService : TeacherService
         _repository.Add(teacher);
         await _unitOfWork.Complete();
     }
+
+    public IList<GetTeacherDto> GetAll()
+    {
+        return _repository.GetAll();
+    }
+
+    public GetTeacherByIdDto GetById(int id)
+    {
+        return _repository.GetById(id);
+    }
+
+    public GetTeacherByCourseIdDto GetByCourseId(int courseId)
+    {
+        return _repository.GetTeacherByCourseId(courseId);
+    }
 }

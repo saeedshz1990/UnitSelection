@@ -80,8 +80,99 @@ public class TeacherServiceTest
             .Build();
 
         var actualResult = async () => await _sut.Add(dto);
-        
+
         await actualResult.Should()
             .ThrowExactlyAsync<TeacherIsExistException>();
+    }
+
+    [Fact]
+    public async Task Get_get_all_teacher_properly()
+    {
+        var term = new TermBuilder().Build();
+        _context.Manipulate(_ => _context.Add(term));
+        var newClass = ClassFactory.GenerateClass("101", term.Id);
+        _context.Manipulate(_ => _.Add(newClass));
+        var course = new CourseDtoBuilder().Build();
+        _context.Manipulate(_ => _.Add(course));
+        var teacher = new TeacherBuilder()
+            .WithFirstName("آرش")
+            .WithLastName("چناری")
+            .WithNationalCode("2294321905")
+            .Build();
+        _context.Manipulate(_ => _.Add(teacher));
+
+        _sut.GetAll();
+
+        var actualResult = await _context.Teachers.ToListAsync();
+        actualResult.Should().HaveCount(1);
+    }
+
+    [Fact]
+    public async Task Get_get_all_teacher_when_not_any_teacher_added_properly()
+    {
+        _sut.GetAll();
+
+        var actualResult = await _context.Teachers.ToListAsync();
+        actualResult.Should().HaveCount(0);
+    }
+
+    [Fact]
+    public async Task Get_get_by_id_teacher_properly()
+    {
+        var term = new TermBuilder().Build();
+        _context.Manipulate(_ => _context.Add(term));
+        var newClass = ClassFactory.GenerateClass("101", term.Id);
+        _context.Manipulate(_ => _.Add(newClass));
+        var course = new CourseDtoBuilder().Build();
+        _context.Manipulate(_ => _.Add(course));
+        var teacher = new TeacherBuilder()
+            .WithFirstName("آرش")
+            .WithLastName("چناری")
+            .WithNationalCode("2294321905")
+            .Build();
+        _context.Manipulate(_ => _.Add(teacher));
+
+        _sut.GetById(teacher.Id);
+
+        var actualResult = await _context.Teachers.FirstOrDefaultAsync();
+        actualResult!.FirstName.Should().Be(teacher.FirstName);
+        actualResult.LastName.Should().Be(teacher.LastName);
+        actualResult.FatherName.Should().Be(teacher.FatherName);
+        actualResult.NationalCode.Should().Be(teacher.NationalCode);
+        actualResult.Address.Should().Be(teacher.Address);
+        actualResult.Diploma.Should().Be(teacher.Diploma);
+        actualResult.Study.Should().Be(teacher.Study);
+        actualResult.DateOfBirth.Should().Be(teacher.DateOfBirth);
+        actualResult.CourseId.Should().Be(teacher.CourseId);
+        actualResult.GroupOfCourse.Should().Be(teacher.GroupOfCourse);
+    }
+
+    [Fact]
+    public async Task Get_get_by_course_id_properly()
+    {
+        var term = new TermBuilder().Build();
+        _context.Manipulate(_ => _context.Add(term));
+        var newClass = ClassFactory.GenerateClass("101", term.Id);
+        _context.Manipulate(_ => _.Add(newClass));
+        var course = new CourseDtoBuilder().Build();
+        _context.Manipulate(_ => _.Add(course));
+        var teacher = new TeacherBuilder()
+            .WithFirstName("آرش")
+            .WithLastName("چناری")
+            .WithNationalCode("2294321905")
+            .Build();
+        _context.Manipulate(_ => _.Add(teacher));
+
+        _sut.GetByCourseId(course.Id);
+
+        var actualResult = await _context.Teachers.FirstOrDefaultAsync();
+        actualResult!.FirstName.Should().Be(teacher.FirstName);
+        actualResult.LastName.Should().Be(teacher.LastName);
+        actualResult.FatherName.Should().Be(teacher.FatherName);
+        actualResult.NationalCode.Should().Be(teacher.NationalCode);
+        actualResult.Address.Should().Be(teacher.Address);
+        actualResult.Diploma.Should().Be(teacher.Diploma);
+        actualResult.Study.Should().Be(teacher.Study);
+        actualResult.DateOfBirth.Should().Be(teacher.DateOfBirth);
     }
 }

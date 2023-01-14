@@ -1,9 +1,12 @@
-﻿using UnitSelection.Entities.Teachers;
+﻿using Microsoft.EntityFrameworkCore;
+using UnitSelection.Entities;
+using UnitSelection.Entities.Teachers;
 using UnitSelection.Services.Teachers.Contract;
+using UnitSelection.Services.Teachers.Contract.Dto;
 
 namespace UnitSelection.Persistence.EF.TeacherPersistence;
 
-public class EFTeacherRepository :TeacherRepository
+public class EFTeacherRepository : TeacherRepository
 {
     private readonly EFDataContext _context;
 
@@ -15,6 +18,64 @@ public class EFTeacherRepository :TeacherRepository
     public void Add(Teacher teacher)
     {
         _context.Add(teacher);
+    }
+
+    public IList<GetTeacherDto> GetAll()
+    {
+        return _context.Teachers.Select(_ => new GetTeacherDto
+        {
+            Id = _.Id,
+            FirstName = _.FirstName,
+            LastName = _.LastName,
+            FatherName = _.FatherName,
+            NationalCode = _.NationalCode,
+            Address = _.Address,
+            Study = _.Study,
+            Diploma = _.Diploma,
+            DateOfBirth = _.DateOfBirth,
+            GroupOfCourse = _.GroupOfCourse,
+            Mobile = new GetMobileDto(_.Mobile.CountryCallingCode, _.Mobile.MobileNumber),
+            CourseId = _.CourseId
+        }).ToList();
+    }
+
+    public GetTeacherByIdDto GetById(int id)
+    {
+        return _context.Teachers
+            .Where(_ => _.Id == id)
+            .Select(_ => new GetTeacherByIdDto
+            {
+                FirstName = _.FirstName,
+                LastName = _.LastName,
+                FatherName = _.FatherName,
+                NationalCode = _.NationalCode,
+                Address = _.Address,
+                Study = _.Study,
+                Diploma = _.Diploma,
+                DateOfBirth = _.DateOfBirth,
+                GroupOfCourse = _.GroupOfCourse,
+                Mobile = new GetMobileDto(_.Mobile.CountryCallingCode, _.Mobile.MobileNumber),
+                CourseId = _.CourseId
+            }).FirstOrDefault()!;
+    }
+
+    public GetTeacherByCourseIdDto GetTeacherByCourseId(int courseId)
+    {
+        return _context.Teachers
+            .Where(_=>_.CourseId==courseId)
+            .Select(_ => new GetTeacherByCourseIdDto()
+            {
+                FirstName = _.FirstName,
+                LastName = _.LastName,
+                FatherName = _.FatherName,
+                NationalCode = _.NationalCode,
+                Address = _.Address,
+                Study = _.Study,
+                Diploma = _.Diploma,
+                DateOfBirth = _.DateOfBirth,
+                GroupOfCourse = _.GroupOfCourse,
+                Mobile = new GetMobileDto(_.Mobile.CountryCallingCode, _.Mobile.MobileNumber)
+            }).FirstOrDefault()!;
     }
 
     public bool IsExistNationalCode(string nationalCode)
