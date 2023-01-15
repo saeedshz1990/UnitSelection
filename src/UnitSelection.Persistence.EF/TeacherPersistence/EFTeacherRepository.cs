@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using UnitSelection.Entities;
 using UnitSelection.Entities.Teachers;
-using UnitSelection.Services.Teachers.Contract;
-using UnitSelection.Services.Teachers.Contract.Dto;
+using UnitSelection.Services.TeacherServices.Contract;
+using UnitSelection.Services.TeacherServices.Contract.Dto;
 
 namespace UnitSelection.Persistence.EF.TeacherPersistence;
 

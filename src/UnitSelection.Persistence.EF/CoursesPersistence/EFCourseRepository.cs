@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using UnitSelection.Entities.Courses;
-using UnitSelection.Services.Courses.Contract;
-using UnitSelection.Services.Courses.Contract.Dto;
+using UnitSelection.Services.CourseServices.Contract;
+using UnitSelection.Services.CourseServices.Contract.Dto;
 
 namespace UnitSelection.Persistence.EF.CoursesPersistence;
 

@@ -1,4 +1,4 @@
-﻿using UnitSelection.Services.Classes.Contract.Dto;
+﻿using UnitSelection.Services.ClassServices.Contract.Dto;
 
 namespace UnitSelection.TestTools.ClassTestTools;
 

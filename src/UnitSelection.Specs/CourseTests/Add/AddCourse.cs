@@ -2,8 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using UnitSelection.Infrastructure.Test;
 using UnitSelection.Persistence.EF;
-using UnitSelection.Services.Courses.Contract;
-using UnitSelection.Services.Courses.Contract.Dto;
+using UnitSelection.Services.CourseServices.Contract;
+using UnitSelection.Services.CourseServices.Contract.Dto;
 using UnitSelection.Specs.Infrastructure;
 using UnitSelection.TestTools.ClassTestTools;
 using UnitSelection.TestTools.CourseTestTools;

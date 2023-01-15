@@ -1,7 +1,7 @@
 ﻿using UnitSelection.Persistence.EF;
 using UnitSelection.Persistence.EF.TeacherPersistence;
-using UnitSelection.Services.Teachers;
-using UnitSelection.Services.Teachers.Contract;
+using UnitSelection.Services.TeacherServices;
+using UnitSelection.Services.TeacherServices.Contract;
 
 namespace UnitSelection.TestTools.TeacherTestTools;
 

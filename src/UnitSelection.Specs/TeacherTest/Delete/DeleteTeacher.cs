@@ -4,7 +4,7 @@ using UnitSelection.Entities.Courses;
 using UnitSelection.Entities.Teachers;
 using UnitSelection.Infrastructure.Test;
 using UnitSelection.Persistence.EF;
-using UnitSelection.Services.Teachers.Contract;
+using UnitSelection.Services.TeacherServices.Contract;
 using UnitSelection.Specs.Infrastructure;
 using UnitSelection.TestTools.ClassTestTools;
 using UnitSelection.TestTools.CourseTestTools;

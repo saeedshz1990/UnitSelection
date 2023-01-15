@@ -1,7 +1,7 @@
 ﻿using UnitSelection.Persistence.EF;
 using UnitSelection.Persistence.EF.CoursesPersistence;
-using UnitSelection.Services.Courses;
-using UnitSelection.Services.Courses.Contract;
+using UnitSelection.Services.CourseServices;
+using UnitSelection.Services.CourseServices.Contract;
 
 namespace UnitSelection.TestTools.CourseTestTools;
 

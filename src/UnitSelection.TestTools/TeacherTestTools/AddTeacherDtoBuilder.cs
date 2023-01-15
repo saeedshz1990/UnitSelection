@@ -1,5 +1,5 @@
 ﻿using System.Security.Cryptography.X509Certificates;
-using UnitSelection.Services.Teachers.Contract.Dto;
+using UnitSelection.Services.TeacherServices.Contract.Dto;
 
 namespace UnitSelection.TestTools.TeacherTestTools;
 

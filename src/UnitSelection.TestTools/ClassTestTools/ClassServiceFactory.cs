@@ -1,8 +1,8 @@
 ﻿using UnitSelection.Persistence.EF;
-using UnitSelection.Persistence.EF.Classes;
+using UnitSelection.Persistence.EF.ClassPersistence;
 using UnitSelection.Persistence.EF.Terms;
-using UnitSelection.Services.Classes;
-using UnitSelection.Services.Classes.Contract;
+using UnitSelection.Services.ClassServices;
+using UnitSelection.Services.ClassServices.Contract;
 
 namespace UnitSelection.TestTools.ClassTestTools;
 

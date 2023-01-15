@@ -1,5 +1,6 @@
 using Autofac.Extensions.DependencyInjection;
-using UnitSelection.RestApi;
+
+namespace UnitSelection.RestApi;
 
 public class Program
 {

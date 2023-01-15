@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using UnitSelection.Services.Classes.Contract;
-using UnitSelection.Services.Classes.Contract.Dto;
+using UnitSelection.Services.ClassServices.Contract;
+using UnitSelection.Services.ClassServices.Contract.Dto;
 
 namespace UnitSelection.RestApi.Controllers.Classes;
 
