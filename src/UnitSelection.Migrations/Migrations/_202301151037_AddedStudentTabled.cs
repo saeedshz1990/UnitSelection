@@ -21,6 +21,6 @@ public class _202301151037_AddedStudentTabled:Migration
 
     public override void Down()
     {
-        throw new NotImplementedException();
+        Delete.Table("Students");
     }
 }

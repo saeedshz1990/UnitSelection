@@ -1,4 +1,5 @@
-﻿using UnitSelection.Entities.Students;
+﻿using Microsoft.EntityFrameworkCore;
+using UnitSelection.Entities.Students;
 using UnitSelection.Services.StudentServices.Contracts;
 
 namespace UnitSelection.Persistence.EF.StudentPersistence;
@@ -15,6 +16,16 @@ public class EFStudentRepository : StudentRepository
     public void Add(Student student)
     {
         _context.Add(student);
+    }
+
+    public void Update(Student dto)
+    {
+        _context.Update(dto);
+    }
+
+    public Student? FindById(int id)
+    {
+        return _context.Students.FirstOrDefault(_ => _.Id == id);
     }
 
     public bool IsExistNationalCode(string nationalCode)

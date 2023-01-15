@@ -44,4 +44,24 @@ public class StudentAppService : StudentService
         _repository.Add(student);
         await _unitOfWork.Complete();
     }
+
+    public async Task Update(UpdateStudentDto dto, int id)
+    {
+        var student = _repository.FindById(id);
+        if (student==null)
+        {
+            throw new StudentNotFoundException();
+        }
+
+        student.FirstName = dto.FirstName;
+        student.LastName = dto.LastName;
+        student.FatherName = dto.FatherName;
+        student.Address = dto.Address;
+        student.DateOfBirth = dto.DateOfBirth;
+        student.Mobile.MobileNumber = dto.Mobile.MobileNumber;
+        student.Mobile.CountryCallingCode = dto.Mobile.CountryCallingCode;
+        
+        _repository.Update(student);
+       await _unitOfWork.Complete();
+    }
 }

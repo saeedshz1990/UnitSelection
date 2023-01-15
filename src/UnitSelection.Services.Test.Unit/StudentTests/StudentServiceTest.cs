@@ -53,4 +53,53 @@ public class StudentServiceTest
        await actualResult.Should().
             ThrowExactlyAsync<StudentIsExistException>();
     }
+
+    [Fact]
+    public async Task Update_update_student_propely()
+    {
+        
+    }
+
+    [Theory]
+    [InlineData(-1)]
+    public async Task Update_throw_exception_when_student_not_exist_properly(int invalidId)
+    {
+        var dto=new UpdateStudentDtoBuilder()
+            .WithFirstName("محمدرضا")
+            .WithLastName("انصاری")
+            .WithFatherName("محمدجواد")
+            .WithDateOfBirth("1369")
+            .WithMobileNumber("9177877225", "98")
+            .Build();
+
+       var actualResult= async ()=> await _sut.Update(dto,invalidId);
+      
+       await actualResult.Should().
+           ThrowExactlyAsync<StudentNotFoundException>();
+    }
+
+    [Fact]
+    public async Task Update_throw_exception_when_student_is_exist_properly()
+    {
+        var student = new StudentBuilder()
+            .Build();
+        _context.Manipulate(_ => _.Add(student));
+        var secondStudent = new StudentBuilder()
+            .WithFirstName("secondDummy")
+            .WithLastName("secondLast")
+            .WithNationalCode("secondCode")
+            .WithMobileNumber("secondMob","98")
+            .Build();
+        _context.Manipulate(_ => _.Add(secondStudent));
+        var dto = new UpdateStudentDtoBuilder()
+                .WithFirstName("secondDummy")
+                .WithLastName("secondLast")
+                .WithMobileNumber("secondMob","98")
+                .Build();
+        
+        var actualResult= async ()=> await _sut.Update(dto,student.Id);
+        
+        await actualResult.Should().
+            ThrowExactlyAsync<StudentIsExistException>();
+    }
 }
