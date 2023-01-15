@@ -7,4 +7,6 @@ public interface StudentService : Service
 {
     Task Add(AddStudentDto dto);
     Task Update(UpdateStudentDto dto, int id);
+    IList<GetStudentDto> GetAll();
+    GetStudentByIdDto GetById(int id);
 }

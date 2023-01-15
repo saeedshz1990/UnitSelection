@@ -48,7 +48,7 @@ public class StudentAppService : StudentService
     public async Task Update(UpdateStudentDto dto, int id)
     {
         var student = _repository.FindById(id);
-        if (student==null)
+        if (student == null)
         {
             throw new StudentNotFoundException();
         }
@@ -60,8 +60,18 @@ public class StudentAppService : StudentService
         student.DateOfBirth = dto.DateOfBirth;
         student.Mobile.MobileNumber = dto.Mobile.MobileNumber;
         student.Mobile.CountryCallingCode = dto.Mobile.CountryCallingCode;
-        
+
         _repository.Update(student);
-       await _unitOfWork.Complete();
+        await _unitOfWork.Complete();
+    }
+
+    public IList<GetStudentDto> GetAll()
+    {
+        return _repository.GetAll();
+    }
+
+    public GetStudentByIdDto GetById(int id)
+    {
+        return _repository.GetById(id);
     }
 }

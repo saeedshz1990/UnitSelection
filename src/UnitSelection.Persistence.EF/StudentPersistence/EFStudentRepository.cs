@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using UnitSelection.Entities.Students;
 using UnitSelection.Services.StudentServices.Contracts;
+using UnitSelection.Services.StudentServices.Contracts.Dto;
+using UnitSelection.Services.TeacherServices.Contract.Dto;
 
 namespace UnitSelection.Persistence.EF.StudentPersistence;
 
@@ -21,6 +23,41 @@ public class EFStudentRepository : StudentRepository
     public void Update(Student dto)
     {
         _context.Update(dto);
+    }
+
+    public IList<GetStudentDto> GetAll()
+    {
+        return _context.Students.Select(_ => new GetStudentDto
+        {
+            Id = _.Id,
+            FirstName = _.FirstName,
+            LastName = _.LastName,
+            FatherName = _.FatherName,
+            NationalCode = _.NationalCode,
+            DateOfBirth = _.DateOfBirth,
+            Address = _.Address,
+            Mobile = new GetMobileDto(
+                _.Mobile.CountryCallingCode,
+                _.Mobile.MobileNumber)
+        }).ToList();
+    }
+
+    public GetStudentByIdDto GetById(int id)
+    {
+        return _context.Students
+            .Where(_ => _.Id == id)
+            .Select(_ => new GetStudentByIdDto
+        {
+            FirstName = _.FirstName,
+            LastName = _.LastName,
+            FatherName = _.FatherName,
+            NationalCode = _.NationalCode,
+            DateOfBirth = _.DateOfBirth,
+            Address = _.Address,
+            Mobile = new GetMobileDto(
+                _.Mobile.CountryCallingCode,
+                _.Mobile.MobileNumber)
+        }).FirstOrDefault()!;
     }
 
     public Student? FindById(int id)

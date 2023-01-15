@@ -26,4 +26,16 @@ public class StudentControllers : ControllerBase
     {
         await _service.Update(dto, id);
     }
+
+    [HttpGet]
+    public IList<GetStudentDto> GetAll()
+    {
+        return _service.GetAll();
+    }
+
+    [HttpGet("{id}")]
+    public GetStudentByIdDto GetById(int id)
+    {
+        return _service.GetById(id);
+    }
 }
