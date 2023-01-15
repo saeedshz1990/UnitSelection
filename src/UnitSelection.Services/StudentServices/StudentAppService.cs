@@ -74,4 +74,16 @@ public class StudentAppService : StudentService
     {
         return _repository.GetById(id);
     }
+
+    public async Task Delete(int id)
+    {
+        var student = _repository.FindById(id);
+        if (student == null)
+        {
+            throw new StudentNotFoundException();
+        }
+
+        _repository.Delete(student);
+       await _unitOfWork.Complete();
+    }
 }

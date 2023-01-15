@@ -9,4 +9,5 @@ public interface StudentService : Service
     Task Update(UpdateStudentDto dto, int id);
     IList<GetStudentDto> GetAll();
     GetStudentByIdDto GetById(int id);
+    Task Delete(int id);
 }

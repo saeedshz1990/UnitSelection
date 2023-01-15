@@ -10,6 +10,7 @@ public interface StudentRepository : Repository
     void Update(Student dto);
     IList<GetStudentDto> GetAll();
     GetStudentByIdDto GetById(int id);
+    void Delete(Student student);
     Student? FindById(int id);
     bool IsExistNationalCode(string nationalCode);
 }

@@ -47,17 +47,22 @@ public class EFStudentRepository : StudentRepository
         return _context.Students
             .Where(_ => _.Id == id)
             .Select(_ => new GetStudentByIdDto
-        {
-            FirstName = _.FirstName,
-            LastName = _.LastName,
-            FatherName = _.FatherName,
-            NationalCode = _.NationalCode,
-            DateOfBirth = _.DateOfBirth,
-            Address = _.Address,
-            Mobile = new GetMobileDto(
-                _.Mobile.CountryCallingCode,
-                _.Mobile.MobileNumber)
-        }).FirstOrDefault()!;
+            {
+                FirstName = _.FirstName,
+                LastName = _.LastName,
+                FatherName = _.FatherName,
+                NationalCode = _.NationalCode,
+                DateOfBirth = _.DateOfBirth,
+                Address = _.Address,
+                Mobile = new GetMobileDto(
+                    _.Mobile.CountryCallingCode,
+                    _.Mobile.MobileNumber)
+            }).FirstOrDefault()!;
+    }
+
+    public void Delete(Student student)
+    {
+        _context.Remove(student);
     }
 
     public Student? FindById(int id)

@@ -64,11 +64,11 @@ public class StudentServiceTest
             .WithLastName("updatedLast")
             .WithMobileNumber("updatedMob", "98")
             .Build();
-        
+
         await _sut.Update(dto, student.Id);
-        
+
         var actualResult = await _context.Students
-            .FirstOrDefaultAsync(_=>_.Id==student.Id);
+            .FirstOrDefaultAsync(_ => _.Id == student.Id);
         actualResult!.FirstName.Should().Be(dto.FirstName);
         actualResult.LastName.Should().Be(dto.LastName);
         actualResult.FatherName.Should().Be(dto.FatherName);
@@ -133,7 +133,7 @@ public class StudentServiceTest
             .Build();
         _context.Manipulate(_ => _.Add(secondStudent));
 
-         _sut.GetAll();
+        _sut.GetAll();
 
         var actualResult = await _context.Students.ToListAsync();
         actualResult.Should().HaveCount(2);
@@ -142,7 +142,7 @@ public class StudentServiceTest
     [Fact]
     public async Task Get_get_all_not_any_student_exist_properly()
     {
-         _sut.GetAll();
+        _sut.GetAll();
 
         var actualResult = await _context.Students.ToListAsync();
         actualResult.Should().HaveCount(0);
@@ -162,11 +162,11 @@ public class StudentServiceTest
             .Build();
         _context.Manipulate(_ => _.Add(secondStudent));
 
-         _sut.GetById(student.Id);
+        _sut.GetById(student.Id);
 
         var actualResult = await _context.Students
             .FirstOrDefaultAsync(_ => _.Id == student.Id);
-        
+
         actualResult!.FirstName.Should().Be(student.FirstName);
         actualResult.LastName.Should().Be(student.LastName);
         actualResult.FatherName.Should().Be(student.FatherName);
@@ -175,5 +175,27 @@ public class StudentServiceTest
         actualResult.DateOfBirth.Should().Be(student.DateOfBirth);
         actualResult.Mobile.MobileNumber.Should().Be(student.Mobile.MobileNumber);
         actualResult.Mobile.CountryCallingCode.Should().Be(student.Mobile.CountryCallingCode);
+    }
+
+    [Fact]
+    public async Task Delete_delete_student_properly()
+    {
+        var student = new StudentBuilder()
+            .Build();
+        _context.Manipulate(_ => _.Add(student));
+
+       await _sut.Delete(student.Id);
+
+        var actualResult = await _context.Students.ToListAsync();
+        actualResult.Should().HaveCount(0);
+    }
+
+    [Theory]
+    [InlineData(-1)]
+    public async Task Delete_throw_exception_when_student_not_found_properly(int invalidId)
+    {
+        var actualResult = async () => await _sut.Delete(invalidId);
+
+        await actualResult.Should().ThrowExactlyAsync<StudentNotFoundException>();
     }
 }
