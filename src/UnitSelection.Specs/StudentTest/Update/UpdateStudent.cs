@@ -2,28 +2,29 @@
 using Microsoft.EntityFrameworkCore;
 using UnitSelection.Entities.Students;
 using UnitSelection.Infrastructure.Test;
+using UnitSelection.Infrastructures.Test;
+using UnitSelection.Infrastructures.Test.Infrastructure;
 using UnitSelection.Persistence.EF;
 using UnitSelection.Services.StudentServices.Contracts;
 using UnitSelection.Services.StudentServices.Contracts.Dto;
-using UnitSelection.Specs.Infrastructure;
 using UnitSelection.TestTools.StudentTestTools;
 using Xunit;
 
 namespace UnitSelection.Specs.StudentTest.Update;
 
-public class UpdateStudent:EFDataContextDatabaseFixture
+public class UpdateStudent : EFDataContextDatabaseFixture
 {
     private readonly EFDataContext _context;
     private readonly StudentService _sut;
     private UpdateStudentDto _dto;
     private Student _student;
-    
+
     public UpdateStudent(ConfigurationFixture configuration) : base(configuration)
     {
         _context = CreateDataContext();
         _sut = StudentServiceFactory.GenerateStudentService(_context);
     }
-    
+
     [BDDHelper.Given("یک دانشجو با نام" +
                      " ‘ سعید انصاری’ به تاریخ تولد ‘1369’" +
                      " و شماره شناسنامه ‘2280509504 ‘ " +
@@ -47,7 +48,7 @@ public class UpdateStudent:EFDataContextDatabaseFixture
                     "با رشته تحصیلی ‘کامپیوتر’ ویرایش می کنم.")]
     private async Task When()
     {
-        _dto=new UpdateStudentDtoBuilder()
+        _dto = new UpdateStudentDtoBuilder()
             .WithFirstName("محمدرضا")
             .WithLastName("انصاری")
             .WithFatherName("محمدجواد")
@@ -55,7 +56,7 @@ public class UpdateStudent:EFDataContextDatabaseFixture
             .WithMobileNumber("9177877225", "98")
             .Build();
 
-        await _sut.Update(_dto,_student.Id);
+        await _sut.Update(_dto, _student.Id);
     }
 
     [BDDHelper.Then("تنها یک دانشجو با نام " +
@@ -73,7 +74,6 @@ public class UpdateStudent:EFDataContextDatabaseFixture
         actualResult.DateOfBirth.Should().Be(_dto.DateOfBirth);
         actualResult.Mobile.MobileNumber.Should().Be(_dto.Mobile.MobileNumber);
         actualResult.Mobile.CountryCallingCode.Should().Be(_dto.Mobile.CountryCallingCode);
-        
     }
 
     [Fact]

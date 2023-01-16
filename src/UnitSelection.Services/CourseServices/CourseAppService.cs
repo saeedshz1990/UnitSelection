@@ -1,4 +1,5 @@
-﻿using UnitSelection.Entities.Courses;
+﻿using SQLitePCL;
+using UnitSelection.Entities.Courses;
 using UnitSelection.Infrastructure.Application;
 using UnitSelection.Services.CourseServices.Contract;
 using UnitSelection.Services.CourseServices.Contract.Dto;
@@ -86,6 +87,11 @@ public class CourseAppService : CourseService
 
         _repository.Delete(course);
         await _unitOfWork.Complete();
+    }
+
+    public Course GetCourseById(int id)
+    {
+        return _repository.GetCourseById(id);
     }
 
     private static void StopIfCourseUnitCountEqualByZero(int unitCount)

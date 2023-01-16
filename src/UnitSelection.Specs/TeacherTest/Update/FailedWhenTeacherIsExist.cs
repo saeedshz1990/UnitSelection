@@ -3,11 +3,12 @@ using UnitSelection.Entities.Classes;
 using UnitSelection.Entities.Courses;
 using UnitSelection.Entities.Teachers;
 using UnitSelection.Infrastructure.Test;
+using UnitSelection.Infrastructures.Test;
+using UnitSelection.Infrastructures.Test.Infrastructure;
 using UnitSelection.Persistence.EF;
 using UnitSelection.Services.TeacherServices.Contract;
 using UnitSelection.Services.TeacherServices.Contract.Dto;
 using UnitSelection.Services.TeacherServices.Exceptions;
-using UnitSelection.Specs.Infrastructure;
 using UnitSelection.TestTools.ClassTestTools;
 using UnitSelection.TestTools.CourseTestTools;
 using UnitSelection.TestTools.TeacherTestTools;
@@ -28,7 +29,9 @@ public class FailedWhenTeacherIsExist : EFDataContextDatabaseFixture
     private UpdateTeacherDto _dto;
     private Func<Task> _actualResult;
 
-    public FailedWhenTeacherIsExist(ConfigurationFixture configuration) : base(configuration)
+    public FailedWhenTeacherIsExist(
+        ConfigurationFixture configuration) 
+        : base(configuration)
     {
         _context = CreateDataContext();
         _sut = TeacherServiceFactory.GenerateTeacherService(_context);

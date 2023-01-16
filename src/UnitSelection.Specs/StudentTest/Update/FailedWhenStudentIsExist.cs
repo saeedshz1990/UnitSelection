@@ -1,11 +1,12 @@
 ﻿using FluentAssertions;
 using UnitSelection.Entities.Students;
 using UnitSelection.Infrastructure.Test;
+using UnitSelection.Infrastructures.Test;
+using UnitSelection.Infrastructures.Test.Infrastructure;
 using UnitSelection.Persistence.EF;
 using UnitSelection.Services.StudentServices.Contracts;
 using UnitSelection.Services.StudentServices.Contracts.Dto;
 using UnitSelection.Services.StudentServices.Exceptions;
-using UnitSelection.Specs.Infrastructure;
 using UnitSelection.TestTools.StudentTestTools;
 using Xunit;
 
@@ -20,7 +21,8 @@ public class FailedWhenStudentIsExist : EFDataContextDatabaseFixture
     private Student _secondStudent;
     private Func<Task> _actualResult;
 
-    public FailedWhenStudentIsExist(ConfigurationFixture configuration) : base(configuration)
+    public FailedWhenStudentIsExist(ConfigurationFixture configuration) 
+        : base(configuration)
     {
         _context = CreateDataContext();
         _sut = StudentServiceFactory.GenerateStudentService(_context);

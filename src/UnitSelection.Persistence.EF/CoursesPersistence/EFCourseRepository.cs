@@ -85,4 +85,12 @@ public class EFCourseRepository : CourseRepository
     {
         _context.Remove(course);
     }
+
+    public Course GetCourseById(int id)
+    {
+        return _context.Courses
+            .Include(_ => _.Teachers)
+            .Include(_ => _.Class)
+            .FirstOrDefault(_ => _.Id == id)!;
+    }
 }

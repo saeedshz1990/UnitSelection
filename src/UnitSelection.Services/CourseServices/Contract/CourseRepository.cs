@@ -14,4 +14,5 @@ public interface CourseRepository : Repository
     bool IsCourseNameExist(string name);
     Course FindById(int id);
     void Delete(Course course);
+    Course GetCourseById(int id);
 }

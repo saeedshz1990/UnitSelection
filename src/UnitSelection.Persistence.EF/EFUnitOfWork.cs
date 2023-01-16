@@ -20,4 +20,15 @@ public class EFUnitOfWork : UnitOfWork
     {
         await _context.SaveChangesAsync();
     }
+
+    public async Task RollBack()
+    {
+        await _context.Database.RollbackTransactionAsync();
+    }
+
+    public async Task Commit()
+    {
+        await _context.SaveChangesAsync();
+        await _context.Database.CommitTransactionAsync();
+    }
 }

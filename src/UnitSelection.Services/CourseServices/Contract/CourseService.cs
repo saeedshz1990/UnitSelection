@@ -1,4 +1,5 @@
-﻿using UnitSelection.Infrastructure.Application;
+﻿using UnitSelection.Entities.Courses;
+using UnitSelection.Infrastructure.Application;
 using UnitSelection.Services.CourseServices.Contract.Dto;
 
 namespace UnitSelection.Services.CourseServices.Contract;
@@ -11,4 +12,6 @@ public interface CourseService : Service
     GetCourseByIdDto GetById(int id);
     GetCourseByClassIdDto GetByClassId(int classId);
     Task Delete(int id);
+
+    Course GetCourseById(int id);
 }

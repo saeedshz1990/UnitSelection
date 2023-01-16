@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Xunit;
 
-namespace UnitSelection.Specs.Infrastructure;
+namespace UnitSelection.Infrastructures.Test.Infrastructure;
 
 public class ConfigurationFixture
 {

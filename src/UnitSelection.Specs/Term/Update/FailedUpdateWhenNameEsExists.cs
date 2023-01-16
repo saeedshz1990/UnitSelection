@@ -1,10 +1,11 @@
 ﻿using FluentAssertions;
 using UnitSelection.Infrastructure.Test;
+using UnitSelection.Infrastructures.Test;
+using UnitSelection.Infrastructures.Test.Infrastructure;
 using UnitSelection.Persistence.EF;
 using UnitSelection.Services.Terms.Contract;
 using UnitSelection.Services.Terms.Contract.Dto;
 using UnitSelection.Services.Terms.Exceptions;
-using UnitSelection.Specs.Infrastructure;
 using UnitSelection.TestTools.TermTestTools;
 using Xunit;
 
@@ -19,7 +20,9 @@ public class FailedUpdateWhenNameEsExists : EFDataContextDatabaseFixture
     private Entities.Terms.Term _secondTerm;
     private Func<Task> _actualResult;
 
-    public FailedUpdateWhenNameEsExists(ConfigurationFixture configuration) : base(configuration)
+    public FailedUpdateWhenNameEsExists(
+        ConfigurationFixture configuration) 
+        : base(configuration)
     {
         _context = CreateDataContext();
         _sut = TermServiceFactory.GenerateTermService(_context);

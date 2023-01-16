@@ -2,9 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using UnitSelection.Entities.Students;
 using UnitSelection.Infrastructure.Test;
+using UnitSelection.Infrastructures.Test;
+using UnitSelection.Infrastructures.Test.Infrastructure;
 using UnitSelection.Persistence.EF;
 using UnitSelection.Services.StudentServices.Contracts;
-using UnitSelection.Specs.Infrastructure;
 using UnitSelection.TestTools.StudentTestTools;
 using Xunit;
 
@@ -16,7 +17,8 @@ public class DeleteStudent:EFDataContextDatabaseFixture
     private readonly StudentService _sut;
     private Student _student;
     
-    public DeleteStudent(ConfigurationFixture configuration) : base(configuration)
+    public DeleteStudent(ConfigurationFixture configuration) 
+        : base(configuration)
     {
         _context = CreateDataContext();
         _sut=StudentServiceFactory.GenerateStudentService(_context);
