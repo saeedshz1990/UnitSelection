@@ -12,5 +12,6 @@ public interface StudentRepository : Repository
     GetStudentByIdDto GetById(int id);
     void Delete(Student student);
     Student? FindById(int id);
+    bool IsExistChooseUnit(int studentId);
     bool IsExistNationalCode(string nationalCode);
 }

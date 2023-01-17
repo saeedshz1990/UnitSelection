@@ -145,7 +145,6 @@ public class EFChooseUnitRepository : ChooseUnitRepository
 
         return count;
     }
-
     public Student? FindByStudentId(int studentId)
     {
         return _context.Students.FirstOrDefault(_ => _.Id == studentId);

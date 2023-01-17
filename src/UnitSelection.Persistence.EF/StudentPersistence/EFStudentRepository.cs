@@ -70,6 +70,12 @@ public class EFStudentRepository : StudentRepository
         return _context.Students.FirstOrDefault(_ => _.Id == id);
     }
 
+    public bool IsExistChooseUnit(int studentId)
+    {
+        return _context.ChooseUnits.Any(_ => _.StudentId == studentId);
+
+    }
+
     public bool IsExistNationalCode(string nationalCode)
     {
         return _context.Students

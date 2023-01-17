@@ -4,6 +4,7 @@ using UnitSelection.Infrastructure.Test;
 using UnitSelection.Persistence.EF;
 using UnitSelection.Services.StudentServices.Contracts;
 using UnitSelection.Services.StudentServices.Exceptions;
+using UnitSelection.TestTools.ChooseUnitTestTools;
 using UnitSelection.TestTools.StudentTestTools;
 using Xunit;
 
@@ -184,7 +185,7 @@ public class StudentServiceTest
             .Build();
         _context.Manipulate(_ => _.Add(student));
 
-       await _sut.Delete(student.Id);
+        await _sut.Delete(student.Id);
 
         var actualResult = await _context.Students.ToListAsync();
         actualResult.Should().HaveCount(0);
@@ -197,5 +198,22 @@ public class StudentServiceTest
         var actualResult = async () => await _sut.Delete(invalidId);
 
         await actualResult.Should().ThrowExactlyAsync<StudentNotFoundException>();
+    }
+
+    [Fact]
+    public async Task Delete_throw_exception_when_student_have_choose_unit_properly()
+    {
+        var student = new StudentBuilder()
+            .Build();
+        _context.Manipulate(_ => _.Add(student));
+        var chooseUnit = new ChooseUnitBuilder()
+            .WithStudentId(student.Id)
+            .Build();
+        _context.Manipulate(_ => _.Add(chooseUnit));
+
+        var actualResult = async () => await _sut.Delete(student.Id);
+
+        await actualResult.Should()
+            .ThrowExactlyAsync<StudentHaveChooseUnitException>();
     }
 }

@@ -83,6 +83,12 @@ public class StudentAppService : StudentService
             throw new StudentNotFoundException();
         }
 
+        var unit = _repository.IsExistChooseUnit(id);
+        if (unit)
+        {
+            throw new StudentHaveChooseUnitException();
+        }
+
         _repository.Delete(student);
        await _unitOfWork.Complete();
     }
