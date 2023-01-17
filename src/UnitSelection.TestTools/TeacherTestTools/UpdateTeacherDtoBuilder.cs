@@ -13,17 +13,15 @@ public class UpdateTeacherDtoBuilder
             FatherName = "dummyFather",
             LastName = "dummyLast",
             FirstName = "dummyFirst",
-            NationalCode = "dummyCode",
             DateOfBirth = "dummyBirth",
             GroupOfCourse = "dummyGroup",
             Address = "dummyAddress",
             Diploma = "dummyBachelor",
             Study = "dummyCom",
-            Mobile = new GetMobileDto("98", "dummyMob"),
             CourseId = 1,
         };
     }
-    
+
     public UpdateTeacherDtoBuilder WithFirstName(string firstName)
     {
         _dto.FirstName = firstName;
@@ -41,13 +39,7 @@ public class UpdateTeacherDtoBuilder
         _dto.FatherName = fatherName;
         return this;
     }
-
-    public UpdateTeacherDtoBuilder WithNationalCode(string code)
-    {
-        _dto.NationalCode = code;
-        return this;
-    }
-
+    
     public UpdateTeacherDtoBuilder WithDateOfBirth(string birth)
     {
         _dto.DateOfBirth = birth;
@@ -77,13 +69,7 @@ public class UpdateTeacherDtoBuilder
         _dto.Study = study;
         return this;
     }
-
-    public UpdateTeacherDtoBuilder WithMobileNumber(string mobile, string code)
-    {
-        _dto.Mobile = new GetMobileDto(code, mobile);
-        return this;
-    }
-
+    
     public UpdateTeacherDtoBuilder WithCourseId(int courseId)
     {
         _dto.CourseId = courseId;

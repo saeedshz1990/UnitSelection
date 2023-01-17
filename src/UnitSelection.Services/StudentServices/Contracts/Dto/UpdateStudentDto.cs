@@ -9,5 +9,4 @@ public class UpdateStudentDto
     public string FatherName { get; set; } = string.Empty;
     public string DateOfBirth { get; set; } = string.Empty;
     public string Address { get; set; } = string.Empty;
-    public GetMobileDto Mobile { get; set; }
 }

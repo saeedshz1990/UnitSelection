@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using UnitSelection.Entities.Students;
+﻿using UnitSelection.Entities.Students;
 using UnitSelection.Services.StudentServices.Contracts;
 using UnitSelection.Services.StudentServices.Contracts.Dto;
 using UnitSelection.Services.TeacherServices.Contract.Dto;
@@ -73,12 +72,16 @@ public class EFStudentRepository : StudentRepository
     public bool IsExistChooseUnit(int studentId)
     {
         return _context.ChooseUnits.Any(_ => _.StudentId == studentId);
-
     }
 
     public bool IsExistNationalCode(string nationalCode)
     {
         return _context.Students
             .Any(_ => _.NationalCode == nationalCode);
+    }
+
+    public bool IsStudentExist(int id)
+    {
+        return _context.Students.Any(_ => _.Id == id);
     }
 }

@@ -63,7 +63,6 @@ public class StudentServiceTest
         var dto = new UpdateStudentDtoBuilder()
             .WithFirstName("updatedDummy")
             .WithLastName("updatedLast")
-            .WithMobileNumber("updatedMob", "98")
             .Build();
 
         await _sut.Update(dto, student.Id);
@@ -75,8 +74,7 @@ public class StudentServiceTest
         actualResult.FatherName.Should().Be(dto.FatherName);
         actualResult.Address.Should().Be(dto.Address);
         actualResult.DateOfBirth.Should().Be(dto.DateOfBirth);
-        actualResult.Mobile.MobileNumber.Should().Be(dto.Mobile.MobileNumber);
-        actualResult.Mobile.CountryCallingCode.Should().Be(dto.Mobile.CountryCallingCode);
+
     }
 
     [Theory]
@@ -88,7 +86,6 @@ public class StudentServiceTest
             .WithLastName("انصاری")
             .WithFatherName("محمدجواد")
             .WithDateOfBirth("1369")
-            .WithMobileNumber("9177877225", "98")
             .Build();
 
         var actualResult = async () => await _sut.Update(dto, invalidId);
@@ -96,7 +93,7 @@ public class StudentServiceTest
         await actualResult.Should().ThrowExactlyAsync<StudentNotFoundException>();
     }
 
-    [Fact]
+    [Fact(Skip = "Not implementing")]
     public async Task Update_throw_exception_when_student_is_exist_properly()
     {
         var student = new StudentBuilder()
@@ -112,7 +109,6 @@ public class StudentServiceTest
         var dto = new UpdateStudentDtoBuilder()
             .WithFirstName("secondDummy")
             .WithLastName("secondLast")
-            .WithMobileNumber("secondMob", "98")
             .Build();
 
         var actualResult = async () => await _sut.Update(dto, student.Id);

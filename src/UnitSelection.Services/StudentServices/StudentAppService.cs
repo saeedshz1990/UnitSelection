@@ -52,14 +52,13 @@ public class StudentAppService : StudentService
         {
             throw new StudentNotFoundException();
         }
+        
 
         student.FirstName = dto.FirstName;
         student.LastName = dto.LastName;
         student.FatherName = dto.FatherName;
         student.Address = dto.Address;
         student.DateOfBirth = dto.DateOfBirth;
-        student.Mobile.MobileNumber = dto.Mobile.MobileNumber;
-        student.Mobile.CountryCallingCode = dto.Mobile.CountryCallingCode;
 
         _repository.Update(student);
         await _unitOfWork.Complete();
@@ -90,6 +89,6 @@ public class StudentAppService : StudentService
         }
 
         _repository.Delete(student);
-       await _unitOfWork.Complete();
+        await _unitOfWork.Complete();
     }
 }

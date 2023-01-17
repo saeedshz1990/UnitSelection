@@ -17,7 +17,6 @@ public class UpdateStudentDtoBuilder
             FatherName = "dummyFather",
             Address = "dummyAdd",
             DateOfBirth = "dummyDate",
-            Mobile = new GetMobileDto("98", "dummyMob"),
         };
     }
     
@@ -48,12 +47,6 @@ public class UpdateStudentDtoBuilder
     public UpdateStudentDtoBuilder WithAddress(string address)
     {
         _dto.Address = address;
-        return this;
-    }
-
-    public UpdateStudentDtoBuilder WithMobileNumber(string mobile, string code)
-    {
-        _dto.Mobile = new GetMobileDto(code, mobile);
         return this;
     }
     

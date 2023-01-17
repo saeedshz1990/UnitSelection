@@ -93,13 +93,18 @@ public class EFTeacherRepository : TeacherRepository
         return _context.Teachers.FirstOrDefault(_ => _.Id == id);
     }
 
-    public bool IsExistNationalCode(string nationalCode)
+    public bool IsExistById(int id)
     {
-        return _context.Teachers.Any(_ => _.NationalCode == nationalCode);
+        return _context.Teachers.Any(_ => _.Id == id);
     }
 
     public bool IsExistChooseUnit(int teacherId)
     {
         return _context.ChooseUnits.Any(_ => _.TeacherId == teacherId);
+    }
+
+    public bool IsExistByNationalCode(string nationalCode)
+    {
+        return _context.Teachers.Any(_ => _.NationalCode == nationalCode);
     }
 }

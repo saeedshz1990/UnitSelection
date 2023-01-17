@@ -23,7 +23,7 @@ public class TeacherAppService : TeacherService
 
     public async Task Add(AddTeacherDto dto)
     {
-        var name = _repository.IsExistNationalCode(dto.NationalCode);
+        var name = _repository.IsExistByNationalCode(dto.NationalCode);
         if (name)
         {
             throw new TeacherIsExistException();
@@ -89,24 +89,15 @@ public class TeacherAppService : TeacherService
             throw new TeacherNotFoundException();
         }
 
-        var name = _repository.IsExistNationalCode(dto.NationalCode);
-        if (name)
-        {
-            throw new TeacherIsExistException();
-        }
-
         teacher.FirstName = dto.FirstName;
         teacher.LastName = dto.LastName;
         teacher.FatherName = dto.FatherName;
-        teacher.NationalCode = dto.NationalCode;
         teacher.Address = dto.Address;
         teacher.CourseId = dto.CourseId;
         teacher.Study = dto.Study;
         teacher.Diploma = dto.Diploma;
         teacher.DateOfBirth = dto.DateOfBirth;
         teacher.GroupOfCourse = dto.GroupOfCourse;
-        teacher.Mobile.MobileNumber = dto.Mobile.MobileNumber;
-        teacher.Mobile.CountryCallingCode = dto.Mobile.CountryCallingCode;
 
         _repository.Update(teacher);
         await _unitOfWork.Complete();

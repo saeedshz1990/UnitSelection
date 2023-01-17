@@ -14,4 +14,5 @@ public interface StudentRepository : Repository
     Student? FindById(int id);
     bool IsExistChooseUnit(int studentId);
     bool IsExistNationalCode(string nationalCode);
+    bool IsStudentExist(int id);
 }

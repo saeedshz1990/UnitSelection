@@ -13,6 +13,7 @@ public interface TeacherRepository : Repository
     void Delete(Teacher teacher);
     void Update(Teacher teacher);
     Teacher? FindById(int id);
-    bool IsExistNationalCode(string nationalCode);
+    bool IsExistById(int id);
     bool IsExistChooseUnit(int teacherId);
+    bool IsExistByNationalCode(string nationalCode);
 }

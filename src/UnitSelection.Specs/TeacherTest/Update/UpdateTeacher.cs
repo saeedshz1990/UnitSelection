@@ -63,7 +63,6 @@ public class UpdateTeacher : EFDataContextDatabaseFixture
         _dto = new UpdateTeacherDtoBuilder()
             .WithFirstName("آرش")
             .WithLastName("چناری")
-            .WithNationalCode("2294321907")
             .WithDiploma("دکتری")
             .WithStudy("هوش مصنوعی")
             .WithCourseId(_course.Id)
@@ -82,7 +81,6 @@ public class UpdateTeacher : EFDataContextDatabaseFixture
         actualResult!.FirstName.Should().Be(_dto.FirstName);
         actualResult.LastName.Should().Be(_dto.LastName);
         actualResult.FatherName.Should().Be(_dto.FatherName);
-        actualResult.NationalCode.Should().Be(_dto.NationalCode);
         actualResult.Diploma.Should().Be(_dto.Diploma);
         actualResult.Study.Should().Be(_dto.Study);
         actualResult.DateOfBirth.Should().Be(_dto.DateOfBirth);
