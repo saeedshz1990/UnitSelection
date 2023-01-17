@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
 using UnitSelection.Entities.Classes;
 using UnitSelection.Entities.Courses;
 using UnitSelection.Entities.Teachers;
@@ -29,7 +30,7 @@ public class DeleteTeacher : EFDataContextDatabaseFixture
         _context = CreateDataContext();
         _sut = TeacherServiceFactory.GenerateTeacherService(_context);
     }
-    
+
     [BDDHelper.Given("استادی با نام ‘آرش چناری’با مدرک تحصیلی ‘" +
                      "کارشناسی ارشد’ گرایش ‘مهدسی نرم افزار’" +
                      " با کد ملی ‘2294321905’ وجود دارد.")]
@@ -63,7 +64,7 @@ public class DeleteTeacher : EFDataContextDatabaseFixture
     [BDDHelper.Then("نباید هیچ استادی در سیستم وجود داشته باشد.")]
     private async Task Then()
     {
-        var actualResult = _context.Teachers.ToList();
+        var actualResult =await _context.Teachers.ToListAsync();
         actualResult.Should().HaveCount(0);
     }
 

@@ -1,11 +1,10 @@
-﻿using System.Security.Cryptography.X509Certificates;
-using UnitSelection.Services.TeacherServices.Contract.Dto;
+﻿using UnitSelection.Services.TeacherServices.Contract.Dto;
 
 namespace UnitSelection.TestTools.TeacherTestTools;
 
 public class AddTeacherDtoBuilder
 {
-    private AddTeacherDto _dto;
+    private readonly AddTeacherDto _dto;
 
     public AddTeacherDtoBuilder()
     {
@@ -20,7 +19,10 @@ public class AddTeacherDtoBuilder
             Address = "dummyAddress",
             Diploma = "dummyBachelor",
             Study = "dummyCom",
-            Mobile = new GetMobileDto("98", "dummyMob"),
+            Mobile = new 
+                GetMobileDto(
+                    "98",
+                    "dummyMob"),
             CourseId = 1,
         };
     }
@@ -85,7 +87,7 @@ public class AddTeacherDtoBuilder
         return this;
     }
 
-    public AddTeacherDtoBuilder WithCourseid(int courseId)
+    public AddTeacherDtoBuilder WithCourseId(int courseId)
     {
         _dto.CourseId = courseId;
         return this;

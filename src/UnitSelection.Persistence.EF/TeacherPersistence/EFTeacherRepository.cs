@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using UnitSelection.Entities;
+using UnitSelection.Entities.ChooseUnits;
 using UnitSelection.Entities.Teachers;
 using UnitSelection.Services.TeacherServices.Contract;
 using UnitSelection.Services.TeacherServices.Contract.Dto;
@@ -8,21 +8,23 @@ namespace UnitSelection.Persistence.EF.TeacherPersistence;
 
 public class EFTeacherRepository : TeacherRepository
 {
-    private readonly EFDataContext _context;
+    private readonly DbSet<Teacher> _teachers;
+    private readonly DbSet<ChooseUnit> _chooseUnits;
 
     public EFTeacherRepository(EFDataContext context)
     {
-        _context = context;
+        _teachers = context.Set<Teacher>();
+        _chooseUnits = context.Set<ChooseUnit>();
     }
 
     public void Add(Teacher teacher)
     {
-        _context.Add(teacher);
+        _teachers.Add(teacher);
     }
 
     public IList<GetTeacherDto> GetAll()
     {
-        return _context.Teachers.Select(_ => new GetTeacherDto
+        return _teachers.Select(_ => new GetTeacherDto
         {
             Id = _.Id,
             FirstName = _.FirstName,
@@ -41,7 +43,7 @@ public class EFTeacherRepository : TeacherRepository
 
     public GetTeacherByIdDto GetById(int id)
     {
-        return _context.Teachers
+        return _teachers
             .Where(_ => _.Id == id)
             .Select(_ => new GetTeacherByIdDto
             {
@@ -61,7 +63,7 @@ public class EFTeacherRepository : TeacherRepository
 
     public GetTeacherByCourseIdDto GetTeacherByCourseId(int courseId)
     {
-        return _context.Teachers
+        return _teachers
             .Where(_ => _.CourseId == courseId)
             .Select(_ => new GetTeacherByCourseIdDto()
             {
@@ -80,31 +82,31 @@ public class EFTeacherRepository : TeacherRepository
 
     public void Delete(Teacher teacher)
     {
-        _context.Remove(teacher);
+        _teachers.Remove(teacher);
     }
 
     public void Update(Teacher teacher)
     {
-        _context.Update(teacher);
+        _teachers.Update(teacher);
     }
 
     public Teacher? FindById(int id)
     {
-        return _context.Teachers.FirstOrDefault(_ => _.Id == id);
+        return _teachers.FirstOrDefault(_ => _.Id == id);
     }
 
     public bool IsExistById(int id)
     {
-        return _context.Teachers.Any(_ => _.Id == id);
+        return _teachers.Any(_ => _.Id == id);
     }
 
     public bool IsExistChooseUnit(int teacherId)
     {
-        return _context.ChooseUnits.Any(_ => _.TeacherId == teacherId);
+        return _chooseUnits.Any(_ => _.TeacherId == teacherId);
     }
 
     public bool IsExistByNationalCode(string nationalCode)
     {
-        return _context.Teachers.Any(_ => _.NationalCode == nationalCode);
+        return _teachers.Any(_ => _.NationalCode == nationalCode);
     }
 }

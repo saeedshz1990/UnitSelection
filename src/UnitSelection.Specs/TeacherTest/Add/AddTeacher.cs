@@ -34,7 +34,7 @@ public class AddTeacher : EFDataContextDatabaseFixture
     [BDDHelper.Given("هیچ استادی در سیستم ثبت نشده است")]
     private void Given()
     {
-         _term = new TermBuilder().Build();
+        _term = new TermBuilder().Build();
         _context.Manipulate(_ => _context.Add(_term));
         _newClass = ClassFactory.GenerateClass("101", _term.Id);
         _context.Manipulate(_ => _context.Add(_newClass));
@@ -61,7 +61,7 @@ public class AddTeacher : EFDataContextDatabaseFixture
             .WithNationalCode("2294321905")
             .WithDiploma("کارشناسی ارشد")
             .WithStudy("مهندسی نرم افزار")
-            .WithCourseid(_course.Id)
+            .WithCourseId(_course.Id)
             .Build();
 
         await _sut.Add(_dto);

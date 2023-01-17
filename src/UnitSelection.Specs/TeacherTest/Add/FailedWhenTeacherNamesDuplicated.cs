@@ -22,14 +22,14 @@ public class FailedWhenTeacherNamesDuplicated : EFDataContextDatabaseFixture
     private readonly EFDataContext _context;
     private readonly TeacherService _sut;
     private AddTeacherDto _dto;
-    private Teacher _tetacher;
+    private Teacher _teacher;
     private Class _newClass;
     private Course _course;
     private Entities.Terms.Term _term;
     private Func<Task> _actualResult;
 
     public FailedWhenTeacherNamesDuplicated(
-        ConfigurationFixture configuration) 
+        ConfigurationFixture configuration)
         : base(configuration)
     {
         _context = CreateDataContext();
@@ -48,7 +48,7 @@ public class FailedWhenTeacherNamesDuplicated : EFDataContextDatabaseFixture
         _context.Manipulate(_ => _context.Add(_newClass));
         _course = new CourseDtoBuilder().WithClassId(_newClass.Id).Build();
         _context.Manipulate(_ => _context.Add(_course));
-        _tetacher = new TeacherBuilder()
+        _teacher = new TeacherBuilder()
             .WithFirstName("آرش")
             .WithLastName("چناری")
             .WithNationalCode("2294321905")
@@ -56,7 +56,7 @@ public class FailedWhenTeacherNamesDuplicated : EFDataContextDatabaseFixture
             .WithStudy("مهندسی نرم افزار")
             .WithCourseId(_course.Id)
             .Build();
-        _context.Manipulate(_ => _.Add(_tetacher));
+        _context.Manipulate(_ => _.Add(_teacher));
     }
 
     [BDDHelper.When("یک استاد با نام ‘آرش چناری’با مدرک تحصیلی " +
@@ -70,7 +70,7 @@ public class FailedWhenTeacherNamesDuplicated : EFDataContextDatabaseFixture
             .WithNationalCode("2294321905")
             .WithDiploma("کارشناسی ارشد")
             .WithStudy("مهندسی نرم افزار")
-            .WithCourseid(_course.Id)
+            .WithCourseId(_course.Id)
             .Build();
 
         _actualResult = async () => await _sut.Add(_dto);

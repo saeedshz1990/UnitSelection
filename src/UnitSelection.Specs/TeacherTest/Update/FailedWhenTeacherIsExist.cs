@@ -30,7 +30,7 @@ public class FailedWhenTeacherIsExist : EFDataContextDatabaseFixture
     private Func<Task> _actualResult;
 
     public FailedWhenTeacherIsExist(
-        ConfigurationFixture configuration) 
+        ConfigurationFixture configuration)
         : base(configuration)
     {
         _context = CreateDataContext();
@@ -67,7 +67,7 @@ public class FailedWhenTeacherIsExist : EFDataContextDatabaseFixture
             .WithDiploma("کارشناسی ")
             .WithStudy("مهندسی کامپیوتر")
             .WithCourseId(_course.Id)
-            .WithMobileNumber("91727272","98")
+            .WithMobileNumber("91727272", "98")
             .Build();
         _context.Manipulate(_ => _.Add(_secondTeacher));
     }

@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.Contracts;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using UnitSelection.Infrastructure.Test;
 using UnitSelection.Persistence.EF;
@@ -35,12 +34,7 @@ public class TeacherServiceTest
         var course = new CourseDtoBuilder().Build();
         _context.Manipulate(_ => _.Add(course));
         var dto = new AddTeacherDtoBuilder()
-            .WithFirstName("آرش")
-            .WithLastName("چناری")
-            .WithNationalCode("2294321905")
-            .WithDiploma("کارشناسی ارشد")
-            .WithStudy("مهندسی نرم افزار")
-            .WithCourseid(course.Id)
+            .WithCourseId(course.Id)
             .Build();
 
         await _sut.Add(dto);
@@ -67,18 +61,10 @@ public class TeacherServiceTest
         var course = new CourseDtoBuilder().Build();
         _context.Manipulate(_ => _.Add(course));
         var teacher = new TeacherBuilder()
-            .WithFirstName("آرش")
-            .WithLastName("چناری")
-            .WithNationalCode("2294321905")
             .Build();
         _context.Manipulate(_ => _.Add(teacher));
         var dto = new AddTeacherDtoBuilder()
-            .WithFirstName("آرش")
-            .WithLastName("چناری")
-            .WithNationalCode("2294321905")
-            .WithDiploma("کارشناسی ارشد")
-            .WithStudy("مهندسی نرم افزار")
-            .WithCourseid(course.Id)
+            .WithCourseId(course.Id)
             .Build();
 
         var actualResult = async () => await _sut.Add(dto);
@@ -97,8 +83,6 @@ public class TeacherServiceTest
         var course = new CourseDtoBuilder().Build();
         _context.Manipulate(_ => _.Add(course));
         var teacher = new TeacherBuilder()
-            .WithFirstName("آرش")
-            .WithLastName("چناری")
             .WithNationalCode("2294321905")
             .Build();
         _context.Manipulate(_ => _.Add(teacher));
@@ -128,9 +112,6 @@ public class TeacherServiceTest
         var course = new CourseDtoBuilder().Build();
         _context.Manipulate(_ => _.Add(course));
         var teacher = new TeacherBuilder()
-            .WithFirstName("آرش")
-            .WithLastName("چناری")
-            .WithNationalCode("2294321905")
             .Build();
         _context.Manipulate(_ => _.Add(teacher));
 
@@ -159,9 +140,6 @@ public class TeacherServiceTest
         var course = new CourseDtoBuilder().Build();
         _context.Manipulate(_ => _.Add(course));
         var teacher = new TeacherBuilder()
-            .WithFirstName("آرش")
-            .WithLastName("چناری")
-            .WithNationalCode("2294321905")
             .Build();
         _context.Manipulate(_ => _.Add(teacher));
 
@@ -188,9 +166,6 @@ public class TeacherServiceTest
         var course = new CourseDtoBuilder().Build();
         _context.Manipulate(_ => _.Add(course));
         var teacher = new TeacherBuilder()
-            .WithFirstName("آرش")
-            .WithLastName("چناری")
-            .WithNationalCode("2294321905")
             .Build();
         _context.Manipulate(_ => _.Add(teacher));
 
@@ -213,6 +188,37 @@ public class TeacherServiceTest
     [Fact]
     public async Task Update_update_Teacher_properly()
     {
+        var term = new TermBuilder().Build();
+        _context.Manipulate(_ => _context.Add(term));
+        var newClass = ClassFactory.GenerateClass("101", term.Id);
+        _context.Manipulate(_ => _context.Add(newClass));
+        var course = new CourseDtoBuilder().WithClassId(newClass.Id).Build();
+        _context.Manipulate(_ => _context.Add(course));
+        var teacher = new TeacherBuilder()
+            .WithCourseId(course.Id)
+            .Build();
+        _context.Manipulate(_ => _.Add(teacher));
+        
+        var dto = new UpdateTeacherDtoBuilder()
+            .WithFirstName("updatedName")
+            .WithLastName("UpdatedLast")
+            .WithDiploma("Updated")
+            .WithStudy("UpdatedDum")
+            .WithCourseId(course.Id)
+            .Build();
+
+        await _sut.Update(dto, teacher.Id);
+        
+        var actualResult = await _context.Teachers.FirstOrDefaultAsync();
+        actualResult!.FirstName.Should().Be(dto.FirstName);
+        actualResult.LastName.Should().Be(dto.LastName);
+        actualResult.FatherName.Should().Be(dto.FatherName);
+        actualResult.Diploma.Should().Be(dto.Diploma);
+        actualResult.Study.Should().Be(dto.Study);
+        actualResult.DateOfBirth.Should().Be(dto.DateOfBirth);
+        actualResult.Address.Should().Be(dto.Address);
+        actualResult.GroupOfCourse.Should().Be(dto.GroupOfCourse);
+        actualResult.CourseId.Should().Be(dto.CourseId);
     }
 
     [Theory]

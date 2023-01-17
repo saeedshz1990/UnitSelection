@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Query.Internal;
-using UnitSelection.Entities;
+﻿using UnitSelection.Entities;
 using UnitSelection.Entities.Teachers;
 using UnitSelection.Infrastructure.Application;
 using UnitSelection.Services.TeacherServices.Contract;
@@ -24,10 +23,7 @@ public class TeacherAppService : TeacherService
     public async Task Add(AddTeacherDto dto)
     {
         var name = _repository.IsExistByNationalCode(dto.NationalCode);
-        if (name)
-        {
-            throw new TeacherIsExistException();
-        }
+        StopIfTeacherIsExist(name);
 
         var teacher = new Teacher
         {
@@ -41,12 +37,16 @@ public class TeacherAppService : TeacherService
             Diploma = dto.Diploma,
             Study = dto.Study,
             CourseId = dto.CourseId,
-            Mobile = new Mobile(dto.Mobile.CountryCallingCode, dto.Mobile.MobileNumber)
+            Mobile = new Mobile(
+                dto.Mobile.CountryCallingCode,
+                dto.Mobile.MobileNumber)
         };
 
         _repository.Add(teacher);
         await _unitOfWork.Complete();
     }
+
+    
 
     public IList<GetTeacherDto> GetAll()
     {
@@ -66,30 +66,23 @@ public class TeacherAppService : TeacherService
     public async Task Delete(int id)
     {
         var teacher = _repository.FindById(id);
-        if (teacher == null)
-        {
-            throw new TeacherNotFoundException();
-        }
+        StopIfTeacherNotFound(teacher);
 
         var unit = _repository.IsExistChooseUnit(id);
-        if (unit)
-        {
-            throw new ThisTeacherSelectedByStudentException();
-        }
+        StopIfTeacherSelectedByStudent(unit);
         
-        _repository.Delete(teacher);
+        _repository.Delete(teacher!);
         await _unitOfWork.Complete();
     }
+
+   
 
     public async Task Update(UpdateTeacherDto dto, int id)
     {
         var teacher = _repository.FindById(id);
-        if (teacher == null)
-        {
-            throw new TeacherNotFoundException();
-        }
+        StopIfTeacherNotFound(teacher);
 
-        teacher.FirstName = dto.FirstName;
+        teacher!.FirstName = dto.FirstName;
         teacher.LastName = dto.LastName;
         teacher.FatherName = dto.FatherName;
         teacher.Address = dto.Address;
@@ -101,6 +94,29 @@ public class TeacherAppService : TeacherService
 
         _repository.Update(teacher);
         await _unitOfWork.Complete();
+    }
+    
+    private static void StopIfTeacherIsExist(bool name)
+    {
+        if (name)
+        {
+            throw new TeacherIsExistException();
+        }
+    }
+    
+    private static void StopIfTeacherSelectedByStudent(bool unit)
+    {
+        if (unit)
+        {
+            throw new ThisTeacherSelectedByStudentException();
+        }
+    }
 
+    private static void StopIfTeacherNotFound(Teacher? teacher)
+    {
+        if (teacher == null)
+        {
+            throw new TeacherNotFoundException();
+        }
     }
 }

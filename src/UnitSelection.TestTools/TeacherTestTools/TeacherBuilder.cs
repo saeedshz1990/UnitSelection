@@ -5,7 +5,7 @@ namespace UnitSelection.TestTools.TeacherTestTools;
 
 public class TeacherBuilder
 {
-    private Teacher _teacher;
+    private readonly Teacher _teacher;
 
     public TeacherBuilder()
     {
