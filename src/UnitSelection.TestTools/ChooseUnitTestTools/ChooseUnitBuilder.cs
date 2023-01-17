@@ -1,6 +1,6 @@
 ﻿using UnitSelection.Entities.ChooseUnits;
 
-namespace UnitSelection.TestTools.HandlerTestTools.AcceptChooseUnitHandler;
+namespace UnitSelection.TestTools.ChooseUnitTestTools;
 
 public class ChooseUnitBuilder
 {

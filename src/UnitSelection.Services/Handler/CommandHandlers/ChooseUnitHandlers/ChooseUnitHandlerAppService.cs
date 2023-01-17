@@ -1,6 +1,7 @@
 ﻿using UnitSelection.Entities.ChooseUnits;
 using UnitSelection.Infrastructure.Application;
 using UnitSelection.Services.ChooseUnitServices.Contracts;
+using UnitSelection.Services.ChooseUnitServices.Contracts.Dto;
 using UnitSelection.Services.CourseServices.Contract;
 using UnitSelection.Services.Handler.CommandHandlers.ChooseUnitHandlers.Contracts;
 using UnitSelection.Services.Handler.CommandHandlers.ChooseUnitHandlers.Contracts.Dto;
@@ -24,13 +25,12 @@ public class ChooseUnitHandlerAppService : ChooseUnitHandlerService
 
     public async Task Handle(AcceptChooseUnitDto dto)
     {
-        // await _unitOfWork.Begin(); 
         var student = _chooseUnitService.GetStudent(dto.StudentId);
 
             var course = _courseService.GetCourseById(dto.CourseId);
             var teacher = _chooseUnitService.GetTeacher(dto.TeacherId);
 
-            var chooseUnit = new ChooseUnit()
+            var chooseUnit = new AddChooseUnitDto()
             {
                 StudentId = student.Id,
                 CourseId = dto.CourseId,

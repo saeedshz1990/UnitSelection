@@ -2,6 +2,7 @@
 using UnitSelection.Persistence.EF.ChooseUnitPersistence;
 using UnitSelection.Persistence.EF.CoursesPersistence;
 using UnitSelection.Persistence.EF.TeacherPersistence;
+using UnitSelection.Services.ChooseUnitServices;
 using UnitSelection.Services.ChooseUnitServices.Contracts;
 using UnitSelection.Services.CourseServices;
 using UnitSelection.Services.Handler.CommandHandlers.ChooseUnitHandlers;

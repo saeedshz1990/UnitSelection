@@ -15,9 +15,4 @@
     <ProjectReference Include="..\UnitSelection.Infrastructure\UnitSelection.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ChooseUnitServices\Contracts\Dto" />
-    <Folder Include="ChooseUnitServices\Exceptions" />
-  </ItemGroup>
-
 </Project>

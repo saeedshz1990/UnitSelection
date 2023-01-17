@@ -7,9 +7,12 @@ using UnitSelection.Infrastructure.Test;
 using UnitSelection.Infrastructures.Test;
 using UnitSelection.Infrastructures.Test.Infrastructure;
 using UnitSelection.Persistence.EF;
+using UnitSelection.Services.ChooseUnitServices.Contracts;
+using UnitSelection.Services.ChooseUnitServices.Contracts.Dto;
 using UnitSelection.Services.Handler.CommandHandlers.ChooseUnitHandlers.Contracts;
 using UnitSelection.Services.Handler.CommandHandlers.ChooseUnitHandlers.Contracts.Dto;
 using UnitSelection.Services.Handler.CommandHandlers.ChooseUnitHandlers.Exceptions;
+using UnitSelection.TestTools.ChooseUnitTestTools;
 using UnitSelection.TestTools.ClassTestTools;
 using UnitSelection.TestTools.CourseTestTools;
 using UnitSelection.TestTools.HandlerTestTools.AcceptChooseUnitHandler;
@@ -23,6 +26,7 @@ namespace UnitSelection.Specs.ChooseUnitTest.Add;
 public class FailedWhenConflictedCourseHour : EFDataContextDatabaseFixture
 {
     private readonly EFDataContext _context;
+    private readonly ChooseUnitService _sut;
     private Class _class;
     private Class _secondClass;
     private Course _course;
@@ -31,12 +35,13 @@ public class FailedWhenConflictedCourseHour : EFDataContextDatabaseFixture
     private Entities.Terms.Term _term;
     private Teacher _teacher;
     private Teacher _secondTeacher;
-    private AcceptChooseUnitDto _dto;
+    private AddChooseUnitDto _dto;
     private Func<Task> _actualResult;
 
     public FailedWhenConflictedCourseHour(ConfigurationFixture configuration) : base(configuration)
     {
         _context = CreateDataContext();
+        _sut = ChooseUnitServiceFactory.GenerateChooseUnitServiceFactory(_context);
     }
 
     [BDDHelper.Given("انتخاب واحدی برای دانشجویی با نام ‘سعید انصاری’" +
@@ -98,11 +103,16 @@ public class FailedWhenConflictedCourseHour : EFDataContextDatabaseFixture
             .Build();
         _context.Manipulate(_ => _.Add(_secondTeacher));
 
-        _dto = new AcceptChooseUnitDtoBuilder()
-            .WithCourseId(_secondCourse.Id)
-            .Build();
+        _dto = new AddChooseUnitDto
+        {
+            StudentId = _student.Id,
+            CourseId = _course.Id,
+            TermId = _term.Id,
+            TeacherId = _teacher.Id,
+            ClassId = _class.Id
+        };
 
-        _actualResult = async () => await _sut.Handle(_dto);
+        _actualResult = async () => await _sut.Add(_dto);
     }
 
     [BDDHelper.Then("پیغام خطایی با عنوان" +
