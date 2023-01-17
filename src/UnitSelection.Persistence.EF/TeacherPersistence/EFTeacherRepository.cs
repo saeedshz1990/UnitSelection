@@ -62,7 +62,7 @@ public class EFTeacherRepository : TeacherRepository
     public GetTeacherByCourseIdDto GetTeacherByCourseId(int courseId)
     {
         return _context.Teachers
-            .Where(_=>_.CourseId==courseId)
+            .Where(_ => _.CourseId == courseId)
             .Select(_ => new GetTeacherByCourseIdDto()
             {
                 FirstName = _.FirstName,
@@ -96,5 +96,10 @@ public class EFTeacherRepository : TeacherRepository
     public bool IsExistNationalCode(string nationalCode)
     {
         return _context.Teachers.Any(_ => _.NationalCode == nationalCode);
+    }
+
+    public bool IsExistChooseUnit(int teacherId)
+    {
+        return _context.ChooseUnits.Any(_ => _.TeacherId == teacherId);
     }
 }

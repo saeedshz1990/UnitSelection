@@ -1,9 +1,11 @@
-﻿using FluentAssertions;
+﻿using System.Diagnostics.Contracts;
+using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using UnitSelection.Infrastructure.Test;
 using UnitSelection.Persistence.EF;
 using UnitSelection.Services.TeacherServices.Contract;
 using UnitSelection.Services.TeacherServices.Exceptions;
+using UnitSelection.TestTools.ChooseUnitTestTools;
 using UnitSelection.TestTools.ClassTestTools;
 using UnitSelection.TestTools.CourseTestTools;
 using UnitSelection.TestTools.TeacherTestTools;
@@ -243,16 +245,40 @@ public class TeacherServiceTest
             .WithNationalCode("222222")
             .Build();
         _context.Manipulate(_ => _.Add(secondTeacher));
-        
-        var dto= new UpdateTeacherDtoBuilder()
+
+        var dto = new UpdateTeacherDtoBuilder()
             .WithFirstName("secondDummy")
             .WithLastName("secondLastDummy")
             .WithNationalCode("222222")
             .Build();
 
-        var actualResult = async () => await _sut.Update(dto,teacher.Id);
-        
+        var actualResult = async () => await _sut.Update(dto, teacher.Id);
+
         await actualResult.Should()
             .ThrowExactlyAsync<TeacherIsExistException>();
+    }
+
+    [Fact]
+    public async Task Delete_throw_exception_when_student_selected_properly()
+    {
+        var term = new TermBuilder().Build();
+        _context.Manipulate(_ => _context.Add(term));
+        var newClass = ClassFactory.GenerateClass("dummy", term.Id);
+        _context.Manipulate(_ => _context.Add(newClass));
+        var course = new CourseDtoBuilder().WithClassId(newClass.Id).Build();
+        _context.Manipulate(_ => _context.Add(course));
+        var teacher = new TeacherBuilder()
+            .WithCourseId(course.Id)
+            .Build();
+        _context.Manipulate(_ => _.Add(teacher));
+        var chooseUnit = new ChooseUnitBuilder()
+            .WithTeacherId(teacher.Id)
+            .Build();
+        _context.Manipulate(_ => _.Add(chooseUnit));
+        
+        var actualResult = async () => await _sut.Delete(teacher.Id);
+
+        await actualResult.Should()
+            .ThrowExactlyAsync<ThisTeacherSelectedByStudentException>();
     }
 }

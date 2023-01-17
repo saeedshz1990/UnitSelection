@@ -1,4 +1,5 @@
-﻿using UnitSelection.Entities;
+﻿using Microsoft.EntityFrameworkCore.Query.Internal;
+using UnitSelection.Entities;
 using UnitSelection.Entities.Teachers;
 using UnitSelection.Infrastructure.Application;
 using UnitSelection.Services.TeacherServices.Contract;
@@ -70,6 +71,12 @@ public class TeacherAppService : TeacherService
             throw new TeacherNotFoundException();
         }
 
+        var unit = _repository.IsExistChooseUnit(id);
+        if (unit)
+        {
+            throw new ThisTeacherSelectedByStudentException();
+        }
+        
         _repository.Delete(teacher);
         await _unitOfWork.Complete();
     }

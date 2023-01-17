@@ -14,4 +14,5 @@ public interface TeacherRepository : Repository
     void Update(Teacher teacher);
     Teacher? FindById(int id);
     bool IsExistNationalCode(string nationalCode);
+    bool IsExistChooseUnit(int teacherId);
 }
