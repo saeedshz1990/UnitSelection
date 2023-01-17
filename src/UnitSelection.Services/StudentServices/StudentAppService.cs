@@ -23,10 +23,7 @@ public class StudentAppService : StudentService
     public async Task Add(AddStudentDto dto)
     {
         var nationalCode = _repository.IsExistNationalCode(dto.NationalCode);
-        if (nationalCode)
-        {
-            throw new StudentIsExistException();
-        }
+        StopIfStudentIsExist(nationalCode);
 
         var student = new Student
         {
@@ -44,17 +41,14 @@ public class StudentAppService : StudentService
         _repository.Add(student);
         await _unitOfWork.Complete();
     }
-
+    
     public async Task Update(UpdateStudentDto dto, int id)
     {
         var student = _repository.FindById(id);
-        if (student == null)
-        {
-            throw new StudentNotFoundException();
-        }
-        
+        StopIfStudentNotFound(student);
 
-        student.FirstName = dto.FirstName;
+
+        student!.FirstName = dto.FirstName;
         student.LastName = dto.LastName;
         student.FatherName = dto.FatherName;
         student.Address = dto.Address;
@@ -63,7 +57,7 @@ public class StudentAppService : StudentService
         _repository.Update(student);
         await _unitOfWork.Complete();
     }
-
+    
     public IList<GetStudentDto> GetAll()
     {
         return _repository.GetAll();
@@ -77,18 +71,36 @@ public class StudentAppService : StudentService
     public async Task Delete(int id)
     {
         var student = _repository.FindById(id);
-        if (student == null)
-        {
-            throw new StudentNotFoundException();
-        }
+        StopIfStudentNotFound(student);
 
         var unit = _repository.IsExistChooseUnit(id);
+        StopIfStudentHaveAnySelectedCourse(unit);
+
+        _repository.Delete(student!);
+        await _unitOfWork.Complete();
+    }
+
+    private static void StopIfStudentHaveAnySelectedCourse(bool unit)
+    {
         if (unit)
         {
             throw new StudentHaveChooseUnitException();
         }
-
-        _repository.Delete(student);
-        await _unitOfWork.Complete();
+    }
+    
+    private static void StopIfStudentNotFound(Student? student)
+    {
+        if (student == null)
+        {
+            throw new StudentNotFoundException();
+        }
+    }
+    
+    private static void StopIfStudentIsExist(bool nationalCode)
+    {
+        if (nationalCode)
+        {
+            throw new StudentIsExistException();
+        }
     }
 }

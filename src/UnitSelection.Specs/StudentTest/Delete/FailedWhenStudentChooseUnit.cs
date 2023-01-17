@@ -19,9 +19,10 @@ public class FailedWhenStudentChooseUnit : EFDataContextDatabaseFixture
     private readonly StudentService _sut;
     private Student _student;
     private ChooseUnit _chooseUnit;
-    private Func<Task> _actuaResult;
+    private Func<Task> _actualResult;
 
-    public FailedWhenStudentChooseUnit(ConfigurationFixture configuration) : base(configuration)
+    public FailedWhenStudentChooseUnit(
+        ConfigurationFixture configuration) : base(configuration)
     {
         _context = CreateDataContext();
         _sut = StudentServiceFactory.GenerateStudentService(_context);
@@ -46,7 +47,6 @@ public class FailedWhenStudentChooseUnit : EFDataContextDatabaseFixture
             .WithStudentId(_student.Id)
             .Build();
         _context.Manipulate(_ => _.Add(_chooseUnit));
-
     }
 
     [BDDHelper.When("دانشجو با نام ‘سعید انصاری’ " +
@@ -55,7 +55,7 @@ public class FailedWhenStudentChooseUnit : EFDataContextDatabaseFixture
                     "تحصیلی ‘کامپیوتر’ از سیستم حذف می کنم")]
     private async Task When()
     {
-        _actuaResult = async () => await _sut.Delete(_student.Id);
+        _actualResult = async () => await _sut.Delete(_student.Id);
     }
 
     [BDDHelper.Then("یک پیغام خطا با نام " +
@@ -63,7 +63,7 @@ public class FailedWhenStudentChooseUnit : EFDataContextDatabaseFixture
                     " به کاربر نمایش دهد.")]
     private async Task Then()
     {
-        await _actuaResult.Should()
+        await _actualResult.Should()
             .ThrowExactlyAsync<StudentHaveChooseUnitException>();
     }
 

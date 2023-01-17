@@ -21,7 +21,7 @@ public class FailedWhenStudentIsExist : EFDataContextDatabaseFixture
     private Student _secondStudent;
     private Func<Task> _actualResult;
 
-    public FailedWhenStudentIsExist(ConfigurationFixture configuration) 
+    public FailedWhenStudentIsExist(ConfigurationFixture configuration)
         : base(configuration)
     {
         _context = CreateDataContext();
@@ -78,8 +78,8 @@ public class FailedWhenStudentIsExist : EFDataContextDatabaseFixture
                     "‘دانشجو در سیستم وجود دارد’ به کاربر نمایش دهد.")]
     private async Task Then()
     {
-        await _actualResult.Should().
-            ThrowExactlyAsync<StudentIsExistException>();
+        await _actualResult.Should()
+            .ThrowExactlyAsync<StudentIsExistException>();
     }
 
     [Fact(Skip = "Not implementing")]

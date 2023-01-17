@@ -5,7 +5,7 @@ namespace UnitSelection.TestTools.StudentTestTools;
 
 public class StudentBuilder
 {
-    private Student _student;
+    private readonly Student _student;
 
     public StudentBuilder()
     {
@@ -17,7 +17,10 @@ public class StudentBuilder
             Address = "dummyAdd",
             NationalCode = "dummyNat",
             DateOfBirth = "dummyDate",
-            Mobile = new Mobile("98", "dummyMob"),
+            Mobile = new 
+                Mobile(
+                    "98",
+                    "dummyMob"),
         };
     }
     
@@ -67,6 +70,4 @@ public class StudentBuilder
     {
         return _student;
     }
-    
-    
 }

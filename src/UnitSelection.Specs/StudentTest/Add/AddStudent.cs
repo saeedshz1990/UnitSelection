@@ -10,24 +10,25 @@ using Xunit;
 
 namespace UnitSelection.Specs.StudentTest.Add;
 
-public class AddStudent :EFDataContextDatabaseFixture
+public class AddStudent : EFDataContextDatabaseFixture
 {
     private readonly EFDataContext _context;
     private readonly StudentService _sut;
     private AddStudentDto _dto;
-    
+
     public AddStudent(ConfigurationFixture configuration) : base(configuration)
     {
         _context = CreateDataContext();
-        _sut=StudentServiceFactory.GenerateStudentService(_context);
+        _sut = StudentServiceFactory.GenerateStudentService(_context);
     }
-    
+
     [BDDHelper.Given("هیچ دانشجویی در سیستم ثبت نشده است")]
     private void Given()
     {
     }
 
-    [BDDHelper.When("یک دانشجو با نام ‘ سعید انصاری’ به تاریخ تولد ‘1369’" +
+    [BDDHelper.When("یک دانشجو با نام ‘ سعید انصاری’" +
+                    " به تاریخ تولد ‘1369’" +
                     " و شماره شناسنامه ‘2280509504 ‘ با " +
                     " در سیستم ثبت می کنم.")]
     private async Task When()
@@ -38,7 +39,7 @@ public class AddStudent :EFDataContextDatabaseFixture
             .WithFatherName("محمدجواد")
             .WithDateOfBirth("1369")
             .WithNationalCode("2280509504")
-            .WithMobileNumber("9177877225","98")
+            .WithMobileNumber("9177877225", "98")
             .Build();
 
         await _sut.Add(_dto);

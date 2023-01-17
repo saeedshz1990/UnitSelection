@@ -5,7 +5,7 @@ namespace UnitSelection.TestTools.StudentTestTools;
 
 public class AddStudentDtoBuilder
 {
-    private AddStudentDto _dto;
+    private readonly AddStudentDto _dto;
 
     public AddStudentDtoBuilder()
     {
@@ -17,10 +17,13 @@ public class AddStudentDtoBuilder
             Address = "dummyAdd",
             NationalCode = "dummyNat",
             DateOfBirth = "dummyDate",
-            Mobile = new GetMobileDto("98", "dummyMob"),
+            Mobile = new 
+                GetMobileDto(
+                    "98",
+                    "dummyMob"),
         };
     }
-    
+
     public AddStudentDtoBuilder WithFirstName(string firstName)
     {
         _dto.FirstName = firstName;
@@ -50,7 +53,7 @@ public class AddStudentDtoBuilder
         _dto.DateOfBirth = birth;
         return this;
     }
-    
+
     public AddStudentDtoBuilder WithAddress(string address)
     {
         _dto.Address = address;
@@ -62,7 +65,7 @@ public class AddStudentDtoBuilder
         _dto.Mobile = new GetMobileDto(code, mobile);
         return this;
     }
-    
+
     public AddStudentDto Build()
     {
         return _dto;

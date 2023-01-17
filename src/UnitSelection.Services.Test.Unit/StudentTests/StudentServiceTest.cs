@@ -55,7 +55,7 @@ public class StudentServiceTest
     }
 
     [Fact]
-    public async Task Update_update_student_propely()
+    public async Task Update_update_student_properly()
     {
         var student = new StudentBuilder()
             .Build();
@@ -74,7 +74,6 @@ public class StudentServiceTest
         actualResult.FatherName.Should().Be(dto.FatherName);
         actualResult.Address.Should().Be(dto.Address);
         actualResult.DateOfBirth.Should().Be(dto.DateOfBirth);
-
     }
 
     [Theory]
@@ -82,10 +81,6 @@ public class StudentServiceTest
     public async Task Update_throw_exception_when_student_not_exist_properly(int invalidId)
     {
         var dto = new UpdateStudentDtoBuilder()
-            .WithFirstName("محمدرضا")
-            .WithLastName("انصاری")
-            .WithFatherName("محمدجواد")
-            .WithDateOfBirth("1369")
             .Build();
 
         var actualResult = async () => await _sut.Update(dto, invalidId);

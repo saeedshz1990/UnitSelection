@@ -1,12 +1,10 @@
-﻿using UnitSelection.Services.ClassServices.Contract.Dto;
-using UnitSelection.Services.StudentServices.Contracts.Dto;
-using UnitSelection.Services.TeacherServices.Contract.Dto;
+﻿using UnitSelection.Services.StudentServices.Contracts.Dto;
 
 namespace UnitSelection.TestTools.StudentTestTools;
 
 public class UpdateStudentDtoBuilder
 {
-    private UpdateStudentDto _dto;
+    private readonly UpdateStudentDto _dto;
 
     public UpdateStudentDtoBuilder()
     {

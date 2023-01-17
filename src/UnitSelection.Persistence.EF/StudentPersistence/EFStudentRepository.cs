@@ -1,4 +1,6 @@
-﻿using UnitSelection.Entities.Students;
+﻿using Microsoft.EntityFrameworkCore;
+using UnitSelection.Entities.ChooseUnits;
+using UnitSelection.Entities.Students;
 using UnitSelection.Services.StudentServices.Contracts;
 using UnitSelection.Services.StudentServices.Contracts.Dto;
 using UnitSelection.Services.TeacherServices.Contract.Dto;
@@ -7,26 +9,28 @@ namespace UnitSelection.Persistence.EF.StudentPersistence;
 
 public class EFStudentRepository : StudentRepository
 {
-    private readonly EFDataContext _context;
+    private readonly DbSet<Student> _students;
+    private readonly DbSet<ChooseUnit> _chooseUnits;
 
     public EFStudentRepository(EFDataContext context)
     {
-        _context = context;
+        _students = context.Set<Student>();
+        _chooseUnits = context.Set<ChooseUnit>();
     }
 
     public void Add(Student student)
     {
-        _context.Add(student);
+        _students.Add(student);
     }
 
     public void Update(Student dto)
     {
-        _context.Update(dto);
+        _students.Update(dto);
     }
 
     public IList<GetStudentDto> GetAll()
     {
-        return _context.Students.Select(_ => new GetStudentDto
+        return _students.Select(_ => new GetStudentDto
         {
             Id = _.Id,
             FirstName = _.FirstName,
@@ -43,7 +47,7 @@ public class EFStudentRepository : StudentRepository
 
     public GetStudentByIdDto GetById(int id)
     {
-        return _context.Students
+        return _students
             .Where(_ => _.Id == id)
             .Select(_ => new GetStudentByIdDto
             {
@@ -61,27 +65,27 @@ public class EFStudentRepository : StudentRepository
 
     public void Delete(Student student)
     {
-        _context.Remove(student);
+        _students.Remove(student);
     }
 
     public Student? FindById(int id)
     {
-        return _context.Students.FirstOrDefault(_ => _.Id == id);
+        return _students.FirstOrDefault(_ => _.Id == id);
     }
 
     public bool IsExistChooseUnit(int studentId)
     {
-        return _context.ChooseUnits.Any(_ => _.StudentId == studentId);
+        return _chooseUnits.Any(_ => _.StudentId == studentId);
     }
 
     public bool IsExistNationalCode(string nationalCode)
     {
-        return _context.Students
+        return _students
             .Any(_ => _.NationalCode == nationalCode);
     }
 
     public bool IsStudentExist(int id)
     {
-        return _context.Students.Any(_ => _.Id == id);
+        return _students.Any(_ => _.Id == id);
     }
 }

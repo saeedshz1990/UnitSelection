@@ -20,7 +20,8 @@ public class FailedWhenStudentIsExist : EFDataContextDatabaseFixture
     private Student _student;
     private Func<Task> _actualResult;
 
-    public FailedWhenStudentIsExist(ConfigurationFixture configuration) : base(configuration)
+    public FailedWhenStudentIsExist(
+        ConfigurationFixture configuration) : base(configuration)
     {
         _context = CreateDataContext();
         _sut = StudentServiceFactory.GenerateStudentService(_context);
@@ -42,8 +43,10 @@ public class FailedWhenStudentIsExist : EFDataContextDatabaseFixture
         _context.Manipulate(_ => _.Add(_student));
     }
 
-    [BDDHelper.When("یک دانشجو با نام ‘ سعید انصاری’ " +
-                    "به تاریخ تولد ‘1369’ و شماره شناسنامه ‘2280509504 ‘ " +
+    [BDDHelper.When("یک دانشجو با نام" +
+                    " ‘ سعید انصاری’ " +
+                    "به تاریخ تولد ‘1369’ و " +
+                    "شماره شناسنامه ‘2280509504 ‘ " +
                     " در سیستم ثبت می کنم.")]
     private async Task When()
     {
@@ -62,8 +65,7 @@ public class FailedWhenStudentIsExist : EFDataContextDatabaseFixture
     [BDDHelper.Then("یک پیغام خطا با نام ‘دانشجو در سیستم وجود دارد’ به کاربر نمایش دهد.")]
     private async Task Then()
     {
-        await _actualResult.Should().
-            ThrowExactlyAsync<StudentIsExistException>();
+        await _actualResult.Should().ThrowExactlyAsync<StudentIsExistException>();
     }
 
     [Fact]

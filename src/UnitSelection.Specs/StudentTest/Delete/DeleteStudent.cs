@@ -11,21 +11,23 @@ using Xunit;
 
 namespace UnitSelection.Specs.StudentTest.Delete;
 
-public class DeleteStudent:EFDataContextDatabaseFixture
+public class DeleteStudent : EFDataContextDatabaseFixture
 {
     private readonly EFDataContext _context;
     private readonly StudentService _sut;
     private Student _student;
-    
-    public DeleteStudent(ConfigurationFixture configuration) 
+
+    public DeleteStudent(ConfigurationFixture configuration)
         : base(configuration)
     {
         _context = CreateDataContext();
-        _sut=StudentServiceFactory.GenerateStudentService(_context);
+        _sut = StudentServiceFactory.GenerateStudentService(_context);
     }
-    
-    [BDDHelper.Given("یک دانشجو با نام ‘ سعید انصاری’ به تاریخ تولد ‘1369’ " +
-                     "و شماره شناسنامه ‘2280509504 ‘ وجود دارد.")]
+
+    [BDDHelper.Given("یک دانشجو با نام ‘ سعید انصاری’" +
+                     " به تاریخ تولد ‘1369’ " +
+                     "و شماره شناسنامه" +
+                     " ‘2280509504 ‘ وجود دارد.")]
     private void Given()
     {
         _student = new StudentBuilder()
@@ -39,15 +41,19 @@ public class DeleteStudent:EFDataContextDatabaseFixture
         _context.Manipulate(_ => _.Add(_student));
     }
 
-    [BDDHelper.When("دانشجو با نام ‘ سعید انصاری’ به تاریخ تولد ‘1369’ " +
-                    "و شماره شناسنامه ‘2280509504 ‘از سیستم حذف می کنم")]
+    [BDDHelper.When("دانشجو با نام ‘ سعید انصاری’" +
+                    " به تاریخ تولد ‘1369’ " +
+                    "و شماره شناسنامه ‘2280509504 ‘" +
+                    "از سیستم حذف می کنم")]
     private async Task When()
     {
         await _sut.Delete(_student.Id);
     }
 
-    [BDDHelper.Then("نباید دانشجویی با نام ‘ سعید انصاری’ به تاریخ تولد ‘1369’ " +
-                    "و شماره شناسنامه ‘2280509504 ‘در سیستم وجود داشته باشد.")]
+    [BDDHelper.Then("نباید دانشجویی با نام ‘ سعید انصاری’" +
+                    " به تاریخ تولد ‘1369’ " +
+                    "و شماره شناسنامه ‘2280509504 ‘" +
+                    "در سیستم وجود داشته باشد.")]
     private async Task Then()
     {
         var actualResult = await _context.Students.ToListAsync();
