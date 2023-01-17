@@ -7,6 +7,7 @@ using UnitSelection.Services.ClassServices.Contract;
 using UnitSelection.Services.ClassServices.Contract.Dto;
 using UnitSelection.Services.ClassServices.Exceptions;
 using UnitSelection.Services.Terms.Exceptions;
+using UnitSelection.TestTools.ChooseUnitTestTools;
 using UnitSelection.TestTools.ClassTestTools;
 using UnitSelection.TestTools.TermTestTools;
 using Xunit;
@@ -226,8 +227,29 @@ public class ClassServiceTests
     public async Task Delete_throw_exception_when_class_not_found_properly(int invalidId)
     {
         var actualResult = async () => await _sut.Delete(invalidId);
-        
+
         await actualResult.Should()
             .ThrowExactlyAsync<ClassNotFoundException>();
+    }
+
+    [Fact]
+    public async Task Delete_throw_exception_when_course_selected_by_student_properly()
+    {
+        var term = new TermBuilder().Build();
+        _context.Manipulate(_ => _.Add(term));
+        var firstClass = new ClassBuilder()
+            .WithTermId(term.Id)
+            .Build();
+        _context.Manipulate(_ => _.Add(firstClass));
+        var chooseUnit = new ChooseUnitBuilder()
+            .WithClassId(firstClass.Id)
+            .Build();
+        _context.Manipulate(_ => _.Add(chooseUnit));
+
+        var actualResult = async () => await _sut.Delete(firstClass.Id);
+        
+        await actualResult.Should()
+            .ThrowExactlyAsync<ClassSelectedByStudentException>();
+
     }
 }

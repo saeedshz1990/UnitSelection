@@ -72,4 +72,9 @@ public class EFClassRepository : ClassRepository
         return _context.Classes
             .FirstOrDefault(_ => _.Id == id);
     }
+
+    public bool IsExistInChooseUnit(int courseId)
+    {
+        return _context.ChooseUnits.Any(_ => _.ClassId == courseId);
+    }
 }

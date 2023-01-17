@@ -3,6 +3,7 @@ using UnitSelection.Infrastructure.Application;
 using UnitSelection.Services.ClassServices.Contract;
 using UnitSelection.Services.ClassServices.Contract.Dto;
 using UnitSelection.Services.ClassServices.Exceptions;
+using UnitSelection.Services.CourseServices.Exceptions;
 using UnitSelection.Services.Terms.Contract;
 using UnitSelection.Services.Terms.Exceptions;
 
@@ -87,11 +88,18 @@ public class ClassAppService : ClassService
     public async Task Delete(int id)
     {
         var newClass = _repository.FindById(id);
-        if (newClass==null)
+        if (newClass == null)
         {
             throw new ClassNotFoundException();
         }
 
+        var chooseUnit = _repository.IsExistInChooseUnit(id);
+
+        if (chooseUnit)
+        {
+            throw new ClassSelectedByStudentException();
+        }
+        
         _repository.Delete(newClass);
         await _unitOfWork.Complete();
     }
