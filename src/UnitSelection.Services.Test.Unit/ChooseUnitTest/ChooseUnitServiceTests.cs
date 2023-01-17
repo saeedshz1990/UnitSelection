@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
 using UnitSelection.Infrastructure.Test;
 using UnitSelection.Persistence.EF;
 using UnitSelection.Services.ChooseUnitServices.Contracts;
@@ -259,7 +260,7 @@ public class ChooseUnitServiceTests
     {
         var term = TermServiceFactoryDto.GenerateTerms();
         _context.Manipulate(_ => _.Add(term));
-        var secondTerm=TermServiceFactoryDto.GenerateTerms("secondTerm");
+        var secondTerm = TermServiceFactoryDto.GenerateTerms("secondTerm");
         _context.Manipulate(_ => _.Add(secondTerm));
         var newClass = new ClassBuilder()
             .WithTermId(term.Id)
@@ -314,5 +315,74 @@ public class ChooseUnitServiceTests
         actualResult.CourseId.Should().Be(dto.CourseId);
         actualResult.StudentId.Should().Be(dto.StudentId);
         actualResult.TeacherId.Should().Be(dto.TeacherId);
+    }
+
+    [Fact]
+    public async Task Delete_delete_choose_unit_properly()
+    {
+        var term = TermServiceFactoryDto.GenerateTerms();
+        _context.Manipulate(_ => _.Add(term));
+        var secondTerm = TermServiceFactoryDto.GenerateTerms("secondTerm");
+        _context.Manipulate(_ => _.Add(secondTerm));
+        var newClass = new ClassBuilder()
+            .WithTermId(term.Id)
+            .WithName("101")
+            .Build();
+        _context.Manipulate(_ => _.Add(newClass));
+        var course = new CourseDtoBuilder()
+            .WithName("مهندسی نرم افزار")
+            .WithStartHour("08:00")
+            .WithEndHour("11:00")
+            .WithUnitCount(18)
+            .WithClassId(newClass.Id)
+            .Build();
+        _context.Manipulate(_ => _context.Add(course));
+        var secondCourse = new CourseDtoBuilder()
+            .WithName("مهندسی نرم افزار")
+            .WithStartHour("12:00")
+            .WithEndHour("14:00")
+            .WithUnitCount(3)
+            .WithClassId(newClass.Id)
+            .Build();
+        _context.Manipulate(_ => _context.Add(secondCourse));
+        var teacher = new TeacherBuilder()
+            .WithFirstName("آرش")
+            .WithLastName("چناری")
+            .WithNationalCode("2294321905")
+            .WithDiploma("کارشناسی ارشد")
+            .WithStudy("مهندسی نرم افزار")
+            .WithCourseId(course.Id)
+            .Build();
+        _context.Manipulate(_ => _.Add(teacher));
+        var student = new StudentBuilder()
+            .WithFirstName("سعید")
+            .WithLastName("انصاری")
+            .WithNationalCode("2280509504")
+            .WithMobileNumber("9177877225", "98")
+            .Build();
+        _context.Manipulate(_ => _.Add(student));
+        var dto = new ChooseUnitBuilder()
+            .WithClassId(newClass.Id)
+            .WithCourseId(course.Id)
+            .WithStudentId(student.Id)
+            .WithTeacherId(teacher.Id)
+            .WithTermId(term.Id)
+            .Build();
+        _context.Manipulate(_ => _.Add(dto));
+
+        await _sut.Delete(dto.Id);
+
+        var actualResult = await _context.ChooseUnits.ToListAsync();
+        actualResult.Should().HaveCount(0);
+    }
+
+    [Theory]
+    [InlineData(-1)]
+    public async Task Delete_throw_exception_when_not_found_choose_unit_properly(int invalidId)
+    {
+        var actualResult = async () => await _sut.Delete(invalidId);
+
+        await actualResult.Should()
+            .ThrowExactlyAsync<ChooseUnitNotFoundException>();
     }
 }

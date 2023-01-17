@@ -116,6 +116,16 @@ public class EFChooseUnitRepository : ChooseUnitRepository
         return result;
     }
 
+    public void Delete(ChooseUnit unit)
+    {
+        _context.Remove(unit);
+    }
+
+    public ChooseUnit? FindById(int id)
+    {
+        return _context.ChooseUnits.FirstOrDefault(_ => _.Id == id);
+    }
+
     public bool IsConflictCourse(int courseId, int classId)
     {
         return _context.Courses.Any(_ => _.Id == courseId

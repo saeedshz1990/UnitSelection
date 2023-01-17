@@ -13,5 +13,6 @@ public interface ChooseUnitService :Service
     IList<GetChooseUnitDto> GetAll();
     GetChooseUnitByIdDto GetById(int id);
     GetChooseUnitByTermId GetByTermId(int termId);
+    Task Delete(int id);
     Student GetStudent(int studentId);
 }

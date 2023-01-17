@@ -13,6 +13,8 @@ public interface ChooseUnitRepository : Repository
     IList<GetChooseUnitDto> GetAll();
     GetChooseUnitByIdDto GetById(int id);
     GetChooseUnitByTermId GetByTermId(int termId);
+    void Delete(ChooseUnit unit);
+    ChooseUnit? FindById(int id);
     bool IsConflictCourse(int courseId, int classId);
     int GetCount(int studentId);
 }

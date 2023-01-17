@@ -75,6 +75,18 @@ public class ChooseUnitAppService : ChooseUnitService
         return _repository.GetByTermId(termId);
     }
 
+    public async Task Delete(int id)
+    {
+        var unit = _repository.FindById(id);
+        if (unit ==null)
+        {
+            throw new ChooseUnitNotFoundException();
+        }
+
+        _repository.Delete(unit);
+        await _unitOfWork.Complete();
+    }
+
     public Student GetStudent(int studentId)
     {
         return _repository.GetStudent(studentId);

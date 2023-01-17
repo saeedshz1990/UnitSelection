@@ -45,4 +45,9 @@ public class ChooseUnitControllers : ControllerBase
         return _chooseUnitService.GetByTermId(termId);
     }
 
+    [HttpDelete("{id}")]
+    public void Delete(int id)
+    {
+        _chooseUnitService.Delete(id);
+    }
 }
