@@ -33,11 +33,6 @@ public class CourseServiceTest
         _context.Manipulate(_ => _context.Add(newClass));
 
         var dto = new AddCourseDtoBuilder()
-            .WithName("ریاضی مهندسی")
-            .WithDayOfWeek("یکشنبه")
-            .WithUnitCount(3)
-            .WithStartHour("10:00")
-            .WithEndHour("13:00")
             .WithClassId(newClass.Id)
             .Build();
 
@@ -60,21 +55,11 @@ public class CourseServiceTest
         var newClass = ClassFactory.GenerateClass("101", term.Id);
         _context.Manipulate(_ => _.Add(newClass));
         var course = new CourseDtoBuilder()
-            .WithName("ریاضی مهندسی")
-            .WithDayOfWeek("یکشنبه")
-            .WithUnitCount(3)
-            .WithStartHour("10:00")
-            .WithEndHour("13:00")
             .WithClassId(newClass.Id)
             .Build();
         _context.Manipulate(_ => _.Add(course));
 
         var dto = new AddCourseDtoBuilder()
-            .WithName("ریاضی مهندسی")
-            .WithDayOfWeek("یکشنبه")
-            .WithUnitCount(3)
-            .WithStartHour("10:00")
-            .WithEndHour("13:00")
             .WithClassId(newClass.Id)
             .Build();
 
@@ -95,11 +80,7 @@ public class CourseServiceTest
         _context.Manipulate(_ => _.Add(newClass));
 
         var dto = new AddCourseDtoBuilder()
-            .WithName("ریاضی مهندسی")
-            .WithDayOfWeek("یکشنبه")
             .WithUnitCount(invalidCount)
-            .WithStartHour("10:00")
-            .WithEndHour("13:00")
             .WithClassId(newClass.Id)
             .Build();
 
@@ -117,19 +98,14 @@ public class CourseServiceTest
         var newClass = ClassFactory.GenerateClass("101", term.Id);
         _context.Manipulate(_ => _.Add(newClass));
         var course = new CourseDtoBuilder()
-            .WithName("ریاضی مهندسی")
-            .WithDayOfWeek("یکشنبه")
-            .WithUnitCount(3)
-            .WithStartHour("10:00")
-            .WithEndHour("13:00")
             .WithClassId(newClass.Id)
             .Build();
         _context.Manipulate(_ => _.Add(course));
         var dto = new UpdateCourseDto
         {
-            Name = "مهندسی نرم افزار",
+            Name = "updatedDummy",
             UnitCount = 3,
-            DayOfWeek = "یکشنبه",
+            DayOfWeek = "dummy",
             StartHour = "08:00",
             EndHour = "10:00",
             ClassId = newClass.Id
@@ -156,9 +132,9 @@ public class CourseServiceTest
         _context.Manipulate(_ => _.Add(newClass));
         var dto = new UpdateCourseDto
         {
-            Name = "مهندسی نرم افزار",
+            Name = "updatedDummy",
             UnitCount = 3,
-            DayOfWeek = "یکشنبه",
+            DayOfWeek = "dummy",
             StartHour = "08:00",
             EndHour = "10:00",
             ClassId = newClass.Id
@@ -242,7 +218,7 @@ public class CourseServiceTest
         var newClass = ClassFactory.GenerateClass("101", term.Id);
         _context.Manipulate(_ => _.Add(newClass));
         var firstDummy = new CourseDtoBuilder()
-            .WithName("ریاضی مهندسی")
+            .WithName("dummy")
             .WithDayOfWeek("یکشنبه")
             .WithUnitCount(3)
             .WithStartHour("10:00")
@@ -251,7 +227,7 @@ public class CourseServiceTest
             .Build();
         _context.Manipulate(_ => _.Add(firstDummy));
         var secondDummy = new CourseDtoBuilder()
-            .WithName("مهندسی نرم افزار")
+            .WithName("  new dummy")
             .WithDayOfWeek("یکشنبه")
             .WithUnitCount(3)
             .WithStartHour("10:00")
@@ -283,7 +259,7 @@ public class CourseServiceTest
         var newClass = ClassFactory.GenerateClass("101", term.Id);
         _context.Manipulate(_ => _.Add(newClass));
         var firstDummy = new CourseDtoBuilder()
-            .WithName("ریاضی مهندسی")
+            .WithName("dummy")
             .WithDayOfWeek("یکشنبه")
             .WithUnitCount(3)
             .WithStartHour("10:00")
@@ -292,7 +268,7 @@ public class CourseServiceTest
             .Build();
         _context.Manipulate(_ => _.Add(firstDummy));
         var secondDummy = new CourseDtoBuilder()
-            .WithName("مهندسی نرم افزار")
+            .WithName("new dummy")
             .WithDayOfWeek("یکشنبه")
             .WithUnitCount(3)
             .WithStartHour("10:00")
@@ -303,13 +279,14 @@ public class CourseServiceTest
 
         _sut.GetById(secondDummy.Id);
 
-        var actualResult = await _context.Courses.FirstOrDefaultAsync(_ => _.Id == secondDummy.Id);
+        var actualResult = await _context.Courses
+            .FirstOrDefaultAsync(_ => _.Id == secondDummy.Id);
         actualResult!.Name.Should().Be(secondDummy.Name);
-        actualResult!.DayOfWeek.Should().Be(secondDummy.DayOfWeek);
-        actualResult!.UnitCount.Should().Be(secondDummy.UnitCount);
-        actualResult!.StartHour.Should().Be(secondDummy.StartHour);
-        actualResult!.EndHour.Should().Be(secondDummy.EndHour);
-        actualResult!.ClassId.Should().Be(secondDummy.ClassId);
+        actualResult.DayOfWeek.Should().Be(secondDummy.DayOfWeek);
+        actualResult.UnitCount.Should().Be(secondDummy.UnitCount);
+        actualResult.StartHour.Should().Be(secondDummy.StartHour);
+        actualResult.EndHour.Should().Be(secondDummy.EndHour);
+        actualResult.ClassId.Should().Be(secondDummy.ClassId);
     }
 
     [Fact]
@@ -322,7 +299,7 @@ public class CourseServiceTest
         var secondClass = ClassFactory.GenerateClass("102", term.Id);
         _context.Manipulate(_ => _.Add(secondClass));
         var firstDummy = new CourseDtoBuilder()
-            .WithName("ریاضی مهندسی")
+            .WithName("dummy")
             .WithDayOfWeek("یکشنبه")
             .WithUnitCount(3)
             .WithStartHour("10:00")
@@ -331,7 +308,7 @@ public class CourseServiceTest
             .Build();
         _context.Manipulate(_ => _.Add(firstDummy));
         var secondDummy = new CourseDtoBuilder()
-            .WithName("مهندسی نرم افزار")
+            .WithName("new dummy")
             .WithDayOfWeek("یکشنبه")
             .WithUnitCount(3)
             .WithStartHour("10:00")
@@ -358,7 +335,7 @@ public class CourseServiceTest
         var newClass = ClassFactory.GenerateClass("101", term.Id);
         _context.Manipulate(_ => _.Add(newClass));
         var course = new CourseDtoBuilder()
-            .WithName("ریاضی مهندسی")
+            .WithName("dummy")
             .WithDayOfWeek("یکشنبه")
             .WithUnitCount(3)
             .WithStartHour("10:00")
@@ -378,7 +355,7 @@ public class CourseServiceTest
     public async Task Delete_throw_exception_when_course_notFound_properly(int invalidId)
     {
         var actualResult = async () => await _sut.Delete(invalidId);
-        
+
         await actualResult.Should()
             .ThrowExactlyAsync<CourseNotFoundException>();
     }
@@ -391,7 +368,7 @@ public class CourseServiceTest
         var newclass = ClassFactory.GenerateClass("106", term.Id);
         _context.Manipulate(_ => _.Add(newclass));
         var course = new CourseDtoBuilder()
-            .WithName("ریاضی مهندسی")
+            .WithName("dummy")
             .WithDayOfWeek("یکشنبه")
             .WithUnitCount(3)
             .WithStartHour("10:00")
@@ -403,9 +380,9 @@ public class CourseServiceTest
             .WithCourseId(course.Id)
             .Build();
         _context.Manipulate(_ => _.Add(chooseUnit));
-        
+
         var actualResult = async () => await _sut.Delete(course.Id);
-        
+
         await actualResult.Should()
             .ThrowExactlyAsync<CourseSelectedByStudentException>();
     }

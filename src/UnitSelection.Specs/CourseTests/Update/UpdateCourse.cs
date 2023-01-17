@@ -66,11 +66,11 @@ public class UpdateCourse : EFDataContextDatabaseFixture
     {
         var actualResult = await _context.Courses.FirstOrDefaultAsync();
         actualResult!.Name.Should().Be(_dto.Name);
-        actualResult!.StartHour.Should().Be(_dto.StartHour);
-        actualResult!.EndHour.Should().Be(_dto.EndHour);
-        actualResult!.UnitCount.Should().Be(_dto.UnitCount);
-        actualResult!.DayOfWeek.Should().Be(_dto.DayOfWeek);
-        actualResult!.ClassId.Should().Be(_dto.ClassId);
+        actualResult.StartHour.Should().Be(_dto.StartHour);
+        actualResult.EndHour.Should().Be(_dto.EndHour);
+        actualResult.UnitCount.Should().Be(_dto.UnitCount);
+        actualResult.DayOfWeek.Should().Be(_dto.DayOfWeek);
+        actualResult.ClassId.Should().Be(_dto.ClassId);
     }
 
     [Fact]

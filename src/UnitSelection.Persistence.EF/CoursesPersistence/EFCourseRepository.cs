@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using UnitSelection.Entities.ChooseUnits;
 using UnitSelection.Entities.Courses;
 using UnitSelection.Services.CourseServices.Contract;
 using UnitSelection.Services.CourseServices.Contract.Dto;
@@ -7,26 +8,28 @@ namespace UnitSelection.Persistence.EF.CoursesPersistence;
 
 public class EFCourseRepository : CourseRepository
 {
-    private readonly EFDataContext _context;
+    private readonly DbSet<Course> _courses;
+    private readonly DbSet<ChooseUnit> _chooseUnits;
 
     public EFCourseRepository(EFDataContext context)
     {
-        _context = context;
+        _courses = context.Set<Course>();
+        _chooseUnits = context.Set<ChooseUnit>();
     }
 
     public void Add(Course course)
     {
-        _context.Add(course);
+        _courses.Add(course);
     }
 
     public void Update(Course dto)
     {
-        _context.Update(dto);
+        _courses.Update(dto);
     }
 
     public IList<GetCourseDto> GetAll()
     {
-        return _context.Courses
+        return _courses
             .Select(_ => new GetCourseDto
             {
                 Id = _.Id,
@@ -42,7 +45,7 @@ public class EFCourseRepository : CourseRepository
 
     public GetCourseByIdDto GetById(int id)
     {
-        return _context.Courses
+        return _courses
             .Where(_ => _.Id == id)
             .Select(_ => new GetCourseByIdDto
             {
@@ -58,7 +61,7 @@ public class EFCourseRepository : CourseRepository
 
     public GetCourseByClassIdDto GetByClassId(int classId)
     {
-        return _context.Courses
+        return _courses
             .Where(_ => _.ClassId == classId)
             .Select(_ => new GetCourseByClassIdDto
             {
@@ -73,22 +76,22 @@ public class EFCourseRepository : CourseRepository
 
     public bool IsCourseNameExist(string name)
     {
-        return _context.Courses.Any(_ => _.Name == name);
+        return _courses.Any(_ => _.Name == name);
     }
 
     public Course FindById(int id)
     {
-        return _context.Courses.FirstOrDefault(_ => _.Id == id)!;
+        return _courses.FirstOrDefault(_ => _.Id == id)!;
     }
 
     public void Delete(Course course)
     {
-        _context.Remove(course);
+        _courses.Remove(course);
     }
 
     public Course GetCourseById(int id)
     {
-        return _context.Courses
+        return _courses
             .Include(_ => _.Teachers)
             .Include(_ => _.Class)
             .FirstOrDefault(_ => _.Id == id)!;
@@ -96,6 +99,6 @@ public class EFCourseRepository : CourseRepository
 
     public bool IsExistInChooseUnit(int courseId)
     {
-        return _context.ChooseUnits.Any(_ => _.CourseId == courseId);
+        return _chooseUnits.Any(_ => _.CourseId == courseId);
     }
 }

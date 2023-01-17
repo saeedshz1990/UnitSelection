@@ -9,6 +9,7 @@ using UnitSelection.Services.CourseServices.Exceptions;
 using UnitSelection.TestTools.ClassTestTools;
 using UnitSelection.TestTools.CourseTestTools;
 using UnitSelection.TestTools.TermTestTools;
+using Xunit;
 
 namespace UnitSelection.Specs.CourseTests.Add;
 
@@ -56,5 +57,15 @@ public class FailedWhenUnitCountEqualZero :EFDataContextDatabaseFixture
     {
         await _actualResult.Should()
             .ThrowExactlyAsync<CourseUnitCountCanNotBeZeroException>();
+    }
+    
+    [Fact]
+    public void Run()
+    {
+        BDDHelper.Runner.RunScenario(
+            _ => Given(),
+            _ => When().Wait(),
+            _ => Then().Wait()
+        );
     }
 }

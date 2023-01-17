@@ -80,22 +80,16 @@ public class CourseAppService : CourseService
     public async Task Delete(int id)
     {
         var course = _repository.FindById(id);
-        if (course == null)
-        {
-            throw new CourseNotFoundException();
-        }
+       StopIfCourseNotFound(course);
 
         var unit = _repository.IsExistInChooseUnit(id);
 
-        if (unit)
-        {
-            throw new CourseSelectedByStudentException();
-        }
+        StopIfCourseSelectedByStudent(unit);
 
         _repository.Delete(course);
         await _unitOfWork.Complete();
     }
-
+    
     public Course GetCourseById(int id)
     {
         return _repository.GetCourseById(id);
@@ -122,6 +116,14 @@ public class CourseAppService : CourseService
         if (course == null)
         {
             throw new CourseNotFoundException();
+        }
+    }
+    
+    private static void StopIfCourseSelectedByStudent(bool unit)
+    {
+        if (unit)
+        {
+            throw new CourseSelectedByStudentException();
         }
     }
 }
