@@ -7,26 +7,26 @@ namespace UnitSelection.Persistence.EF.TermPersistence;
 
 public class EFTermRepository : TermRepository
 {
-    private readonly EFDataContext _context;
+    private readonly DbSet<Term> _term;
 
     public EFTermRepository(EFDataContext context)
     {
-        _context = context;
+        _term = context.Set<Term>();
     }
 
     public void Add(Term term)
     {
-        _context.Add(term);
+        _term.Add(term);
     }
 
     public void Update(Term term)
     {
-        _context.Update(term);
+        _term.Update(term);
     }
 
     public Term GetById(int id)
     {
-        return _context.Terms
+        return _term
             .Select(_ => new Term
             {
                 Id = _.Id,
@@ -38,7 +38,7 @@ public class EFTermRepository : TermRepository
 
     public IList<GetTermsDto> GetAll()
     {
-        return _context.Terms.Select(_ => new GetTermsDto
+        return _term.Select(_ => new GetTermsDto
         {
             Id = _.Id,
             Name = _.Name,
@@ -49,23 +49,23 @@ public class EFTermRepository : TermRepository
 
     public void Delete(Term term)
     {
-        _context.Remove(term);
+        _term.Remove(term);
     }
 
     public bool IsNameExist(string name)
     {
-        return _context.Terms.Any(_ => _.Name == name);
+        return _term.Any(_ => _.Name == name);
     }
 
     public Term FindById(int id)
     {
-        return _context.Terms
+        return _term
             .FirstOrDefault(_ => _.Id == id)!;
     }
 
     public async Task<bool> CheckEndDate(DateTime startDate)
     {
-        var result = await _context.Terms
+        var result = await _term
             .AnyAsync(_ => _.EndDate <= startDate);
         return result;
     }
