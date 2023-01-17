@@ -5,6 +5,7 @@ using UnitSelection.Persistence.EF;
 using UnitSelection.Services.CourseServices.Contract;
 using UnitSelection.Services.CourseServices.Contract.Dto;
 using UnitSelection.Services.CourseServices.Exceptions;
+using UnitSelection.TestTools.ChooseUnitTestTools;
 using UnitSelection.TestTools.ClassTestTools;
 using UnitSelection.TestTools.CourseTestTools;
 using UnitSelection.TestTools.TermTestTools;
@@ -380,5 +381,32 @@ public class CourseServiceTest
         
         await actualResult.Should()
             .ThrowExactlyAsync<CourseNotFoundException>();
+    }
+
+    [Fact]
+    public async Task Delete_throw_exception_when_course_selected_by_student_properly()
+    {
+        var term = new TermBuilder().Build();
+        _context.Manipulate(_ => _context.Add(term));
+        var newclass = ClassFactory.GenerateClass("106", term.Id);
+        _context.Manipulate(_ => _.Add(newclass));
+        var course = new CourseDtoBuilder()
+            .WithName("ریاضی مهندسی")
+            .WithDayOfWeek("یکشنبه")
+            .WithUnitCount(3)
+            .WithStartHour("10:00")
+            .WithEndHour("13:00")
+            .WithClassId(newclass.Id)
+            .Build();
+        _context.Manipulate(_ => _.Add(course));
+        var chooseUnit = new ChooseUnitBuilder()
+            .WithCourseId(course.Id)
+            .Build();
+        _context.Manipulate(_ => _.Add(chooseUnit));
+        
+        var actualResult = async () => await _sut.Delete(course.Id);
+        
+        await actualResult.Should()
+            .ThrowExactlyAsync<CourseSelectedByStudentException>();
     }
 }

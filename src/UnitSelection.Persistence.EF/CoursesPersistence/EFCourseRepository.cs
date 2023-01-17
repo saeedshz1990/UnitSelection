@@ -93,4 +93,9 @@ public class EFCourseRepository : CourseRepository
             .Include(_ => _.Class)
             .FirstOrDefault(_ => _.Id == id)!;
     }
+
+    public bool IsExistInChooseUnit(int courseId)
+    {
+        return _context.ChooseUnits.Any(_ => _.CourseId == courseId);
+    }
 }

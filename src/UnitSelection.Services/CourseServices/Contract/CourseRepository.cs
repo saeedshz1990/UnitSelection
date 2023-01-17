@@ -15,4 +15,6 @@ public interface CourseRepository : Repository
     Course FindById(int id);
     void Delete(Course course);
     Course GetCourseById(int id);
+
+    bool IsExistInChooseUnit(int courseId);
 }

@@ -85,6 +85,13 @@ public class CourseAppService : CourseService
             throw new CourseNotFoundException();
         }
 
+        var unit = _repository.IsExistInChooseUnit(id);
+
+        if (unit)
+        {
+            throw new CourseSelectedByStudentException();
+        }
+
         _repository.Delete(course);
         await _unitOfWork.Complete();
     }
