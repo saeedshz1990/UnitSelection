@@ -8,7 +8,7 @@ using UnitSelection.Services.Terms.Contract.Dto;
 using UnitSelection.TestTools.TermTestTools;
 using Xunit;
 
-namespace UnitSelection.Specs.Term.Add;
+namespace UnitSelection.Specs.TermTest.Add;
 
 [BDDHelper.Scenario("تعریف ترم")]
 public class AddTerm : EFDataContextDatabaseFixture
@@ -25,12 +25,12 @@ public class AddTerm : EFDataContextDatabaseFixture
     }
 
     [BDDHelper.Given("هیچ ترمی در سیستم وجود ندارد.")]
-    public void Given()
+    private void Given()
     {
     }
 
     [BDDHelper.When("یک ترم با عنوان ترم ‘مهرماه’ به سیستم اضافه می کنم.")]
-    public async Task When()
+    private async Task When()
     {
         _dto =  new AddTermDtoBuilder()
             .WithName("مهرماه 1401")
@@ -42,7 +42,7 @@ public class AddTerm : EFDataContextDatabaseFixture
     }
 
     [BDDHelper.Then("تنها یک ترم با عنوان ‘مهرماه’ در سیستم وجود دارد.")]
-    public async Task Then()
+    private async Task Then()
     {
         var actualResult = await _context.Terms.FirstOrDefaultAsync();
         actualResult!.Name.Should().Be(_dto.Name);

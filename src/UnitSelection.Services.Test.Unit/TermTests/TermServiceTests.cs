@@ -7,7 +7,7 @@ using UnitSelection.Services.Terms.Exceptions;
 using UnitSelection.TestTools.TermTestTools;
 using Xunit;
 
-namespace UnitSelection.Services.Test.Unit.Terms;
+namespace UnitSelection.Services.Test.Unit.TermTests;
 
 public class TermServiceTests
 {
@@ -33,8 +33,8 @@ public class TermServiceTests
 
         var actualResult = await _context.Terms.FirstOrDefaultAsync();
         actualResult!.Name.Should().Be(dto.Name);
-        actualResult!.StartDate.Should().Be(dto.StartDate);
-        actualResult!.EndDate.Should().Be(dto.EndDate);
+        actualResult.StartDate.Should().Be(dto.StartDate);
+        actualResult.EndDate.Should().Be(dto.EndDate);
     }
 
     [Fact]
@@ -61,7 +61,7 @@ public class TermServiceTests
 
     [Fact]
     public async Task
-        Add_throw_exception_when_endDate_Equal_or_lowerthan_startdate_properly()
+        Add_throw_exception_when_endDate_Equal_or_lower_than_start_date_properly()
     {
         var dto = new AddTermDtoBuilder()
             .WithName("dummy")
@@ -95,8 +95,8 @@ public class TermServiceTests
 
         var actualResult = await _context.Terms.FirstOrDefaultAsync();
         actualResult!.Name.Should().Be(dto.Name);
-        actualResult!.StartDate.Should().Be(dto.StartDate);
-        actualResult!.EndDate.Should().Be(dto.EndDate);
+        actualResult.StartDate.Should().Be(dto.StartDate);
+        actualResult.EndDate.Should().Be(dto.EndDate);
     }
 
     [Theory]
@@ -144,7 +144,7 @@ public class TermServiceTests
 
     [Fact]
     public async Task
-        Update_throw_exception_when_endDate_Equal_or_lowerthan_startdate_properly()
+        Update_throw_exception_when_endDate_Equal_or_lower_than_start_date_properly()
     {
         var term = new TermBuilder()
             .WithName("dummy")
@@ -216,8 +216,8 @@ public class TermServiceTests
         var actualResult = await _context.Terms
             .FirstOrDefaultAsync();
         actualResult!.Name.Should().Be(firstTerm.Name);
-        actualResult!.StartDate.Should().Be(firstTerm.StartDate);
-        actualResult!.EndDate.Should().Be(firstTerm.EndDate);
+        actualResult.StartDate.Should().Be(firstTerm.StartDate);
+        actualResult.EndDate.Should().Be(firstTerm.EndDate);
     }
 
     [Fact]

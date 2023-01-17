@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using UnitSelection.Entities.Terms;
 
-namespace UnitSelection.Persistence.EF.Terms
+namespace UnitSelection.Persistence.EF.TermPersistence
 {
     public class TermEntityMap : IEntityTypeConfiguration<Term>
     {

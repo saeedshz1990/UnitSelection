@@ -2,7 +2,7 @@
 using Microsoft.OpenApi.Models;
 using UnitSelection.Infrastructure.Application;
 using UnitSelection.Persistence.EF;
-using UnitSelection.Persistence.EF.Terms;
+using UnitSelection.Persistence.EF.TermPersistence;
 using UnitSelection.Services.Terms;
 
 namespace UnitSelection.RestApi;

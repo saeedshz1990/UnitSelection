@@ -7,7 +7,7 @@ using UnitSelection.Services.Terms.Contract.Dto;
 using UnitSelection.Services.Terms.Exceptions;
 using UnitSelection.TestTools.TermTestTools;
 
-namespace UnitSelection.Specs.Term.Add;
+namespace UnitSelection.Specs.TermTest.Add;
 
 public class FailedWhenEndDateEqualOrLowerThanStartDate : EFDataContextDatabaseFixture
 {
@@ -24,12 +24,12 @@ public class FailedWhenEndDateEqualOrLowerThanStartDate : EFDataContextDatabaseF
     }
 
     [BDDHelper.Given("هیچ ترمی در سیستم وجود ندارد.")]
-    public void Given()
+    private void Given()
     {
     }
 
     [BDDHelper.When("یک ترم با عنوان ترم ‘مهرماه’ به سیستم اضافه می کنم.")]
-    public async Task When()
+    private async Task When()
     {
         _dto = new AddTermDtoBuilder()
             .WithName("مهرماه 1401")

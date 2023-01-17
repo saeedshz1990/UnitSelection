@@ -5,7 +5,7 @@ using UnitSelection.Entities.Courses;
 using UnitSelection.Entities.Students;
 using UnitSelection.Entities.Teachers;
 using UnitSelection.Entities.Terms;
-using UnitSelection.Persistence.EF.Terms;
+using UnitSelection.Persistence.EF.TermPersistence;
 
 namespace UnitSelection.Persistence.EF;
 

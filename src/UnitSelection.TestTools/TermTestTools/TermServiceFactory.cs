@@ -1,5 +1,5 @@
 ﻿using UnitSelection.Persistence.EF;
-using UnitSelection.Persistence.EF.Terms;
+using UnitSelection.Persistence.EF.TermPersistence;
 using UnitSelection.Services.Terms;
 using UnitSelection.Services.Terms.Contract;
 

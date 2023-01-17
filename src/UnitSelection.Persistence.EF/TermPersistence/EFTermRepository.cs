@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using UnitSelection.Entities.Terms; 
+using UnitSelection.Entities.Terms;
 using UnitSelection.Services.Terms.Contract;
 using UnitSelection.Services.Terms.Contract.Dto;
 
-namespace UnitSelection.Persistence.EF.Terms;
+namespace UnitSelection.Persistence.EF.TermPersistence;
 
 public class EFTermRepository : TermRepository
 {

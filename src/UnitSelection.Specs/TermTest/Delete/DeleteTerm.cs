@@ -8,7 +8,7 @@ using UnitSelection.Services.Terms.Contract;
 using UnitSelection.TestTools.TermTestTools;
 using Xunit;
 
-namespace UnitSelection.Specs.Term.Delete;
+namespace UnitSelection.Specs.TermTest.Delete;
 
 public class DeleteTerm : EFDataContextDatabaseFixture
 {
@@ -23,7 +23,7 @@ public class DeleteTerm : EFDataContextDatabaseFixture
     }
 
     [BDDHelper.Given("ترمی با عنوان ترم ‘مهرماه’ وجود دارد.")]
-    public void Given()
+    private void Given()
     {
         _term = new TermBuilder()
             .WithName("مهرماه 1401")
@@ -34,14 +34,14 @@ public class DeleteTerm : EFDataContextDatabaseFixture
     }
 
     [BDDHelper.When("ترمی با عنوان ‘مهرماه’ را حذف می کنم.")]
-    public async Task When()
+    private async Task When()
     {
        await _sut.Delete(_term.Id);
     }
 
     [BDDHelper.Then("هیچ ترمی با عنوان ‘مهرماه’ " +
                     "نباید در سیستم وجود داشته باشد.")]
-    public async Task Then()
+    private async Task Then()
     {
         var actualResult =await _context.Terms.ToListAsync();
         actualResult.Should().HaveCount(0);

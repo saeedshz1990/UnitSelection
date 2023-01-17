@@ -9,7 +9,7 @@ using UnitSelection.Services.Terms.Contract.Dto;
 using UnitSelection.TestTools.TermTestTools;
 using Xunit;
 
-namespace UnitSelection.Specs.Term.Update;
+namespace UnitSelection.Specs.TermTest.Update;
 
 public class UpdateTerm : EFDataContextDatabaseFixture
 {
@@ -25,7 +25,7 @@ public class UpdateTerm : EFDataContextDatabaseFixture
     }
 
     [BDDHelper.Given("ترمی با عنوان ترم ‘مهرماه’ وجود دارد.")]
-    public void Given()
+    private void Given()
     {
         _term = new TermBuilder()
             .WithName("مهرماه 1401")
@@ -36,7 +36,7 @@ public class UpdateTerm : EFDataContextDatabaseFixture
     }
 
     [BDDHelper.When("ترم ‘مهرماه’ را به ‘ بهمن ماه’ ویرایش می کنم")]
-    public async Task When()
+    private async Task When()
     {
         _dto = new UpdateTermDtoBuilder()
             .WithName("بهمن ماه 1401")
@@ -49,7 +49,7 @@ public class UpdateTerm : EFDataContextDatabaseFixture
 
     [BDDHelper.Then("تنها یک ترم با عنوان ‘بهمن ماه’" +
                     " باید در سیستم وجود داشته باشد.")]
-    public async Task Then()
+    private async Task Then()
     {
         var actualResult = await _context.Terms.FirstOrDefaultAsync();
         actualResult!.Name.Should().Be(_dto.Name);
