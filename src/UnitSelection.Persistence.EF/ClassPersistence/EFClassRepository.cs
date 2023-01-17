@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using UnitSelection.Entities.ChooseUnits;
 using UnitSelection.Entities.Classes;
 using UnitSelection.Services.ClassServices.Contract;
 using UnitSelection.Services.ClassServices.Contract.Dto;
@@ -7,26 +8,28 @@ namespace UnitSelection.Persistence.EF.ClassPersistence;
 
 public class EFClassRepository : ClassRepository
 {
-    private readonly EFDataContext _context;
+    private readonly DbSet<Class> _classes;
+    private readonly DbSet<ChooseUnit> _chooseUnits;
 
     public EFClassRepository(EFDataContext context)
     {
-        _context = context;
+        _classes = context.Set<Class>();
+        _chooseUnits = context.Set<ChooseUnit>();
     }
 
     public void Add(Class newClass)
     {
-        _context.Add(newClass);
+        _classes.Add(newClass);
     }
 
     public void Update(Class newClass)
     {
-        _context.Update(newClass);
+        _classes.Update(newClass);
     }
 
     public IList<GetClassDto> GetAll()
     {
-        return _context.Classes.Select(_ => new GetClassDto
+        return _classes.Select(_ => new GetClassDto
         {
             Id = _.Id,
             Name = _.Name,
@@ -36,7 +39,7 @@ public class EFClassRepository : ClassRepository
 
     public GetClassByIdDto GetById(int id)
     {
-        return _context.Classes
+        return _classes
             .Where(_ => _.Id == id)
             .Select(_ => new GetClassByIdDto
             {
@@ -47,7 +50,7 @@ public class EFClassRepository : ClassRepository
 
     public GetClassByTermIdDto? GetByTermId(int termId)
     {
-        return _context.Classes
+        return _classes
             .Where(_ => _.TermId == termId)
             .Include(_ => _.Term)
             .Select(_ => new GetClassByTermIdDto
@@ -58,23 +61,23 @@ public class EFClassRepository : ClassRepository
 
     public void Delete(Class newClass)
     {
-        _context.Remove(newClass);
+        _classes.Remove(newClass);
     }
 
     public bool IsNameExist(string name, int termId)
     {
-        return _context.Classes
+        return _classes
             .Any(_ => _.Name == name && _.TermId == termId);
     }
 
     public Class FindById(int id)
     {
-        return _context.Classes
+        return _classes
             .FirstOrDefault(_ => _.Id == id);
     }
 
     public bool IsExistInChooseUnit(int courseId)
     {
-        return _context.ChooseUnits.Any(_ => _.ClassId == courseId);
+        return _chooseUnits.Any(_ => _.ClassId == courseId);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using UnitSelection.Entities.Terms;
 using UnitSelection.Infrastructure.Test;
 using UnitSelection.Infrastructures.Test;
 using UnitSelection.Infrastructures.Test.Infrastructure;
@@ -17,7 +18,7 @@ public class FailedWhenClassNameIsDuplicated : EFDataContextDatabaseFixture
     private readonly EFDataContext _context;
     private readonly ClassService _sut;
     private AddClassDto _dto;
-    private Entities.Terms.Term _term;
+    private Term _term;
     private Func<Task> _actualResult;
 
     public FailedWhenClassNameIsDuplicated(

@@ -4,7 +4,7 @@ namespace UnitSelection.TestTools.ClassTestTools;
 
 public class AddClassDtoBuilder
 {
-    private AddClassDto _dto;
+    private readonly AddClassDto _dto;
 
     public AddClassDtoBuilder()
     {

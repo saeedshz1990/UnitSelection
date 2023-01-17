@@ -4,7 +4,7 @@ namespace UnitSelection.TestTools.ClassTestTools;
 
 public class ClassBuilder
 {
-    private Class _class;
+    private readonly Class _class;
 
     public ClassBuilder()
     {

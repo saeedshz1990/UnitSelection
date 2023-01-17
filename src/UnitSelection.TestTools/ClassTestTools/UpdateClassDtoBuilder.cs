@@ -4,7 +4,7 @@ namespace UnitSelection.TestTools.ClassTestTools;
 
 public class UpdateClassDtoBuilder
 {
-    private UpdateClassDto _dto;
+    private readonly UpdateClassDto _dto;
 
     public UpdateClassDtoBuilder()
     {

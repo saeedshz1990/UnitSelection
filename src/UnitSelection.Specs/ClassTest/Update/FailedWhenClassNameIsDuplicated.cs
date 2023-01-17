@@ -23,7 +23,8 @@ public class FailedWhenClassNameIsDuplicated : EFDataContextDatabaseFixture
     private UpdateClassDto _dto;
     private Func<Task> _actualResult;
 
-    public FailedWhenClassNameIsDuplicated(ConfigurationFixture configuration) : base(configuration)
+    public FailedWhenClassNameIsDuplicated(
+        ConfigurationFixture configuration) : base(configuration)
     {
         _context = CreateDataContext();
         _sut = ClassServiceFactory.GenerateClassService(_context);

@@ -1,9 +1,9 @@
 ﻿using UnitSelection.Entities.Classes;
+using UnitSelection.Entities.Terms;
 using UnitSelection.Infrastructure.Application;
 using UnitSelection.Services.ClassServices.Contract;
 using UnitSelection.Services.ClassServices.Contract.Dto;
 using UnitSelection.Services.ClassServices.Exceptions;
-using UnitSelection.Services.CourseServices.Exceptions;
 using UnitSelection.Services.Terms.Contract;
 using UnitSelection.Services.Terms.Exceptions;
 
@@ -29,10 +29,7 @@ public class ClassAppService : ClassService
     {
         var nameClass = _repository.IsNameExist(dto.Name, dto.TermId);
 
-        if (nameClass)
-        {
-            throw new ClassNameIsDuplicatedException();
-        }
+        StopIfClassNameIsExist(nameClass);
 
         var newClass = new Class
         {
@@ -47,21 +44,12 @@ public class ClassAppService : ClassService
     public async Task Update(UpdateClassDto dto, int id)
     {
         var newClass = _repository.FindById(id);
-        if (newClass == null)
-        {
-            throw new ClassNotFoundException();
-        }
+        StopIfClassNotFound(newClass);
 
-        if (_repository.IsNameExist(dto.Name, dto.TermId))
-        {
-            throw new ClassNameIsDuplicatedException();
-        }
+        StopIfClassNameIsDuplicated(dto);
 
         var terms = _termRepository.FindById(dto.TermId);
-        if (terms == null)
-        {
-            throw new TermsNotFoundException();
-        }
+        StopIfTermsNotFound(terms);
 
         newClass.Name = dto.Name;
         newClass.TermId = dto.TermId;
@@ -69,7 +57,7 @@ public class ClassAppService : ClassService
         _repository.Update(newClass);
         await _unitOfWork.Complete();
     }
-
+    
     public IList<GetClassDto> GetAll()
     {
         return _repository.GetAll();
@@ -88,19 +76,53 @@ public class ClassAppService : ClassService
     public async Task Delete(int id)
     {
         var newClass = _repository.FindById(id);
-        if (newClass == null)
-        {
-            throw new ClassNotFoundException();
-        }
+        StopIfClassNotFound(newClass);
 
         var chooseUnit = _repository.IsExistInChooseUnit(id);
 
+        StopIfClassSelectedByStudent(chooseUnit);
+        
+        _repository.Delete(newClass);
+        await _unitOfWork.Complete();
+    }
+
+    private static void StopIfClassSelectedByStudent(bool chooseUnit)
+    {
         if (chooseUnit)
         {
             throw new ClassSelectedByStudentException();
         }
-        
-        _repository.Delete(newClass);
-        await _unitOfWork.Complete();
+    }
+
+    private void StopIfClassNameIsDuplicated(UpdateClassDto dto)
+    {
+        if (_repository.IsNameExist(dto.Name, dto.TermId))
+        {
+            throw new ClassNameIsDuplicatedException();
+        }
+    }
+
+    private static void StopIfClassNameIsExist(bool nameClass)
+    {
+        if (nameClass)
+        {
+            throw new ClassNameIsDuplicatedException();
+        }
+    }
+    
+    private static void StopIfTermsNotFound(Term terms)
+    {
+        if (terms == null)
+        {
+            throw new TermsNotFoundException();
+        }
+    }
+
+    private static void StopIfClassNotFound(Class newClass)
+    {
+        if (newClass == null)
+        {
+            throw new ClassNotFoundException();
+        }
     }
 }

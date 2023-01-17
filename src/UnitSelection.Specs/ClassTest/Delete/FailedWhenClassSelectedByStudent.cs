@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using UnitSelection.Entities.Classes;
+using UnitSelection.Entities.Terms;
 using UnitSelection.Infrastructure.Test;
 using UnitSelection.Infrastructures.Test;
 using UnitSelection.Infrastructures.Test.Infrastructure;
@@ -17,11 +18,12 @@ public class FailedWhenClassSelectedByStudent : EFDataContextDatabaseFixture
 {
     private readonly EFDataContext _context;
     private readonly ClassService _sut;
-    private Entities.Terms.Term _term;
+    private Term _term;
     private Class _firstClass;
     private Func<Task> _actualResult;
 
-    public FailedWhenClassSelectedByStudent(ConfigurationFixture configuration) : base(configuration)
+    public FailedWhenClassSelectedByStudent(
+        ConfigurationFixture configuration) : base(configuration)
     {
         _context = CreateDataContext();
         _sut = ClassServiceFactory.GenerateClassService(_context);

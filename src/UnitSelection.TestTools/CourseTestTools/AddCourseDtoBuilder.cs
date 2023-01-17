@@ -4,7 +4,7 @@ namespace UnitSelection.TestTools.CourseTestTools;
 
 public class AddCourseDtoBuilder
 {
-    private AddCourseDto _dto;
+    private readonly AddCourseDto _dto;
 
 
     public AddCourseDtoBuilder()

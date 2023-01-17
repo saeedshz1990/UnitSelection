@@ -48,17 +48,9 @@ public class ClassServiceTests
     {
         var term = new TermBuilder().Build();
         _context.Manipulate(_ => _context.Add(term));
-        var newClass = new Class
-        {
-            Name = "101",
-            TermId = term.Id
-        };
+        var newClass = ClassFactory.GenerateClass("dummy",term.Id);
         _context.Manipulate(_ => _.Add(newClass));
-        var dto = new AddClassDto
-        {
-            Name = "101",
-            TermId = term.Id
-        };
+        var dto = AddClassDtoFactory.GenerateAddClassDto("dummy",term.Id);
 
         var actualResult = async () => await _sut.Add(dto);
 
@@ -247,9 +239,8 @@ public class ClassServiceTests
         _context.Manipulate(_ => _.Add(chooseUnit));
 
         var actualResult = async () => await _sut.Delete(firstClass.Id);
-        
+
         await actualResult.Should()
             .ThrowExactlyAsync<ClassSelectedByStudentException>();
-
     }
 }

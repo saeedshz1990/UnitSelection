@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using UnitSelection.Entities.Classes;
+using UnitSelection.Entities.Terms;
 using UnitSelection.Infrastructure.Test;
 using UnitSelection.Infrastructures.Test;
 using UnitSelection.Infrastructures.Test.Infrastructure;
@@ -18,7 +19,7 @@ public class UpdateClass : EFDataContextDatabaseFixture
     private readonly EFDataContext _context;
     private readonly ClassService _sut;
     private UpdateClassDto _dto;
-    private Entities.Terms.Term _term;
+    private Term _term;
     private Class _firstClass;
 
 
