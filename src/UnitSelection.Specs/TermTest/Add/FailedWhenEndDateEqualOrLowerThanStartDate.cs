@@ -1,11 +1,11 @@
 ﻿using FluentAssertions;
-using UnitSelection.Infrastructures.Test;
-using UnitSelection.Infrastructures.Test.Infrastructure;
 using UnitSelection.Persistence.EF;
 using UnitSelection.Services.Terms.Contract;
 using UnitSelection.Services.Terms.Contract.Dto;
 using UnitSelection.Services.Terms.Exceptions;
+using UnitSelection.Specs.Infrastructure;
 using UnitSelection.TestTools.TermTestTools;
+using Xunit;
 
 namespace UnitSelection.Specs.TermTest.Add;
 
@@ -47,5 +47,15 @@ public class FailedWhenEndDateEqualOrLowerThanStartDate : EFDataContextDatabaseF
         await _actualResult
             .Should()
             .ThrowExactlyAsync<TheEndDateTermsCanNotLowerThanOrEqualStartDateException>();
+    }
+    
+    [Fact]
+    public void Run()
+    {
+        BDDHelper.Runner.RunScenario(
+            _ => Given(),
+            _ => When().Wait(),
+            _ => Then().Wait()
+        );
     }
 }

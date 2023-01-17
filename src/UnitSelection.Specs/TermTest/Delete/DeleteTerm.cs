@@ -1,10 +1,10 @@
 ﻿using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
+using UnitSelection.Entities.Terms;
 using UnitSelection.Infrastructure.Test;
-using UnitSelection.Infrastructures.Test;
-using UnitSelection.Infrastructures.Test.Infrastructure;
 using UnitSelection.Persistence.EF;
 using UnitSelection.Services.Terms.Contract;
+using UnitSelection.Specs.Infrastructure;
 using UnitSelection.TestTools.TermTestTools;
 using Xunit;
 
@@ -14,7 +14,7 @@ public class DeleteTerm : EFDataContextDatabaseFixture
 {
     private readonly TermService _sut;
     private readonly EFDataContext _context;
-    private Entities.Terms.Term _term;
+    private Term _term;
 
     public DeleteTerm(ConfigurationFixture configuration) : base(configuration)
     {

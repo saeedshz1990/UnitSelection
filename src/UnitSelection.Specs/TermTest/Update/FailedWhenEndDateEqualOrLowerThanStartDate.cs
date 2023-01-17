@@ -1,11 +1,11 @@
 ﻿using FluentAssertions;
+using UnitSelection.Entities.Terms;
 using UnitSelection.Infrastructure.Test;
-using UnitSelection.Infrastructures.Test;
-using UnitSelection.Infrastructures.Test.Infrastructure;
 using UnitSelection.Persistence.EF;
 using UnitSelection.Services.Terms.Contract;
 using UnitSelection.Services.Terms.Contract.Dto;
 using UnitSelection.Services.Terms.Exceptions;
+using UnitSelection.Specs.Infrastructure;
 using UnitSelection.TestTools.TermTestTools;
 using Xunit;
 
@@ -15,7 +15,7 @@ public class FailedWhenEndDateEqualOrLowerThanStartDate : EFDataContextDatabaseF
 {
     private readonly EFDataContext _context;
     private readonly TermService _sut;
-    private Entities.Terms.Term _term;
+    private Term _term;
     private UpdateTermDto _dto;
     private Func<Task> _actualResult;
 

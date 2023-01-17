@@ -1,12 +1,11 @@
 ﻿using FluentAssertions;
 using UnitSelection.Entities.Terms;
 using UnitSelection.Infrastructure.Test;
-using UnitSelection.Infrastructures.Test;
-using UnitSelection.Infrastructures.Test.Infrastructure;
 using UnitSelection.Persistence.EF;
 using UnitSelection.Services.ClassServices.Contract;
 using UnitSelection.Services.ClassServices.Contract.Dto;
 using UnitSelection.Services.ClassServices.Exceptions;
+using UnitSelection.Specs.Infrastructure;
 using UnitSelection.TestTools.ClassTestTools;
 using UnitSelection.TestTools.TermTestTools;
 using Xunit;

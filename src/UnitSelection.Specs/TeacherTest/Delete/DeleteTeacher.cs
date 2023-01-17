@@ -3,11 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using UnitSelection.Entities.Classes;
 using UnitSelection.Entities.Courses;
 using UnitSelection.Entities.Teachers;
+using UnitSelection.Entities.Terms;
 using UnitSelection.Infrastructure.Test;
-using UnitSelection.Infrastructures.Test;
-using UnitSelection.Infrastructures.Test.Infrastructure;
 using UnitSelection.Persistence.EF;
 using UnitSelection.Services.TeacherServices.Contract;
+using UnitSelection.Specs.Infrastructure;
 using UnitSelection.TestTools.ClassTestTools;
 using UnitSelection.TestTools.CourseTestTools;
 using UnitSelection.TestTools.TeacherTestTools;
@@ -20,7 +20,7 @@ public class DeleteTeacher : EFDataContextDatabaseFixture
 {
     private readonly EFDataContext _context;
     private readonly TeacherService _sut;
-    private Entities.Terms.Term _term;
+    private Term _term;
     private Class _newClass;
     private Course _course;
     private Teacher _teacher;

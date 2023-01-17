@@ -2,12 +2,12 @@
 using Microsoft.EntityFrameworkCore;
 using UnitSelection.Entities.Classes;
 using UnitSelection.Entities.Courses;
+using UnitSelection.Entities.Terms;
 using UnitSelection.Infrastructure.Test;
-using UnitSelection.Infrastructures.Test;
-using UnitSelection.Infrastructures.Test.Infrastructure;
 using UnitSelection.Persistence.EF;
 using UnitSelection.Services.TeacherServices.Contract;
 using UnitSelection.Services.TeacherServices.Contract.Dto;
+using UnitSelection.Specs.Infrastructure;
 using UnitSelection.TestTools.ClassTestTools;
 using UnitSelection.TestTools.CourseTestTools;
 using UnitSelection.TestTools.TeacherTestTools;
@@ -21,7 +21,7 @@ public class AddTeacher : EFDataContextDatabaseFixture
     private readonly EFDataContext _context;
     private readonly TeacherService _sut;
     private Class _newClass;
-    private Entities.Terms.Term _term;
+    private Term _term;
     private Course _course;
     private AddTeacherDto _dto;
 

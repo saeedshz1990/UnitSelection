@@ -5,11 +5,11 @@ using UnitSelection.Entities.Classes;
 using UnitSelection.Entities.Courses;
 using UnitSelection.Entities.Students;
 using UnitSelection.Entities.Teachers;
+using UnitSelection.Entities.Terms;
 using UnitSelection.Infrastructure.Test;
-using UnitSelection.Infrastructures.Test;
-using UnitSelection.Infrastructures.Test.Infrastructure;
 using UnitSelection.Persistence.EF;
 using UnitSelection.Services.ChooseUnitServices.Contracts;
+using UnitSelection.Specs.Infrastructure;
 using UnitSelection.TestTools.ChooseUnitTestTools;
 using UnitSelection.TestTools.ClassTestTools;
 using UnitSelection.TestTools.CourseTestTools;
@@ -27,7 +27,7 @@ public class DeleteChooseUnit :EFDataContextDatabaseFixture
     private Class _class;
     private Course _course;
     private Student _student;
-    private Entities.Terms.Term _term;
+    private Term _term;
     private Teacher _teacher;
     private ChooseUnit _chooseUnit;
     

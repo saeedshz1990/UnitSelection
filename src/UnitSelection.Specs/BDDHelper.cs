@@ -1,7 +1,7 @@
 ﻿using System.Linq.Expressions;
 using UnitSelection.Infrastructure;
 
-namespace UnitSelection.Infrastructures.Test;
+namespace UnitSelection.Specs;
 
 public static class BDDHelper
 {

@@ -1,12 +1,12 @@
 ﻿using FluentAssertions;
 using UnitSelection.Entities.Classes;
 using UnitSelection.Entities.Courses;
+using UnitSelection.Entities.Terms;
 using UnitSelection.Infrastructure.Test;
-using UnitSelection.Infrastructures.Test;
-using UnitSelection.Infrastructures.Test.Infrastructure;
 using UnitSelection.Persistence.EF;
 using UnitSelection.Services.CourseServices.Contract;
 using UnitSelection.Services.CourseServices.Exceptions;
+using UnitSelection.Specs.Infrastructure;
 using UnitSelection.TestTools.ChooseUnitTestTools;
 using UnitSelection.TestTools.ClassTestTools;
 using UnitSelection.TestTools.CourseTestTools;
@@ -20,7 +20,7 @@ public class FailedWhenThisCourseSelectedByStudent : EFDataContextDatabaseFixtur
     private readonly EFDataContext _context;
     private readonly CourseService _sut;
     private Course _course;
-    private Entities.Terms.Term _term;
+    private Term _term;
     private Class _class;
     private Func<Task> _actualResult;
 

@@ -1,12 +1,12 @@
 ﻿using FluentAssertions;
 using UnitSelection.Entities.Classes;
+using UnitSelection.Entities.Terms;
 using UnitSelection.Infrastructure.Test;
-using UnitSelection.Infrastructures.Test;
-using UnitSelection.Infrastructures.Test.Infrastructure;
 using UnitSelection.Persistence.EF;
 using UnitSelection.Services.ClassServices.Contract;
 using UnitSelection.Services.ClassServices.Contract.Dto;
 using UnitSelection.Services.ClassServices.Exceptions;
+using UnitSelection.Specs.Infrastructure;
 using UnitSelection.TestTools.ClassTestTools;
 using UnitSelection.TestTools.TermTestTools;
 using Xunit;
@@ -19,7 +19,7 @@ public class FailedWhenClassNameIsDuplicated : EFDataContextDatabaseFixture
     private readonly ClassService _sut;
     private Class _firstClass;
     private Class _secondClass;
-    private Entities.Terms.Term _term;
+    private Term _term;
     private UpdateClassDto _dto;
     private Func<Task> _actualResult;
 

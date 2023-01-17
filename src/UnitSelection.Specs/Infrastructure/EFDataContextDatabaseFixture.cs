@@ -1,7 +1,7 @@
 ﻿using UnitSelection.Persistence.EF;
 using Xunit;
 
-namespace UnitSelection.Infrastructures.Test.Infrastructure;
+namespace UnitSelection.Specs.Infrastructure;
 
 [Collection(nameof(ConfigurationFixture))]
 public class EFDataContextDatabaseFixture : DatabaseFixture

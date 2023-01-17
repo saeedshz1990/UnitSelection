@@ -3,11 +3,10 @@ using Microsoft.EntityFrameworkCore;
 using UnitSelection.Entities.Classes;
 using UnitSelection.Entities.Terms;
 using UnitSelection.Infrastructure.Test;
-using UnitSelection.Infrastructures.Test;
-using UnitSelection.Infrastructures.Test.Infrastructure;
 using UnitSelection.Persistence.EF;
 using UnitSelection.Services.ClassServices.Contract;
 using UnitSelection.Services.ClassServices.Contract.Dto;
+using UnitSelection.Specs.Infrastructure;
 using UnitSelection.TestTools.ClassTestTools;
 using UnitSelection.TestTools.TermTestTools;
 using Xunit;
@@ -21,8 +20,7 @@ public class UpdateClass : EFDataContextDatabaseFixture
     private UpdateClassDto _dto;
     private Term _term;
     private Class _firstClass;
-
-
+    
     public UpdateClass(ConfigurationFixture configuration) : base(configuration)
     {
         _context = CreateDataContext();

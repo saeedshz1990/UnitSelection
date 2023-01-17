@@ -1,11 +1,11 @@
 ﻿using FluentAssertions;
+using UnitSelection.Entities.Terms;
 using UnitSelection.Infrastructure.Test;
-using UnitSelection.Infrastructures.Test;
-using UnitSelection.Infrastructures.Test.Infrastructure;
 using UnitSelection.Persistence.EF;
 using UnitSelection.Services.Terms.Contract;
 using UnitSelection.Services.Terms.Contract.Dto;
 using UnitSelection.Services.Terms.Exceptions;
+using UnitSelection.Specs.Infrastructure;
 using UnitSelection.TestTools.TermTestTools;
 using Xunit;
 
@@ -16,8 +16,8 @@ public class FailedUpdateWhenNameEsExists : EFDataContextDatabaseFixture
     private readonly EFDataContext _context;
     private readonly TermService _sut;
     private UpdateTermDto _dto;
-    private Entities.Terms.Term _firstTerm;
-    private Entities.Terms.Term _secondTerm;
+    private Term _firstTerm;
+    private Term _secondTerm;
     private Func<Task> _actualResult;
 
     public FailedUpdateWhenNameEsExists(
