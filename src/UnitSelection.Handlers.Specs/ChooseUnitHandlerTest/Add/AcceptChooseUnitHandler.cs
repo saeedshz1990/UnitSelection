@@ -29,26 +29,29 @@ public class AcceptChooseUnitHandler : EFDataContextDatabaseFixture
     private Term _term;
     private Teacher _teacher;
     private AcceptChooseUnitDto _dto;
-    
+
     public AcceptChooseUnitHandler(
-        ConfigurationFixture configuration) 
+        ConfigurationFixture configuration)
         : base(configuration)
     {
         _context = CreateDataContext();
         _sut = HandlerServiceFactory.GenerateHandlerService(_context);
     }
-    
-    [BDDHelper.Given("هیچ انتخاب واحدی برای دانشجویی با نام ‘سعید انصاری’" +
-                     " با کد ملی ‘2280509504’ در سیستم وجود ندارد.")]
+
+    [BDDHelper.Given("هیچ انتخاب واحدی برای" +
+                     " دانشجویی با نام ‘سعید انصاری’" +
+                     " با کد ملی ‘2280509504’ در" +
+                     " سیستم وجود ندارد.")]
     private void Given()
     {
-        _term = TermServiceFactoryDto.GenerateTerms();
-        _context.Manipulate(_=>_.Add(_term));
+        _term = new TermBuilder()
+            .Build();
+        _context.Manipulate(_ => _.Add(_term));
         _class = new ClassBuilder()
             .WithTermId(_term.Id)
             .WithName("101")
             .Build();
-        _context.Manipulate(_=>_.Add(_class));
+        _context.Manipulate(_ => _.Add(_class));
         _course = new CourseDtoBuilder()
             .WithName("شی گرایی")
             .WithClassId(_class.Id)
@@ -60,6 +63,7 @@ public class AcceptChooseUnitHandler : EFDataContextDatabaseFixture
             .WithNationalCode("2294321905")
             .WithDiploma("کارشناسی ارشد")
             .WithStudy("مهندسی نرم افزار")
+            .WithMobileNumber("933321212", "98")
             .WithCourseId(_course.Id)
             .Build();
         _context.Manipulate(_ => _.Add(_teacher));
@@ -67,11 +71,13 @@ public class AcceptChooseUnitHandler : EFDataContextDatabaseFixture
             .WithFirstName("سعید")
             .WithLastName("انصاری")
             .WithNationalCode("2280509504")
+            .WithMobileNumber("936789123", "98")
             .Build();
         _context.Manipulate(_ => _.Add(_student));
     }
 
-    [BDDHelper.When("کلاس ‘101’ و درس ‘شی گرایی’ با استاد ‘ارش چناری’ انتخاب می کنم.")]
+    [BDDHelper.When("کلاس ‘101’ و درس ‘شی گرایی’ با استاد" +
+                    " ‘ارش چناری’ انتخاب می کنم.")]
     private async Task When()
     {
         _dto = new AcceptChooseUnitDtoBuilder()

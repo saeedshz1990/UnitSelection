@@ -4,7 +4,7 @@ namespace UnitSelection.TestTools.HandlerTestTools.AcceptChooseUnitHandler;
 
 public class AcceptChooseUnitDtoBuilder
 {
-    private AcceptChooseUnitDto _dto;
+    private readonly AcceptChooseUnitDto _dto;
 
     public AcceptChooseUnitDtoBuilder()
     {

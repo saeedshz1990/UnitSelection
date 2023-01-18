@@ -31,7 +31,7 @@ public class FailedWhenConflictedCourseHour : EFDataContextDatabaseFixture
     private Student _student;
     private Term _term;
     private Teacher _teacher;
-    private Teacher _secondTeacher;
+    private Teacher _newTeacher;
     private AddChooseUnitDto _dto;
     private Func<Task> _actualResult;
 
@@ -47,7 +47,8 @@ public class FailedWhenConflictedCourseHour : EFDataContextDatabaseFixture
                      " و ساعت 8:00 تا 11:00 انتخاب شده وجود دارد.")]
     private void Given()
     {
-        _term = TermServiceFactoryDto.GenerateTerms();
+        _term = new TermBuilder()
+            .Build();
         _context.Manipulate(_ => _.Add(_term));
         _class = new ClassBuilder()
             .WithTermId(_term.Id)
@@ -61,6 +62,13 @@ public class FailedWhenConflictedCourseHour : EFDataContextDatabaseFixture
             .WithClassId(_class.Id)
             .Build();
         _context.Manipulate(_ => _context.Add(_course));
+         _secondCourse = new CourseDtoBuilder()
+            .WithName("مهندسی نرم افزار")
+            .WithStartHour("09:00")
+            .WithEndHour("10:45")
+            .WithClassId(_class.Id)
+            .Build();
+        _context.Manipulate(_ => _context.Add(_secondCourse));
         _teacher = new TeacherBuilder()
             .WithFirstName("آرش")
             .WithLastName("چناری")
@@ -70,10 +78,21 @@ public class FailedWhenConflictedCourseHour : EFDataContextDatabaseFixture
             .WithCourseId(_course.Id)
             .Build();
         _context.Manipulate(_ => _.Add(_teacher));
+        _newTeacher = new TeacherBuilder()
+            .WithFirstName("رضا")
+            .WithLastName("محمدیان")
+            .WithNationalCode("2294328905")
+            .WithDiploma("کارشناسی ارشد")
+            .WithStudy("مهندسی نرم افزار")
+            .WithMobileNumber("91772222","98")
+            .WithCourseId(_secondCourse.Id)
+            .Build();
+        _context.Manipulate(_ => _.Add(_newTeacher));
         _student = new StudentBuilder()
             .WithFirstName("سعید")
             .WithLastName("انصاری")
             .WithNationalCode("2280509504")
+            .WithMobileNumber("newdummy","98")
             .Build();
         _context.Manipulate(_ => _.Add(_student));
     }
@@ -83,31 +102,21 @@ public class FailedWhenConflictedCourseHour : EFDataContextDatabaseFixture
                     "و ساعت 9:00 تا 10:45 انتخاب می کنم.")]
     private async Task When()
     {
-        _secondCourse = new CourseDtoBuilder()
-            .WithName("مهندسی نرم افزار")
-            .WithStartHour("09:00")
-            .WithEndHour("10:45")
+        var chooseUnit = new ChooseUnitBuilder()
             .WithClassId(_class.Id)
+            .WithStudentId(_student.Id)
+            .WithTeacherId(_teacher.Id)
+            .WithTermId(_term.Id)
+            .WithCourseId(_course.Id)
             .Build();
-        _context.Manipulate(_ => _context.Add(_secondCourse));
-        _secondTeacher = new TeacherBuilder()
-            .WithFirstName("محمد")
-            .WithLastName("محمدیانی")
-            .WithNationalCode("2294323005")
-            .WithDiploma("کارشناسی ارشد")
-            .WithStudy("مهندسی نرم افزار")
+        _context.Manipulate(_ => _.Add(chooseUnit));
+        _dto = new AddChooseUnitDtoBuilder()
+            .WithClassId(_class.Id)
+            .WithStudentId(_student.Id)
+            .WithTeacherId(_newTeacher.Id)
+            .WithTermId(_term.Id)
             .WithCourseId(_secondCourse.Id)
             .Build();
-        _context.Manipulate(_ => _.Add(_secondTeacher));
-
-        _dto = new AddChooseUnitDto
-        {
-            StudentId = _student.Id,
-            CourseId = _course.Id,
-            TermId = _term.Id,
-            TeacherId = _teacher.Id,
-            ClassId = _class.Id
-        };
 
         _actualResult = async () => await _sut.Add(_dto);
     }

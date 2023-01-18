@@ -29,19 +29,40 @@ public class ChooseUnitAppService : ChooseUnitService
     public async Task Add(AddChooseUnitDto dto)
     {
         var countOfCourse = _repository.GetCount(dto.StudentId);
-        
-        if (countOfCourse >20)
+
+        if (countOfCourse > 20)
         {
             throw new CountOfCourseUnitMoreThanTwentyException();
         }
 
-        var chaeckClass = _repository.IsConflictCourse(dto.CourseId,dto.ClassId);
-        
-        if (chaeckClass)
+        var checkClass = _repository.IsConflictCourse(dto.CourseId, dto.ClassId);
+        var ch = checkClass.Select(_ => new
         {
-            throw new ConflictingCourseHourException();
+            _.StartHour, _.EndHour
+        }).ToList();
+
+        int index = 0;
+
+        if (ch.Count > 1)
+        {
+            foreach (var items in ch)
+            {
+                var startTimeSpan = TimeSpan.Parse(ch[index].StartHour);
+                var endTimeSpan = TimeSpan.Parse(ch[index].EndHour);
+                var compare = TimeSpan.Compare(startTimeSpan, endTimeSpan);
+
+                if (compare == -1)
+                {
+                    throw new ConflictingCourseHourException();
+                }
+
+                if (compare == 1)
+                {
+                    throw new ConflictingCourseHourException();
+                }
+            }
         }
-        
+
         var chooseUnit = new ChooseUnit
         {
             ClassId = dto.ClassId,
@@ -50,7 +71,7 @@ public class ChooseUnitAppService : ChooseUnitService
             StudentId = dto.StudentId,
             TermId = dto.TermId
         };
-        
+
         _repository.Add(chooseUnit);
         await _unitOfWork.Complete();
     }
@@ -78,7 +99,7 @@ public class ChooseUnitAppService : ChooseUnitService
     public async Task Delete(int id)
     {
         var unit = _repository.FindById(id);
-        if (unit ==null)
+        if (unit == null)
         {
             throw new ChooseUnitNotFoundException();
         }

@@ -8,6 +8,7 @@ using UnitSelection.Infrastructure.Test;
 using UnitSelection.Persistence.EF;
 using UnitSelection.Services.ChooseUnitServices.Contracts;
 using UnitSelection.Services.ChooseUnitServices.Contracts.Dto;
+using UnitSelection.Services.ChooseUnitServices.Exceptions;
 using UnitSelection.Services.Handler.CommandHandlers.ChooseUnitHandlers.Exceptions;
 using UnitSelection.Specs.Infrastructure;
 using UnitSelection.TestTools.ChooseUnitTestTools;
@@ -79,6 +80,14 @@ public class FailedWhenCourseUnitCountMoreThanTwenty : EFDataContextDatabaseFixt
             .WithMobileNumber("9177877225", "98")
             .Build();
         _context.Manipulate(_ => _.Add(_student));
+        var chooseUnit = new ChooseUnitBuilder()
+            .WithClassId(_class.Id)
+            .WithStudentId(_student.Id)
+            .WithTeacherId(_teacher.Id)
+            .WithTermId(_term.Id)
+            .WithCourseId(_course.Id)
+            .Build();
+        _context.Manipulate(_ => _.Add(chooseUnit));
     }
 
     [BDDHelper.When("کلاس ‘101’ و درس ‘شی گرایی’ " +
@@ -98,7 +107,7 @@ public class FailedWhenCourseUnitCountMoreThanTwenty : EFDataContextDatabaseFixt
         _dto = new AddChooseUnitDto
         {
             StudentId = _student.Id,
-            CourseId = _course.Id,
+            CourseId = _secondCourse.Id,
             TermId = _term.Id,
             TeacherId = _teacher.Id,
             ClassId = _class.Id
@@ -113,7 +122,7 @@ public class FailedWhenCourseUnitCountMoreThanTwenty : EFDataContextDatabaseFixt
     private async Task Then()
     {
         await _actualResult.Should()
-            .ThrowExactlyAsync<ThisStudentCanNotChooseCourseUnitMorThanTwentyException>();
+            .ThrowExactlyAsync<CountOfCourseUnitMoreThanTwentyException>();
     }
 
     [Fact]

@@ -15,6 +15,6 @@ public interface ChooseUnitRepository : Repository
     GetChooseUnitByTermId GetByTermId(int termId);
     void Delete(ChooseUnit unit);
     ChooseUnit? FindById(int id);
-    bool IsConflictCourse(int courseId, int classId);
+    List<Course> IsConflictCourse(int courseId, int classId);
     int GetCount(int studentId);
 }

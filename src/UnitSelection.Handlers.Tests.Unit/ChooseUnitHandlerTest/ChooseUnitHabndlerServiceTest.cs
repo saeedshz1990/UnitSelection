@@ -1,13 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using UnitSelection.Entities.Classes;
-using UnitSelection.Entities.Courses;
-using UnitSelection.Entities.Students;
-using UnitSelection.Entities.Teachers;
-using UnitSelection.Entities.Terms;
+﻿using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
 using UnitSelection.Infrastructure.Test;
 using UnitSelection.Persistence.EF;
 using UnitSelection.Services.Handler.CommandHandlers.ChooseUnitHandlers.Contracts;
-using UnitSelection.Services.Handler.CommandHandlers.ChooseUnitHandlers.Contracts.Dto;
 using UnitSelection.TestTools.ClassTestTools;
 using UnitSelection.TestTools.CourseTestTools;
 using UnitSelection.TestTools.HandlerTestTools.AcceptChooseUnitHandler;
@@ -32,13 +27,13 @@ public class ChooseUnitHabndlerServiceTest
     [Fact]
     public async Task Add_add_choose_unit_handler_properly()
     {
-        var term = TermServiceFactoryDto.GenerateTerms();
-        _context.Manipulate(_=>_.Add(term));
+        var term = new TermBuilder().Build();
+        _context.Manipulate(_ => _.Add(term));
         var newClass = new ClassBuilder()
             .WithTermId(term.Id)
             .WithName("101")
             .Build();
-        _context.Manipulate(_=>_.Add(newClass));
+        _context.Manipulate(_ => _.Add(newClass));
         var course = new CourseDtoBuilder()
             .WithName("شی گرایی")
             .WithClassId(newClass.Id)
@@ -66,7 +61,8 @@ public class ChooseUnitHabndlerServiceTest
             .Build();
 
         await _sut.Handle(dto);
-        
-        var actualResult = await _context.ChooseUnits.ToListAsync();
+
+        var actualResult =  _context.ChooseUnits.ToList();
+        actualResult.Should().HaveCount(1);
     }
 }

@@ -4,7 +4,7 @@ namespace UnitSelection.TestTools.ChooseUnitTestTools;
 
 public class ChooseUnitBuilder
 {
-    private ChooseUnit _dto;
+    private readonly ChooseUnit _dto;
 
     public ChooseUnitBuilder()
     {

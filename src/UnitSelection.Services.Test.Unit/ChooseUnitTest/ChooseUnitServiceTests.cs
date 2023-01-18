@@ -118,6 +118,14 @@ public class ChooseUnitServiceTests
             .WithMobileNumber("9177877225", "98")
             .Build();
         _context.Manipulate(_ => _.Add(student));
+        var chooseUnit = new ChooseUnitBuilder()
+            .WithClassId(newClass.Id)
+            .WithStudentId(student.Id)
+            .WithTeacherId(teacher.Id)
+            .WithTermId(term.Id)
+            .WithCourseId(course.Id)
+            .Build();
+        _context.Manipulate(_ => _.Add(chooseUnit));
         var dto = new AddChooseUnitDto
         {
             StudentId = student.Id,
@@ -129,12 +137,80 @@ public class ChooseUnitServiceTests
 
         var actualResult = async () => await _sut.Add(dto);
 
-        await actualResult.Should().ThrowExactlyAsync<CountOfCourseUnitMoreThanTwentyException>();
+        await actualResult.Should()
+            .ThrowExactlyAsync<CountOfCourseUnitMoreThanTwentyException>();
     }
 
     [Fact]
     public async Task Add_throw_Exception_when_conflicted_course_hour_properly()
     {
+        var term = new TermBuilder()
+            .Build();
+        _context.Manipulate(_ => _.Add(term));
+        var newClass = new ClassBuilder()
+            .WithTermId(term.Id)
+            .WithName("101")
+            .Build();
+        _context.Manipulate(_ => _.Add(newClass));
+        var course = new CourseDtoBuilder()
+            .WithName("شی گرایی")
+            .WithStartHour("08:00")
+            .WithEndHour("11:00")
+            .WithClassId(newClass.Id)
+            .Build();
+        _context.Manipulate(_ => _context.Add(course));
+        var secondCourse = new CourseDtoBuilder()
+            .WithName("مهندسی نرم افزار")
+            .WithStartHour("09:00")
+            .WithEndHour("10:45")
+            .WithClassId(newClass.Id)
+            .Build();
+        _context.Manipulate(_ => _context.Add(secondCourse));
+        var teacher = new TeacherBuilder()
+            .WithFirstName("آرش")
+            .WithLastName("چناری")
+            .WithNationalCode("2294321905")
+            .WithDiploma("کارشناسی ارشد")
+            .WithStudy("مهندسی نرم افزار")
+            .WithCourseId(course.Id)
+            .Build();
+        _context.Manipulate(_ => _.Add(teacher));
+        var newTeacher = new TeacherBuilder()
+            .WithFirstName("رضا")
+            .WithLastName("محمدیان")
+            .WithNationalCode("2294328905")
+            .WithDiploma("کارشناسی ارشد")
+            .WithStudy("مهندسی نرم افزار")
+            .WithCourseId(secondCourse.Id)
+            .Build();
+        _context.Manipulate(_ => _.Add(newTeacher));
+        var student = new StudentBuilder()
+            .WithFirstName("سعید")
+            .WithLastName("انصاری")
+            .WithNationalCode("2280509504")
+            .Build();
+        _context.Manipulate(_ => _.Add(student));
+        var chooseUnit = new ChooseUnitBuilder()
+            .WithClassId(newClass.Id)
+            .WithStudentId(student.Id)
+            .WithTeacherId(teacher.Id)
+            .WithTermId(term.Id)
+            .WithCourseId(course.Id)
+            .Build();
+        _context.Manipulate(_ => _.Add(chooseUnit));
+        var dto = new AddChooseUnitDtoBuilder()
+            .WithClassId(newClass.Id)
+            .WithStudentId(student.Id)
+            .WithTeacherId(newTeacher.Id)
+            .WithTermId(term.Id)
+            .WithCourseId(secondCourse.Id)
+            .Build();
+
+        var actualResult = async () => await _sut.Add(dto);
+        
+        await actualResult.Should()
+            .ThrowExactlyAsync<ConflictingCourseHourException>();
+        
     }
 
     [Fact]
