@@ -55,7 +55,7 @@ public class Program
                 .AddSqlServer()
                 .WithGlobalConnectionString(connectionString)
                 .ScanIn(typeof(Program).Assembly).For.All())
-            .AddSingleton<MigrationSettings>(options)
+            .AddSingleton(options)
             .AddLogging(_ => _.AddFluentMigratorConsole())
             .BuildServiceProvider();
         return container.GetRequiredService<IMigrationRunner>();

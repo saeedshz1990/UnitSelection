@@ -16,7 +16,7 @@ public class ClassControllers : ControllerBase
     }
 
     [HttpPost]
-    public async void Add(AddClassDto dto)
+    public async Task Add(AddClassDto dto)
     {
         await _service.Add(dto);
     }
